@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Race Prep Nutrition v2 — Hoag OC Half Marathon</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --bg: #F6F4EF;
+  --surface: #FFFFFF;
+  --surface2: #EEEAE2;
+  --border: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.14);
+  --text: #1A1916;
+  --text2: #6B6760;
+  --text3: #9E9B96;
+  --green: #2D5A1B; --green-bg: #EBF3E6; --green-mid: #4A8A2A;
+  --amber: #7A4D0A; --amber-bg: #FDF0DC;
+  --blue: #0E4A8C; --blue-bg: #E5F0FB;
+  --coral: #7A2B15; --coral-bg: #FAEBE6;
+  --teal: #0A5A44; --teal-bg: #E0F2EB;
+  --purple: #4A3AA0; --purple-bg: #EEEDFE;
+  --red: #8C1515; --red-bg: #FCEAEA;
+  --orange: #8C4A00; --orange-bg: #FFF0E0;
+}
+
+body { font-family: var(--font-sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+.site-header { background: var(--text); padding: 2rem 1.5rem 1.75rem; }
+.header-inner { max-width: 960px; margin: 0 auto; }
+.header-eye { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 0.4rem; }
+.header-title { font-family: var(--font-serif); font-size: clamp(24px, 4vw, 38px); color: white; line-height: 1.1; margin-bottom: 0.75rem; }
+.header-title em { font-style: italic; color: rgba(255,255,255,0.55); }
+.header-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+.header-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); }
+.race-pill { background: rgba(220,80,60,0.25); color: #FFC0B0; font-weight: 500; }
+.v2-pill { background: rgba(100,200,120,0.2); color: #A0E8B0; font-weight: 500; }
+
+.week-tabs-wrap { background: var(--surface); border-bottom: 1px solid var(--border-mid); position: sticky; top: 0; z-index: 100; }
+.week-tabs { max-width: 960px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+.week-tabs::-webkit-scrollbar { display: none; }
+.week-tab { flex-shrink: 0; padding: 0.85rem 1.1rem; font-family: var(--font-sans); font-size: 12px; font-weight: 500; color: var(--text3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+.week-tab:hover { color: var(--text); }
+.week-tab.active { color: var(--text); border-bottom-color: var(--text); }
+.week-tab.race-week { color: var(--red); }
+.week-tab.race-week.active { border-bottom-color: var(--red); }
+
+.day-tabs-wrap { background: var(--surface2); border-bottom: 1px solid var(--border); position: sticky; top: 41px; z-index: 90; }
+.day-tabs { max-width: 960px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+.day-tabs::-webkit-scrollbar { display: none; }
+.day-tab { flex-shrink: 0; padding: 0.6rem 1rem; font-family: var(--font-sans); font-size: 12px; font-weight: 500; color: var(--text3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.day-tab:hover { color: var(--text2); }
+.day-tab.active { color: var(--text); border-bottom-color: var(--text); }
+.day-tab-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text3); }
+.day-tab[data-dtype="easy"] .day-tab-dot { background: var(--green-mid); }
+.day-tab[data-dtype="hard"] .day-tab-dot { background: #C0392B; }
+.day-tab[data-dtype="lift"] .day-tab-dot { background: var(--blue); }
+.day-tab[data-dtype="long"] .day-tab-dot { background: var(--purple); }
+.day-tab[data-dtype="race"] .day-tab-dot { background: var(--red); }
+.day-tab[data-dtype="wildcard"] .day-tab-dot { background: var(--orange); }
+
+.content { max-width: 960px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; }
+
+.day-hero { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.day-hero-title { font-family: var(--font-serif); font-size: 28px; color: var(--text); line-height: 1.1; }
+.day-hero-sub { font-size: 13px; color: var(--text2); margin-top: 3px; }
+.workout-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; }
+.tag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.tag-easy { background: var(--green-bg); color: var(--green); }
+.tag-hard { background: var(--coral-bg); color: var(--coral); }
+.tag-lift { background: var(--blue-bg); color: var(--blue); }
+.tag-long { background: var(--purple-bg); color: var(--purple); }
+.tag-rest { background: var(--surface2); color: var(--text3); }
+.tag-race { background: var(--red-bg); color: var(--red); }
+.tag-wildcard { background: var(--orange-bg); color: var(--orange); }
+.tag-skipped { background: var(--red-bg); color: var(--red); }
+
+.banner { border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 1rem; display: flex; gap: 10px; }
+.banner-amber { background: var(--amber-bg); border: 1px solid rgba(122,77,10,0.15); }
+.banner-teal { background: var(--teal-bg); border: 1px solid rgba(10,90,68,0.15); }
+.banner-red { background: var(--red-bg); border: 1px solid rgba(140,21,21,0.2); }
+.banner-purple { background: var(--purple-bg); border: 1px solid rgba(74,58,160,0.15); }
+.banner-blue { background: var(--blue-bg); border: 1px solid rgba(14,74,140,0.15); }
+.banner-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
+.banner-amber .banner-title { color: var(--amber); }
+.banner-teal .banner-title { color: var(--teal); }
+.banner-red .banner-title { color: var(--red); }
+.banner-purple .banner-title { color: var(--purple); }
+.banner-blue .banner-title { color: var(--blue); }
+.banner-text { font-size: 13px; line-height: 1.5; }
+.banner-amber .banner-text { color: var(--amber); }
+.banner-teal .banner-text { color: var(--teal); }
+.banner-red .banner-text { color: var(--red); }
+.banner-purple .banner-text { color: var(--purple); }
+.banner-blue .banner-text { color: var(--blue); }
+
+.skip-wrap { background: var(--surface); border: 1px solid var(--border-mid); border-radius: 10px; padding: 0.7rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.skip-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.skip-sub { font-size: 12px; color: var(--text3); font-weight: 400; }
+.skip-sw { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.skip-sw input { opacity: 0; width: 0; height: 0; }
+.skip-slider { position: absolute; cursor: pointer; inset: 0; background: var(--surface2); border: 1px solid var(--border-mid); border-radius: 24px; transition: background 0.2s; }
+.skip-slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+.skip-sw input:checked + .skip-slider { background: var(--red); border-color: var(--red); }
+.skip-sw input:checked + .skip-slider::before { transform: translateX(20px); }
+
+.meal-section { margin-bottom: 1.1rem; }
+.meal-section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.meal-time-lbl { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); white-space: nowrap; }
+.meal-divider { flex: 1; height: 1px; background: var(--border); }
+.meal-subhead { font-size: 12px; color: var(--text3); margin-bottom: 8px; }
+.meal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+
+.hc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
+.hc-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 4px; }
+.hc-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+.hc-targets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.hc-target { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+.hc-target-cal { background: var(--amber-bg); color: var(--amber); }
+.hc-target-pro { background: var(--blue-bg); color: var(--blue); }
+.hc-target-carb { background: var(--green-bg); color: var(--green); }
+.hc-note { font-size: 12px; color: var(--text2); border-left: 2px solid var(--border-mid); padding-left: 8px; line-height: 1.5; }
+
+.meal-option { padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--border); position: relative; }
+.meal-option:last-child { border-bottom: none; }
+.meal-option.best { background: #FAFDF7; }
+.best-badge { position: absolute; top: 9px; right: 10px; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--green-bg); color: var(--green); }
+.opt-header { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+.opt-num { width: 20px; height: 20px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); font-size: 10px; font-weight: 500; display: flex; align-items: center; justify-content: center; color: var(--text2); flex-shrink: 0; margin-top: 2px; }
+.opt-name { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.3; }
+.opt-detail { font-size: 13px; color: var(--text2); line-height: 1.55; padding-left: 28px; }
+.opt-note { font-size: 12px; color: var(--teal); background: var(--teal-bg); border-radius: 6px; padding: 4px 8px; margin-top: 5px; margin-left: 28px; line-height: 1.4; }
+.macros { display: flex; flex-wrap: wrap; gap: 4px; padding-left: 28px; margin-top: 6px; }
+.chip { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 20px; }
+.chip-cal { background: var(--amber-bg); color: var(--amber); }
+.chip-pro { background: var(--blue-bg); color: var(--blue); }
+.chip-carb { background: var(--green-bg); color: var(--green); }
+.chip-fat { background: var(--coral-bg); color: var(--coral); }
+.chip-sugar { background: var(--purple-bg); color: var(--purple); }
+.chip-fiber { background: var(--teal-bg); color: var(--teal); }
+.macros-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+
+.day-sum { background: var(--text); color: white; border-radius: 12px; padding: 1.1rem 1.25rem; margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media(max-width:480px){ .day-sum { grid-template-columns: 1fr; } }
+.ds-lbl { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 2px; }
+.ds-val { font-size: 13px; color: rgba(255,255,255,0.82); line-height: 1.5; }
+.ds-val strong { color: white; font-weight: 500; }
+.ds-full { grid-column: 1/-1; }
+
+.race-day-hero { background: var(--text); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; color: white; }
+.race-day-hero h2 { font-family: var(--font-serif); font-size: 26px; color: white; margin-bottom: 0.25rem; }
+.race-day-hero p { font-size: 13px; color: rgba(255,255,255,0.65); }
+.race-timeline { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
+.race-tl-item { display: flex; gap: 12px; align-items: flex-start; }
+.race-tl-time { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5); min-width: 70px; padding-top: 2px; }
+.race-tl-content { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; flex: 1; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 12px; }
+.race-tl-content strong { color: white; }
+
+@media(max-width:600px){ .content { padding: 1.25rem 1rem 3rem; } }
+</style>
+</head>
+<body>
+
+<header class="site-header"><div class="header-inner">
+<div class="header-eye">Revised Nutrition Guide · Weeks 2–8</div>
+<h1 class="header-title">Hoag OC <em>Half Marathon</em></h1>
+<div class="header-pills">
+<span class="header-pill">6'1" · 175 lbs</span><span class="header-pill">5:30am fasted M–F</span>
+<span class="header-pill v2-pill">v2: tiered shake protocol</span><span class="header-pill v2-pill">v2: Apple Watch calibrated</span><span class="header-pill v2-pill">v2: skip workout toggle</span>
+<span class="header-pill" style="background:rgba(255,165,0,0.2);color:#FFD080">Weeks 4–5: real meals</span><span class="header-pill race-pill">Race: Sun May 3</span>
+</div></div></header>
+
+<div class="week-tabs-wrap"><div class="week-tabs" id="weekTabs"></div></div>
+<div class="day-tabs-wrap"><div class="day-tabs" id="dayTabs"></div></div>
+<div class="content" id="mainContent"></div>
+
+<script>
+var M=function(c,p,k){return[{c:"chip-cal",l:c},{c:"chip-pro",l:p},{c:"chip-carb",l:k}]};
+var B={
+prun:[{n:"Shake at door \u2192 2 eggs toast + banana",d:"5mi+ fasted = shake closes the protein gap. Eggs give a complete meal. Best overall recovery breakfast.",t:"Shake warranted at 5+ miles fasted.",m:M("~580 cal","~52g pro","~58g carb"),b:1},{n:"Shake at door \u2192 Raisin Bran + milk + banana",d:"Shake handles protein, cereal handles carbs and convenience. Raisin Bran has the best fiber of your cereals. Quick, satisfying, different from eggs.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Shake at door \u2192 Greek yogurt + granola + banana",d:"Shake first, no-cook follow-up. Yogurt adds casein on top of the whey shake. Good variety day.",m:M("~550 cal","~47g pro","~55g carb")}],
+plit:[{n:"2 eggs on toast + banana + blueberries",d:"~300 cal lift doesn\u2019t need a shake. Eggs within 30\u201345 min gives you 22g protein. Blueberries reduce DOMS.",m:M("~450 cal","~22g pro","~55g carb"),b:1},{n:"Raisin Bran + milk + banana + protein shake",d:"Shake covers protein (so cereal\u2019s low protein doesn\u2019t matter), cereal gives you easy carbs for tomorrow. Good pre-hard-run-day option.",t:"Best on Tue/Fri when tomorrow is a hard run or long run.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Overnight oats + banana + berries + chia",d:"Prep night before. Zero morning effort. Good complex carbs, easy on the stomach. Add a hard-boiled egg on the side if you want protein.",m:M("~420 cal","~14g pro","~72g carb")}],
+psht:[{n:"2 eggs on toast + banana",d:"Short easy run under 5mi. Eggs within 30\u201345 min is plenty. No shake needed for ~300\u2013450 cal burn.",m:M("~420 cal","~22g pro","~48g carb"),b:1},{n:"Raisin Bran + milk + banana",d:"No shake needed for short runs. Cereal is quick, familiar, and gives you good fiber and iron. Fine protein-wise if lunch is protein-strong.",m:M("~400 cal","~10g pro","~75g carb")},{n:"Greek yogurt + granola + banana + berries",d:"No-cook, 18g protein. Different from eggs, different from cereal. Good mid-week variety.",m:M("~400 cal","~18g pro","~55g carb")}],
+phrd:[{n:"Shake at door \u2192 2 eggs toast + banana",d:"Hard intervals = longest fasted gap + highest intensity. Shake the instant you walk in, then eggs.",t:"Hard run days: shake is non-negotiable.",m:M("~600 cal","~52g pro","~58g carb"),b:1},{n:"Shake at door \u2192 Raisin Bran + milk + banana",d:"Shake first, then cereal. Higher carbs than eggs (80g vs 58g) which is good for glycogen after intervals. Easier to eat if stomach is off.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Chocolate milk (12oz) at door \u2192 eggs on toast",d:"Chocolate milk has a near-perfect 4:1 carb:protein. Different from a shake. Make eggs when home.",m:M("~580 cal","~38g pro","~65g carb")}],
+plng:[{n:"Shake from fridge \u2192 eggs toast + banana + blueberries",d:"Pre-make shake before run. Grab immediately. Sit-down breakfast 15\u201320 min later.",t:"Pre-make before your Saturday run.",m:M("~620 cal","~52g pro","~62g carb"),b:1},{n:"Shake from fridge \u2192 Raisin Bran + milk + banana",d:"Shake first, then cereal. More carbs than eggs for glycogen replenishment. Good if you don\u2019t feel like cooking after a long run.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Chocolate milk from fridge \u2192 Greek yogurt + granola + berries",d:"Chocolate milk as recovery drink, then yogurt bowl. No cooking. Gentler if stomach is unsettled.",m:M("~560 cal","~40g pro","~70g carb")}],
+rest:[{n:"2 eggs on toast + banana",d:"22g protein at breakfast keeps you from chasing protein all afternoon. Best rest day option.",m:M("~420 cal","~22g pro","~48g carb"),b:1},{n:"Raisin Bran + milk + banana",d:"Relaxed rest day option. Higher fiber and iron. Lower protein but fine if dinner is protein-strong. Enjoy the slower morning.",m:M("~400 cal","~10g pro","~75g carb")},{n:"Greek yogurt parfait + granola + banana + berries + honey",d:"No-cook, 18g protein. Feels like a treat. Good Sunday option.",m:M("~420 cal","~18g pro","~58g carb")}],
+srun:[{n:"Greek yogurt + honey + almonds",d:"18g protein. Almonds add fats, honey stabilizes blood sugar.",m:M("~220 cal","~18g pro","~15g carb"),b:1},{n:"2 hard-boiled eggs + apple",d:"Complete protein, portable.",m:M("~200 cal","~13g pro","~20g carb")},{n:"Cottage cheese (\u00be cup) + fruit",d:"High casein, slow-digesting.",m:M("~180 cal","~22g pro","~15g carb")}],
+shrd:[{n:"Greek yogurt + mixed berries + honey",d:"Berries reduce post-interval soreness.",t:"Best anti-inflammatory snack.",m:M("~220 cal","~15g pro","~28g carb"),b:1},{n:"RXBAR + piece of fruit",d:"Dates, egg whites, nuts. No prep.",m:M("~280 cal","~14g pro","~35g carb")},{n:"Apple + 2 string cheese sticks",d:"Quick, portable.",m:M("~200 cal","~12g pro","~22g carb")}],
+sprl:[{n:"Banana + 1 tbsp peanut butter",d:"Tops off liver glycogen. PB slows release.",t:"Have this whether hungry or not.",m:M("~180 cal","~4g pro","~28g carb"),b:1},{n:"Greek yogurt + granola + honey",d:"Higher protein. Solid carb hit.",m:M("~300 cal","~18g pro","~42g carb")},{n:"Oatmeal (\u00bd cup) + honey + almond butter",d:"Slow-digesting. Better for 11mi+.",m:M("~300 cal","~9g pro","~42g carb")}],
+spol:[{n:"Cottage cheese (\u00be cup) + fruit + almonds",d:"Appetite surges 3\u20134hr post-long-run.",t:"Main defense against hunger spiral.",m:M("~200 cal","~20g pro","~18g carb"),b:1},{n:"Protein shake (1 scoop + water)",d:"If full from lunch.",m:M("~130 cal","~25g pro","~5g carb")},{n:"Greek yogurt + mixed berries",d:"Light, anti-inflammatory.",m:M("~180 cal","~15g pro","~20g carb")}],
+srst:[{n:"15\u201320 almonds + apple",d:"Healthy fats, fiber.",m:M("~200 cal","~5g pro","~25g carb"),b:1},{n:"Greek yogurt + berries",d:"Higher protein.",m:M("~180 cal","~15g pro","~18g carb")},{n:"Celery + hummus (4 tbsp)",d:"Low calorie, high volume.",m:M("~120 cal","~4g pro","~12g carb")}],
+erun:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Casein digests slowly overnight.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"1 slice toast + peanut butter",d:"Slow-digesting fats.",m:M("~180 cal","~6g pro","~20g carb")},{n:"Mini Wheats (1 cup) + \u00be cup milk",d:"Higher fiber.",m:M("~250 cal","~10g pro","~45g carb")}],
+ehrd:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Casein overnight. Skip if full.",t:"If full after dinner, skip.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"1 slice toast + peanut butter",d:"PB fats slow digestion.",m:M("~180 cal","~6g pro","~20g carb")},{n:"Skip \u2014 herbal tea",d:"If dinner was substantial.",m:[{c:"chip-cal",l:"0 cal"}]}],
+eprl:[{n:"Mini Wheats (1 cup) + \u00be cup 2% milk",d:"Strategic cereal. Caps carb-load.",t:"Don\u2019t skip Friday night.",m:M("~260 cal","~11g pro","~46g carb"),b:1},{n:"Oatmeal + honey + banana",d:"Sustained overnight fuel.",m:M("~280 cal","~7g pro","~52g carb")},{n:"1 slice toast + PB + \u00bd banana",d:"Less optimal but useful.",m:M("~220 cal","~7g pro","~30g carb")}],
+epol:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Don\u2019t skip Sat evening peak weeks.",t:"170 cal worth overnight repair.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"1 slice toast + peanut butter",d:"If genuinely hungry.",m:M("~180 cal","~6g pro","~20g carb")},{n:"Herbal tea + dark chocolate",d:"Magnesium.",m:[{c:"chip-cal",l:"~80 cal"}]}],
+elft:[{n:"Mini Wheats (1 cup) + \u00be cup milk",d:"Pre-hard-run night: cereal earns its place.",t:"Tue+Fri: cereal most useful.",m:M("~250 cal","~10g pro","~45g carb"),b:1},{n:"1 slice toast + PB + \u00bd banana",d:"Go-to with banana.",m:M("~220 cal","~7g pro","~28g carb")},{n:"Oatmeal + almond butter + honey",d:"Slow-digesting, filling.",m:M("~300 cal","~9g pro","~40g carb")}],
+erst:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Rest days benefit from overnight casein.",t:"Old plan said skip. Too aggressive.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"Dark chocolate + herbal tea",d:"Magnesium. Under 100 cal.",m:[{c:"chip-cal",l:"~80 cal"}]},{n:"Skip \u2014 herbal tea",d:"Only if not hungry.",m:[{c:"chip-cal",l:"0 cal"}]}],
+etpr:[{n:"1 slice toast + PB + \u00bd banana",d:"Light carb top-up.",t:"No new foods.",m:M("~220 cal","~7g pro","~30g carb"),b:1},{n:"Mini Wheats (1 cup) + milk",d:"Tried and tested.",m:M("~250 cal","~10g pro","~45g carb")},{n:"Cottage cheese + fruit",d:"Lower carbs, high protein.",m:M("~150 cal","~16g pro","~12g carb")}]};
+var HT={re:{c:"500\u2013600",p:"28\u201335g",k:"35\u201350g",n:"Lean protein focus."},rh:{c:"550\u2013650",p:"30\u201340g",k:"50\u201365g",n:"Protein for repair, carbs for glycogen."},rl:{c:"600\u2013700",p:"35\u201345g",k:"55\u201370g",n:"Highest carb HC meal of the week."},lf:{c:"500\u2013600",p:"30\u201340g",k:"30\u201345g",n:"Protein priority, moderate carbs."},rs:{c:"450\u2013550",p:"28\u201335g",k:"25\u201340g",n:"Lighter meal, still hit protein."},cl:{c:"600\u2013700",p:"30\u201340g",k:"65\u201380g",n:"Highest carb. Rice/pasta."}};
+var ML={pp:{name:"Spicy Creole Pulled Pork",sub:"Heat & Eat",rank:6,macros:[{c:"chip-cal",l:"~550 cal"},{c:"chip-pro",l:"~35g pro"},{c:"chip-carb",l:"~45g carb"},{c:"chip-fat",l:"~22g fat"}],note:"Protein-dense with B vitamins."},gc:{name:"Garlic Butter Chicken",sub:"broccoli couscous \u00b7 Express",rank:2,macros:[{c:"chip-cal",l:"690 cal"},{c:"chip-pro",l:"44g pro"},{c:"chip-carb",l:"38g carb"},{c:"chip-fat",l:"39g fat"},{c:"chip-sugar",l:"1g sugar"},{c:"chip-fiber",l:"4g fiber"}],note:"44g protein, 1g sugar."},sf:{name:"Sausage Tomato Flatbreads",sub:"",rank:7,macros:[{c:"chip-cal",l:"560 cal"},{c:"chip-pro",l:"40g pro"},{c:"chip-carb",l:"28g carb"},{c:"chip-fat",l:"32g fat"},{c:"chip-sugar",l:"9g sugar"},{c:"chip-fiber",l:"5g fiber"}],note:"40g pro, 9g sugar highest."},cs:{name:"Cajun Shrimp Wraps",sub:"",rank:8,macros:[{c:"chip-cal",l:"570 cal"},{c:"chip-pro",l:"25g pro"},{c:"chip-carb",l:"60g carb"},{c:"chip-fat",l:"24g fat"},{c:"chip-sugar",l:"3g sugar"},{c:"chip-fiber",l:"3g fiber"}],note:"Lowest protein 25g."},hc:{name:"Chicken & Herbed Crema",sub:"French carrot salad",rank:1,macros:[{c:"chip-cal",l:"520 cal"},{c:"chip-pro",l:"44g pro"},{c:"chip-carb",l:"18g carb"},{c:"chip-fat",l:"31g fat"},{c:"chip-sugar",l:"0g sugar"},{c:"chip-fiber",l:"5g fiber"}],note:"Best protein:calorie. 0g sugar."},mc:{name:"Moroccan Chicken & Couscous",sub:"",rank:3,macros:[{c:"chip-cal",l:"680 cal"},{c:"chip-pro",l:"38g pro"},{c:"chip-carb",l:"63g carb"},{c:"chip-fat",l:"28g fat"},{c:"chip-sugar",l:"1g sugar"},{c:"chip-fiber",l:"6g fiber"}],note:"Best fiber + 63g carbs."},st:{name:"Sun-Dried Tomato Chicken",sub:"",rank:4,macros:[{c:"chip-cal",l:"850 cal"},{c:"chip-pro",l:"49g pro"},{c:"chip-carb",l:"87g carb"},{c:"chip-fat",l:"37g fat"},{c:"chip-sugar",l:"0g sugar"},{c:"chip-fiber",l:"8g fiber"}],note:"Highest protein. Best pre-800m."},fp:{name:"Chicken Fajita Platter",sub:"fiesta rice+guac \u00b7 H&E",rank:5,macros:[{c:"chip-cal",l:"450 cal"},{c:"chip-pro",l:"25g pro"},{c:"chip-carb",l:"45g carb"},{c:"chip-fat",l:"20g fat"},{c:"chip-fiber",l:"7g fiber"}],note:"Lowest cal (450)."},sa:{name:"Chili-Glazed Salmon",sub:"umami rice",rank:9,macros:[{c:"chip-cal",l:"890 cal"},{c:"chip-pro",l:"36g pro"},{c:"chip-carb",l:"94g carb"},{c:"chip-fat",l:"42g fat"},{c:"chip-sugar",l:"14g sugar"},{c:"chip-fiber",l:"6g fiber"}],note:"Omega-3s. 94g carbs."},sp:{name:"Giada\u2019s Sausage Pasta",sub:"",rank:10,macros:[{c:"chip-cal",l:"820 cal"},{c:"chip-pro",l:"36g pro"},{c:"chip-carb",l:"59g carb"},{c:"chip-fat",l:"49g fat"},{c:"chip-sugar",l:"2g sugar"},{c:"chip-fiber",l:"2g fiber"}],note:"Sunday treat."}};
+var WT=["Protein every meal \u2014 grilled > fried.","Avoid cream pasta \u2014 900+ cal.","Grilled proteins, rice, salads.","Buffet: protein+veg first.","1\u20132 drinks fine rest days.","Breakfast routine still applies.","Hydrate more \u2014 sodium."];
+var weeks=[
+{id:"w2",label:"Mar 16\u201322",taper:false,days:[
+{id:"mon",label:"Mon 16",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 6mi"},ctx:"5:30am. ~500 cal. 6mi = shake warranted.",bk:"prun",lu:"re|lean protein",di:"cl|higher carb",snk:"srun",eve:"erun",cal:"~2,150\u20132,350",focus:"Run recovery + prep lift.",key:"6mi+ fasted = shake at door."},
+{id:"tue",label:"Tue 17",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. ~300 cal. No shake needed.",bk:"plit",lu:"lf|high protein",di:"cl|carb-rich for Wed",snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + carb-load repeats.",key:"Dinner carbs not optional."},
+{id:"wed",label:"Wed 18",dtype:"hard",tag:{cls:"tag-hard",txt:"1km Repeats \u00b7 6.26mi"},ctx:"5:30am. ~756 cal. Hardest session.",bk:"phrd",lu:"rh|protein-rich",di:"rh|satisfying",snk:"shrd",eve:"ehrd",cal:"~2,200\u20132,450",focus:"Hardest day.",key:"Shake-at-door = most important moment."},
+{id:"thu",label:"Thu 19",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4mi"},ctx:"5:30am. ~400 cal. Short run = no shake.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"erun",cal:"~1,900\u20132,000",focus:"Lightest day.",key:"4mi doesn\u2019t need a shake. Eggs are plenty."},
+{id:"fri",label:"Fri 20",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. ~300 cal. 9.5mi Sat.",bk:"plit",lu:"cl|rice/pasta",di:"cl|highest carb",snk:"sprl",eve:"eprl",cal:"~2,100\u20132,350",focus:"Lift + carb-load 9.5mi.",key:"Don\u2019t go low-carb."},
+{id:"sat",label:"Sat 21",dtype:"long",tag:{cls:"tag-long",txt:"Race Practice \u00b7 9.5mi"},ctx:"~7am. ~900\u20131000 cal.",preRun:"Toast ~60 min. Stroopwaffle ~15 min. Gel mi4. Pre-make shake.",bk:"plng",lu:"rl|biggest meal",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,400\u20132,650",focus:"Longest run. Recovery priority.",key:"Don\u2019t restrict Saturday."},
+{id:"sun",label:"Sun 22",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"No workout.",bk:"rest",lu:"rs|lighter",di:"rs|remaining + treat",snk:"srst",eve:"erst",cal:"~1,850\u20132,050",focus:"Reset.",key:"Eggs breakfast. Cottage cheese eve."}]},
+{id:"w3",label:"Mar 23\u201329",taper:false,days:[
+{id:"mon",label:"Mon 23",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 7mi"},ctx:"5:30am. ~600 cal. 7mi = shake.",bk:"prun",lu:"re|lean",di:"cl|higher carb",snk:"srun",eve:"erun",cal:"~2,200\u20132,350",focus:"Longer easy.",key:"7mi fasted: shake warranted."},
+{id:"tue",label:"Tue 24",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. O&U Wed.",bk:"plit",lu:"lf|high protein",di:"cl|carb-rich",snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + carb-load O&U.",key:"Dinner carbs fuel Wed."},
+{id:"wed",label:"Wed 25",dtype:"hard",tag:{cls:"tag-hard",txt:"O&U \u00b7 5.09mi"},ctx:"5:30am. ~619 cal.",bk:"phrd",lu:"rh|protein-rich",di:"rh|satisfying",snk:"shrd",eve:"ehrd",cal:"~2,150\u20132,350",focus:"Tempo = intervals.",key:"Shake at door."},
+{id:"thu",label:"Thu 26",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 3.25mi"},ctx:"5:30am. ~396 cal. Short.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"erun",cal:"~1,900\u20132,000",focus:"Reset.",key:"3.25mi = no shake needed."},
+{id:"fri",label:"Fri 27",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 11mi Sat.",bk:"plit",lu:"cl|rice/pasta",di:"cl|highest carb",snk:"sprl",eve:"eprl",cal:"~2,150\u20132,350",focus:"11mi \u2014 carb-load.",key:"Pack 2 gels."},
+{id:"sat",label:"Sat 28",dtype:"long",tag:{cls:"tag-long",txt:"Long Run \u00b7 11mi"},ctx:"~7am. ~1050\u20131150 cal.",preRun:"Toast ~60 min. Stroopwaffle ~15 min. 2 gels mi4+7. Shake.",bk:"plng",lu:"rl|biggest meal",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,500\u20132,750",focus:"11mi recovery.",key:"Mid-run fuel not optional."},
+{id:"sun",label:"Sun 29",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"Recovery from 11mi.",bk:"rest",lu:"rs|lightest",di:"rs|treat",snk:"srst",eve:"erst",cal:"~1,850\u20132,050",focus:"Recovery.",key:"Eggs breakfast."}]},
+{id:"w4",label:"Mar 30\u2013Apr 5",taper:false,days:[
+{id:"mon",label:"Mon 30",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4mi"},ctx:"5:30am. ~400 cal. Recovery wk.",bk:"psht",lu:"re|lean",di:"re|moderate",snk:"srun",eve:"erun",cal:"~1,900\u20132,050",focus:"Recovery week.",key:"Match food to training."},
+{id:"tue",label:"Tue 31",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. Progression Wed.",bk:"plit",lu:"!pp",di:"!gc",luR:true,diR:true,snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + carb prep.",key:"GBC (44g pro) fuels Wed."},
+{id:"wed",label:"Wed 1 Apr",dtype:"hard",tag:{cls:"tag-hard",txt:"Progression \u00b7 4.5mi"},ctx:"5:30am. ~500 cal.",bk:"phrd",lu:"!sf",di:"!cs",luR:true,diR:true,snk:"shrd",eve:"ehrd",cal:"~2,050\u20132,250",focus:"Progression.",key:"Cajun Shrimp lowest \u2014 yogurt compensates."},
+{id:"thu",label:"Thu 2",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 3.75mi"},ctx:"5:30am. ~400 cal.",bk:"psht",lu:"!hc",di:"!hc",luR:true,diR:true,snk:"srun",eve:"erun",cal:"~1,850\u20132,000",focus:"Lightest.",key:"Two Herbed Crema = 88g pro."},
+{id:"fri",label:"Fri 3",dtype:"lift",tag:{cls:"tag-wildcard",txt:"Lift + wildcard"},ctx:"Lift 5:30am. Parents.",isWC:true,bk:"plit",snk:"sprl",eve:"eprl",cal:"~2,050\u20132,350",focus:"Lift + carb-load.",key:"6.5mi < 8mi \u2014 fasted Sat."},
+{id:"sat",label:"Sat 4",dtype:"long",tag:{cls:"tag-wildcard",txt:"6.5mi + wildcard"},ctx:"~7am fasted. ~550 cal.",isWC:true,preRun:"6.5mi < 8mi. Run fasted. Shake ready.",bk:"plng",snk:"spol",eve:"epol",cal:"~2,050\u20132,400",focus:"Recovery long.",key:"Don\u2019t over-eat."},
+{id:"sun",label:"Sun 5",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest \u2014 home"},ctx:"Returning. HC dinner.",isWCL:true,bk:"rest",lu:null,di:"!sp",diR:true,snk:"srst",eve:"erst",cal:"~1,850\u20132,150",focus:"Rest.",key:"Giada\u2019s = Sunday treat."}]},
+{id:"w5",label:"Apr 6\u201312",taper:false,days:[
+{id:"mon",label:"Mon 6",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4.5mi"},ctx:"5:30am. ~450 cal.",bk:"psht",lu:"!cs",di:"!mc",luR:true,diR:true,snk:"srun",eve:"erun",cal:"~2,050\u20132,250",focus:"Big week starts.",key:"Moroccan (63g carb) starts loading."},
+{id:"tue",label:"Tue 7",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 800m Wed.",bk:"plit",lu:"!hc",di:"!st",luR:true,diR:true,snk:"srun",eve:"elft",cal:"~2,100\u20132,300",focus:"Lift + load 800m.",key:"Sun-Dried Tomato = best pre-800m."},
+{id:"wed",label:"Wed 8",dtype:"hard",tag:{cls:"tag-hard",txt:"800m Repeats \u00b7 6mi"},ctx:"5:30am. ~756 cal.",bk:"phrd",lu:"!gc",di:"!sf",luR:true,diR:true,snk:"shrd",eve:"ehrd",cal:"~2,250\u20132,500",focus:"Most intense.",key:"GBC (44g pro) right post-800s."},
+{id:"thu",label:"Thu 9",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4.5mi"},ctx:"5:30am. ~450 cal.",bk:"psht",lu:"!fp",di:"!pp",luR:true,diR:true,snk:"srun",eve:"erun",cal:"~1,900\u20132,050",focus:"Recovery.",key:"Fajita (450 cal) lighter."},
+{id:"fri",label:"Fri 10",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 13.1mi Sat.",bk:"plit",lu:"!sa",di:"!mc",luR:true,diR:true,snk:"sprl",eve:"eprl",cal:"~2,350\u20132,600",focus:"Most important day.",key:"Salmon (94g) + Moroccan (63g) = best load."},
+{id:"sat",label:"Sat 11",dtype:"long",tag:{cls:"tag-long",txt:"Half Marathon \u00b7 13.1mi"},ctx:"~7am. ~1300 cal.",preRun:"Toast 60 min. Stroopwaffle 15 min. 2 gels mi4+7. Shake.",bk:"plng",lu:"!hc",di:"!cs",luR:true,diR:true,snk:"spol",eve:"epol",cal:"~2,600\u20132,900",focus:"Race-distance.",key:"Herbed Crema best post-13.1."},
+{id:"sun",label:"Sun 12",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"Full rest.",bk:"rest",lu:"!sf",di:"!gc",luR:true,diR:true,snk:"srst",eve:"erst",cal:"~1,950\u20132,150",focus:"Full recovery.",key:"Post-13.1 hunger normal."}]},
+{id:"w6",label:"Apr 13\u201319",taper:false,days:[
+{id:"mon",label:"Mon 13",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 5mi"},ctx:"5:30am. ~500 cal. 5mi = shake.",bk:"prun",lu:"re|lean",di:"cl|higher carb",snk:"srun",eve:"erun",cal:"~2,200\u20132,400",focus:"Peak \u2014 eat intentionally.",key:"Hardest week."},
+{id:"tue",label:"Tue 14",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. O&U Wed.",bk:"plit",lu:"lf|high protein",di:"cl|carb-rich",snk:"srun",eve:"elft",cal:"~2,050\u20132,250",focus:"Lift + load O&U.",key:"O&U = intervals."},
+{id:"wed",label:"Wed 15",dtype:"hard",tag:{cls:"tag-hard",txt:"O&U \u00b7 5.5mi"},ctx:"5:30am. ~650 cal.",bk:"phrd",lu:"rh|protein-rich",di:"rh|satisfying",snk:"shrd",eve:"ehrd",cal:"~2,250\u20132,450",focus:"Hard mid-peak.",key:"Wed \u2192 Sat."},
+{id:"thu",label:"Thu 16",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4mi"},ctx:"5:30am. ~400 cal.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"erun",cal:"~1,950\u20132,100",focus:"Recovery.",key:"15mi in 2 days."},
+{id:"fri",label:"Fri 17",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 15mi Sat.",bk:"plit",lu:"cl|highest carb",di:"cl|pasta/rice max",snk:"sprl",eve:"eprl",cal:"~2,300\u20132,550",focus:"Biggest carb-load.",key:"Don\u2019t go to bed hungry."},
+{id:"sat",label:"Sat 18",dtype:"long",tag:{cls:"tag-long",txt:"Long Run \u00b7 15mi"},ctx:"~7am. ~1500 cal.",preRun:"Toast 60m. Stroopwaffle 15m. Gels mi4+8+maybe 11. Electrolytes. Shake.",bk:"plng",lu:"rl|max recovery",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,700\u20133,050",focus:"Longest. Highest cal.",key:"Don\u2019t restrict."},
+{id:"sun",label:"Sun 19",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"Rest after peak.",bk:"rest",lu:"rs|lighter",di:"rs|treat",snk:"srst",eve:"erst",cal:"~1,900\u20132,100",focus:"Recovery 15mi.",key:"Prioritize protein."}]},
+{id:"w7",label:"Apr 20\u201326",taper:false,days:[
+{id:"mon",label:"Mon 20",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 5.5mi"},ctx:"5:30am. ~530 cal. Taper. 5mi+ = shake.",bk:"prun",lu:"re|lean",di:"re|moderate",snk:"srun",eve:"etpr",cal:"~2,100\u20132,250",focus:"Taper \u2014 lower cal.",key:"Mileage drops, appetite stays."},
+{id:"tue",label:"Tue 21",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. Tempo Wed.",bk:"plit",lu:"lf|protein",di:"cl|moderate-carb",snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + Tempo.",key:"Pre-tempo dinner."},
+{id:"wed",label:"Wed 22",dtype:"hard",tag:{cls:"tag-hard",txt:"Tempo 2-1 \u00b7 4.5mi"},ctx:"5:30am. ~550 cal.",bk:"phrd",lu:"rh|protein-rich",di:"re|moderate",snk:"shrd",eve:"ehrd",cal:"~2,100\u20132,300",focus:"Tempo taper.",key:"Simulates pace."},
+{id:"thu",label:"Thu 23",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 3.25mi"},ctx:"5:30am. ~396 cal.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"etpr",cal:"~1,900\u20132,000",focus:"Taper light.",key:"Storing energy."},
+{id:"fri",label:"Fri 24",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 8.5mi Sat.",bk:"plit",lu:"lf|protein",di:"cl|moderate load",snk:"sprl",eve:"eprl",cal:"~2,050\u20132,250",focus:"Lift + load 8.5mi.",key:"Include stroopwaffle."},
+{id:"sat",label:"Sat 25",dtype:"long",tag:{cls:"tag-long",txt:"Race Practice \u00b7 8.5mi"},ctx:"~7am. ~800 cal.",preRun:"Toast 60m. Stroopwaffle 15m. Gel mi4. Shake.",bk:"plng",lu:"re|moderate",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,200\u20132,450",focus:"Taper long.",key:"Can feel easy or heavy."},
+{id:"sun",label:"Sun 26",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"One week to race.",bk:"rest",lu:"rs|lighter",di:"rs|treat",snk:"srst",eve:"erst",cal:"~1,850\u20132,050",focus:"Hay in barn.",key:"Sleep, hydration."}]},
+{id:"w8",label:"Apr 27\u2013May 3",taper:true,days:[
+{id:"mon",label:"Mon 27",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest"},ctx:"Race week.",bk:"rest",lu:"rs|lean familiar",di:"rs|moderate",snk:"srst",eve:"etpr",cal:"~1,900\u20132,050",focus:"Consistency.",key:"No new foods."},
+{id:"tue",label:"Tue 28",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest / Light"},ctx:"Second rest.",bk:"rest",lu:"rs|familiar",di:"cl|begin carb-load",snk:"srst",eve:"etpr",cal:"~1,950\u20132,150",focus:"Carb-load begins.",key:"Tue dinner starts load."},
+{id:"wed",label:"Wed 29",dtype:"hard",tag:{cls:"tag-hard",txt:"Race Pace \u00b7 5mi"},ctx:"5:30am. ~500 cal.",bk:"phrd",lu:"rh|protein moderate",di:"cl|carb-rich",snk:"srun",eve:"etpr",cal:"~2,100\u20132,300",focus:"Pace + loading.",key:"Tune-up."},
+{id:"thu",label:"Thu 30",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4.5mi"},ctx:"5:30am. ~450 cal. Last run.",bk:"psht",lu:"re|familiar lean",di:"cl|carb-rich",snk:"srun",eve:"etpr",cal:"~2,000\u20132,200",focus:"Last run.",key:"Thu = big carb-load."},
+{id:"fri",label:"Fri 1 May",dtype:"rest",tag:{cls:"tag-rest",txt:"Full Rest"},ctx:"Two days to race.",bk:"rest",lu:"cl|high carb",di:"cl|pasta/rice max",snk:"srst",eve:"eprl",cal:"~2,250\u20132,500",focus:"Peak loading.",key:"Max carbs, 8+ hrs sleep."},
+{id:"sat",label:"Sat 2",dtype:"rest",tag:{cls:"tag-rest",txt:"Race Eve"},ctx:"Race tomorrow.",bk:"rest",lu:"cl|familiar moderate",di:"cl|pasta/rice by 6:30pm",snk:"srst",eve:"etpr",cal:"~2,050\u20132,350",focus:"Race eve.",key:"Dinner 6:30. Bed 9:30."},
+{id:"sun",label:"Sun May 3",dtype:"race",tag:{cls:"tag-race",txt:"RACE DAY"},ctx:"13.1 miles.",isRaceDay:true,cal:"~2,800\u20133,200",focus:"Execute.",key:"Nutrition in glycogen."}]}
+];
+
+var weekTabsEl=document.getElementById("weekTabs");var dayTabsEl=document.getElementById("dayTabs");var mainEl=document.getElementById("mainContent");
+var currentWeek=weeks[0].id;var currentDays={};var skipStates={};
+weeks.forEach(function(w){currentDays[w.id]=w.days[0].id;});
+function isSkipped(wid,did){return !!skipStates[wid+"-"+did];}
+
+function renderOptions(key){var opts=B[key];if(!opts)return"";return opts.map(function(o,i){var mc=o.m?'<div class="macros">'+o.m.map(function(m){return'<span class="chip '+m.c+'">'+m.l+"</span>";}).join("")+"</div>":"";var nt=o.t?'<div class="opt-note">'+o.t+"</div>":"";var bb=o.b?'<span class="best-badge">Best pick</span>':"";return'<div class="meal-option'+(o.b?" best":"")+'">'+bb+'<div class="opt-header"><span class="opt-num">'+(i+1)+'</span><span class="opt-name">'+o.n+"</span></div>"+'<p class="opt-detail">'+o.d+"</p>"+nt+mc+"</div>";}).join("");}
+
+function renderMeal(label,sub,key){return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div>'+(sub?'<p class="meal-subhead">'+sub+"</p>":"")+'<div class="meal-card">'+renderOptions(key)+"</div></div>";}
+
+function renderRealMeal(key){var m=ML[key];if(!m)return"";var rc={1:"background:var(--green-bg);color:var(--green)",2:"background:var(--blue-bg);color:var(--blue)",3:"background:var(--teal-bg);color:var(--teal)",4:"background:var(--amber-bg);color:var(--amber)"};var rs=rc[m.rank]||"background:var(--surface2);color:var(--text2)";return'<div class="hc-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap"><div><div class="hc-label">Home Chef \u00b7 This week</div><div style="font-size:15px;font-weight:500;color:var(--text);line-height:1.3">'+m.name+"</div>"+(m.sub?'<div style="font-size:12px;color:var(--text3);margin-top:1px">'+m.sub+"</div>":"")+'</div><span style="font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap;'+rs+'">Rank #'+m.rank+'</span></div><div class="macros-row">'+m.macros.map(function(x){return'<span class="chip '+x.c+'">'+x.l+"</span>";}).join("")+'</div><p class="hc-note" style="margin-top:6px">'+m.note+"</p></div>";}
+
+function renderWC(label){var tips=WT.map(function(t){return'<div style="display:flex;gap:8px;font-size:13px;color:var(--text2);padding:5px 0;border-bottom:0.5px solid var(--border)"><span style="color:var(--text3);">\u2014</span><span>'+t+"</span></div>";}).join("");return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div><div class="hc-card" style="border-color:rgba(140,74,0,0.2)"><div class="hc-label" style="color:var(--amber)">Wildcard \u2014 with parents</div><div style="margin-top:6px">'+tips+"</div></div></div>";}
+
+function renderHC(label,val,isReal){if(!val)return"";if(val==="W")return"";if(isReal&&typeof val==="string"&&val.charAt(0)==="!"){return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div>'+renderRealMeal(val.slice(1))+"</div>";}if(typeof val==="string"&&val.indexOf("|")>-1){var p=val.split("|"),t=HT[p[0]];if(!t)return"";return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div><div class="hc-card"><div class="hc-label">Home Chef</div><div class="hc-name">Home Chef \u2014 '+p[1]+'</div><div class="hc-targets"><span class="hc-target hc-target-cal">Aim: '+t.c+' cal</span><span class="hc-target hc-target-pro">'+t.p+' pro</span><span class="hc-target hc-target-carb">'+t.k+' carb</span></div><p class="hc-note">'+t.n+"</p></div></div>";}return"";}
+
+function getNextDay(week,dayIdx){if(dayIdx<week.days.length-1)return week.days[dayIdx+1];var wi=weeks.indexOf(week);if(wi<weeks.length-1)return weeks[wi+1].days[0];return null;}
+
+function snkLabel(day,nd){var s=day.snk;if(day.dtype==="rest")return"~2\u20133pm \u00b7 Light \u2014 rest day";if(s==="sprl")return"~2\u20133pm \u00b7 Carb-loading for tomorrow\u2019s long run";if(s==="spol")return"~1\u20132pm \u00b7 Catch post-long-run hunger surge";if(s==="shrd")return"~2\u20133pm \u00b7 Continue recovery \u2014 anti-inflammatory";if(day.dtype==="easy")return"~2\u20133pm \u00b7 Bridge to dinner \u2014 protein after morning run";if(day.dtype==="lift"){if(nd&&nd.dtype==="hard")return"~2\u20133pm \u00b7 Bridge to dinner \u2014 carbs help tomorrow\u2019s intervals";return"~2\u20133pm \u00b7 Bridge to dinner \u2014 keep protein steady";}return"~2\u20133pm";}
+
+function eveLabel(day,nd){var e=day.eve;if(e==="eprl")return"Strategic carb cap for tomorrow";if(e==="epol")return"Protein overnight \u2014 don\u2019t skip peak weeks";if(e==="elft")return nd&&nd.dtype==="hard"?"Carbs tonight fuel tomorrow\u2019s hard session":"Carbs for tomorrow";if(e==="ehrd")return"Protein if hungry \u2014 skip only if full";if(e==="erun")return"Overnight casein for repair";if(e==="erst")return"Light protein \u2014 cottage cheese over skip";if(e==="etpr")return"Familiar foods only";return"";}
+
+function adjCal(s,r){var m2=s.match(/([\d,]+)[\u2013-]([\d,]+)/);if(!m2)return s;var lo=parseInt(m2[1].replace(/,/g,""))-r;var hi=parseInt(m2[2].replace(/,/g,""))-r;return"~"+lo.toLocaleString()+"\u2013"+hi.toLocaleString()+" cal";}
+
+function skipSnk(day,nd){if(nd&&nd.dtype==="long")return"sprl";if(nd&&nd.dtype==="hard")return"shrd";if(day.dtype==="hard"||day.dtype==="lift")return"srun";return"srst";}
+function skipSnkLabel(day,nd){if(nd&&nd.dtype==="long")return"~2\u20133pm \u00b7 Skipped workout, but carb-load \u2014 long run tomorrow";if(nd&&nd.dtype==="hard")return"~2\u20133pm \u00b7 Skipped workout, but anti-inflammatory snack \u2014 hard session tomorrow";if(day.dtype==="hard")return"~2\u20133pm \u00b7 No workout today \u2014 protein to support recovery anyway";if(day.dtype==="lift")return"~2\u20133pm \u00b7 No workout today \u2014 keep protein steady";if(day.dtype==="easy")return"~2\u20133pm \u00b7 Light \u2014 skipped run, lower fuel needs";return"~2\u20133pm \u00b7 Light";}
+function skipEve(day,nd){if(nd&&nd.dtype==="hard")return"elft";if(nd&&nd.dtype==="long")return"eprl";if(day.dtype==="hard")return"erun";return"erst";}
+function skipEveLabel(day,nd){if(nd&&nd.dtype==="hard")return"Carbs still matter \u2014 hard session tomorrow";if(nd&&nd.dtype==="long")return"Carb-load tonight \u2014 long run tomorrow";if(day.dtype==="hard")return"Protein overnight \u2014 continue recovery";return"Light protein \u2014 no workout today";}
+
+function buildDayContent(day,week,dayIdx,skipped){
+if(day.isRaceDay)return buildRaceDay();
+var nd=getNextDay(week,dayIdx);var html="";
+var tagCls=skipped?"tag-skipped":day.tag.cls;var tagTxt=skipped?"Skipped \u2014 "+day.tag.txt:day.tag.txt;
+html+='<div class="day-hero"><div><div class="day-hero-title">'+day.label+'</div><div class="day-hero-sub">'+(skipped?"Workout skipped. Meals adjusted.":day.ctx)+'</div></div><span class="workout-tag '+tagCls+'"><span class="tag-dot"></span>'+tagTxt+"</span></div>";
+if(day.dtype!=="rest"&&!day.isRaceDay){var ck=skipped?" checked":"";var wn=day.dtype==="lift"?"lift":day.dtype==="long"?"long run":"run";html+='<div class="skip-wrap"><div><div class="skip-label">Skip Workout</div><div class="skip-sub">Toggle if not doing today\u2019s '+wn+'</div></div><label class="skip-sw"><input type="checkbox"'+ck+' onchange="toggleSkip(\''+week.id+"','"+day.id+'\')"><span class="skip-slider"></span></label></div>';}
+if(skipped){var red={easy:400,hard:650,lift:300,long:1000};var cr=red[day.dtype]||300;
+html+='<div class="banner banner-red"><div><div class="banner-title">Workout skipped \u2014 adjusted</div><div class="banner-text">No shake needed. Rest-day breakfast. Calories drop ~'+cr+"."+(nd?" Evening snack still preps for tomorrow\u2019s "+nd.tag.txt.split("\u00b7")[0].trim()+".":"")+"</div></div></div>";
+html+=renderMeal("Breakfast","No workout \u2014 eggs, no shake needed","rest");
+if(day.isWC||day.isWCL)html+=renderWC("Lunch");else if(day.luR)html+=renderHC("Lunch",day.lu,true);else html+=renderHC("Lunch",day.lu,false);
+html+=renderMeal("Afternoon Snack",skipSnkLabel(day,nd),skipSnk(day,nd));
+if(day.isWC)html+=renderWC("Dinner");else if(day.diR)html+=renderHC("Dinner",day.di,true);else html+=renderHC("Dinner",day.di,false);
+html+=renderMeal("Evening Snack",skipEveLabel(day,nd),skipEve(day,nd));
+html+='<div class="day-sum"><div class="ds-item"><div class="ds-lbl">Est. cal (adjusted)</div><div class="ds-val"><strong>'+adjCal(day.cal,cr)+'</strong></div></div><div class="ds-item"><div class="ds-lbl">Focus</div><div class="ds-val">Skipped. Eat lighter but don\u2019t skip meals.'+(nd?" Prep for tomorrow.":"")+'</div></div><div class="ds-item ds-full"><div class="ds-lbl">Key</div><div class="ds-val">Lower calories, keep protein high, stay consistent.</div></div></div>';
+return html;}
+if(day.dtype!=="rest")html+='<div class="banner banner-blue"><div><div class="banner-title">Daily: Electrolytes</div><div class="banner-text">Tab in first water \u2014 before workout. Reduces bloating, replaces sodium.</div></div></div>';
+if(day.preRun)html+='<div class="banner banner-amber"><div><div class="banner-title">Pre-run protocol</div><div class="banner-text">'+day.preRun+"</div></div></div>";
+var pw={prun:"Shake at door \u2192 breakfast within 30 min (5mi+ warrants a shake)",plit:"Eggs within 30\u201345 min. No shake needed for a ~300 cal lift.",psht:"Eggs within 30\u201345 min. No shake needed for short runs under 5mi.",phrd:"Shake at door \u2192 carb+protein breakfast. Critical window after hard sessions.",plng:"Shake from fridge (pre-made) \u2192 breakfast 15\u201320 min later."};
+if(day.dtype!=="rest"&&day.bk&&pw[day.bk])html+='<div class="banner banner-teal"><div><div class="banner-title">Post-workout window</div><div class="banner-text">'+pw[day.bk]+"</div></div></div>";
+if(day.isWC||day.isWCL)html+='<div class="banner banner-amber"><div><div class="banner-title">Wildcard weekend</div><div class="banner-text">With parents \u2014 use guidance below.</div></div></div>';
+var bs={prun:"Shake at door \u2192 sit-down breakfast (5mi+ run)",plit:"Eggs when home \u2014 no shake needed for lifts",psht:"Eggs when home \u2014 no shake needed for short runs",phrd:"Shake at door \u2192 carb+protein, critical window",plng:"Shake from fridge \u2192 breakfast 15\u201320 min later",rest:"Rest \u2014 eggs, no shake"};
+html+=renderMeal("Breakfast",bs[day.bk]||"",day.bk);
+if(day.isWC||day.isWCL)html+=renderWC("Lunch");else if(day.luR)html+=renderHC("Lunch",day.lu,true);else html+=renderHC("Lunch",day.lu,false);
+html+=renderMeal("Afternoon Snack",snkLabel(day,nd),day.snk);
+if(day.isWC)html+=renderWC("Dinner");else if(day.diR)html+=renderHC("Dinner",day.di,true);else html+=renderHC("Dinner",day.di,false);
+html+=renderMeal("Evening Snack",eveLabel(day,nd),day.eve);
+html+='<div class="day-sum"><div class="ds-item"><div class="ds-lbl">Estimated calories</div><div class="ds-val"><strong>'+day.cal+'</strong></div></div><div class="ds-item"><div class="ds-lbl">Day focus</div><div class="ds-val">'+day.focus+'</div></div><div class="ds-item ds-full"><div class="ds-lbl">Key reminder</div><div class="ds-val">'+day.key+"</div></div></div>";
+return html;}
+
+function buildRaceDay(){return'<div class="race-day-hero"><h2>Race Day \u2014 Hoag OC Half Marathon</h2><p>Sunday May 3 \u00b7 13.1 miles</p><div class="race-timeline"><div class="race-tl-item"><div class="race-tl-time">~4:30\u20135am</div><div class="race-tl-content"><strong>Wake.</strong> 12\u201316oz water + electrolyte tab.</div></div><div class="race-tl-item"><div class="race-tl-time">~4:45am</div><div class="race-tl-content"><strong>Breakfast:</strong> 1\u20132 toast + light PB + banana. Coffee if normal.</div></div><div class="race-tl-item"><div class="race-tl-time">~5:45am</div><div class="race-tl-content"><strong>Stroopwaffle</strong> 15 min before corral.</div></div><div class="race-tl-item"><div class="race-tl-time">Mile 4\u20135</div><div class="race-tl-content"><strong>Gel #1.</strong> Early side.</div></div><div class="race-tl-item"><div class="race-tl-time">Mile 8\u20139</div><div class="race-tl-content"><strong>Gel #2.</strong> Don\u2019t skip.</div></div><div class="race-tl-item"><div class="race-tl-time">Throughout</div><div class="race-tl-content"><strong>Hydration:</strong> every aid station. Sip.</div></div><div class="race-tl-item"><div class="race-tl-time">Finish</div><div class="race-tl-content"><strong>Recovery:</strong> banana/choc milk. Shake within 30 min.</div></div><div class="race-tl-item"><div class="race-tl-time">Post</div><div class="race-tl-content"><strong>Real meal within 90 min.</strong> Don\u2019t restrict.</div></div></div></div><div class="banner banner-purple"><div><div class="banner-title">Race strategy</div><div class="banner-text">Start conservatively \u2014 mi 1\u20134 feel too easy. Race starts mi 10. Trust nutrition.</div></div></div><div class="day-sum"><div class="ds-item"><div class="ds-lbl">Cal burned</div><div class="ds-val"><strong>~1,300\u20131,500</strong></div></div><div class="ds-item"><div class="ds-lbl">Focus</div><div class="ds-val">Execute. No improvisation.</div></div><div class="ds-item ds-full"><div class="ds-lbl">Most important</div><div class="ds-val">You\u2019ve done the training. Run your race.</div></div></div>';}
+
+function toggleSkip(wid,did){skipStates[wid+"-"+did]=!skipStates[wid+"-"+did];setDay(currentWeek,did);}
+function setWeek(weekId){currentWeek=weekId;document.querySelectorAll(".week-tab").forEach(function(t){t.classList.toggle("active",t.dataset.wid===weekId);});buildDayTabs(weekId);setDay(weekId,currentDays[weekId]);}
+function buildDayTabs(weekId){var week=weeks.find(function(w){return w.id===weekId;});dayTabsEl.innerHTML="";week.days.forEach(function(day){var btn=document.createElement("button");btn.className="day-tab";btn.dataset.dtype=day.dtype;btn.dataset.did=day.id;btn.dataset.wid=weekId;btn.innerHTML='<span>'+day.label+'</span><span class="day-tab-dot"></span>';btn.onclick=function(){setDay(weekId,day.id);};dayTabsEl.appendChild(btn);});}
+function setDay(weekId,dayId){currentDays[weekId]=dayId;var week=weeks.find(function(w){return w.id===weekId;});var dayIdx=week.days.findIndex(function(d){return d.id===dayId;});var day=week.days[dayIdx];var skipped=isSkipped(weekId,dayId);document.querySelectorAll(".day-tab").forEach(function(t){t.classList.toggle("active",t.dataset.did===dayId);});mainEl.innerHTML=buildDayContent(day,week,dayIdx,skipped);}
+function init(){weeks.forEach(function(w){var btn=document.createElement("button");btn.className="week-tab"+(w.taper?" race-week":"");btn.dataset.wid=w.id;btn.textContent=w.label;btn.onclick=function(){setWeek(w.id);};weekTabsEl.appendChild(btn);});setWeek(weeks[0].id);}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init);}else{init();}
+</script>
+</body>
+</html>
