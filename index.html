@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Race Prep Nutrition v2 — Hoag OC Half Marathon</title>
+<title>Maintenance Nutrition Plan — Long Beach Half Marathon Prep</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,11 +26,13 @@
   --coral: #7A2B15; --coral-bg: #FAEBE6;
   --teal: #0A5A44; --teal-bg: #E0F2EB;
   --purple: #4A3AA0; --purple-bg: #EEEDFE;
+  --slate: #3A4A5A; --slate-bg: #EBF0F5;
   --red: #8C1515; --red-bg: #FCEAEA;
   --orange: #8C4A00; --orange-bg: #FFF0E0;
 }
 
 body { font-family: var(--font-sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+
 .site-header { background: var(--text); padding: 2rem 1.5rem 1.75rem; }
 .header-inner { max-width: 960px; margin: 0 auto; }
 .header-eye { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 0.4rem; }
@@ -39,16 +41,13 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .header-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
 .header-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); }
 .race-pill { background: rgba(220,80,60,0.25); color: #FFC0B0; font-weight: 500; }
-.v2-pill { background: rgba(100,200,120,0.2); color: #A0E8B0; font-weight: 500; }
 
 .week-tabs-wrap { background: var(--surface); border-bottom: 1px solid var(--border-mid); position: sticky; top: 0; z-index: 100; }
 .week-tabs { max-width: 960px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
 .week-tabs::-webkit-scrollbar { display: none; }
-.week-tab { flex-shrink: 0; padding: 0.85rem 1.1rem; font-family: var(--font-sans); font-size: 12px; font-weight: 500; color: var(--text3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+.week-tab { flex-shrink: 0; padding: 0.85rem 1.1rem; font-family: var(--font-sans); font-size: 12px; font-weight: 500; color: var(--text3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
 .week-tab:hover { color: var(--text); }
 .week-tab.active { color: var(--text); border-bottom-color: var(--text); }
-.week-tab.race-week { color: var(--red); }
-.week-tab.race-week.active { border-bottom-color: var(--red); }
 
 .day-tabs-wrap { background: var(--surface2); border-bottom: 1px solid var(--border); position: sticky; top: 41px; z-index: 90; }
 .day-tabs { max-width: 960px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
@@ -61,10 +60,28 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .day-tab[data-dtype="hard"] .day-tab-dot { background: #C0392B; }
 .day-tab[data-dtype="lift"] .day-tab-dot { background: var(--blue); }
 .day-tab[data-dtype="long"] .day-tab-dot { background: var(--purple); }
-.day-tab[data-dtype="race"] .day-tab-dot { background: var(--red); }
-.day-tab[data-dtype="wildcard"] .day-tab-dot { background: var(--orange); }
+.day-tab[data-dtype="rest"] .day-tab-dot { background: var(--text3); }
+.day-tab[data-dtype="skip"] .day-tab-dot { background: var(--orange); }
 
 .content { max-width: 960px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; }
+
+.week-summary-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.week-sum-title { font-family: var(--font-serif); font-size: 20px; color: var(--text); flex: 1; min-width: 200px; }
+.week-sum-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.week-stat { text-align: center; }
+.week-stat-val { font-size: 18px; font-weight: 500; color: var(--text); display: block; }
+.week-stat-lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+.week-focus { font-size: 13px; color: var(--text2); margin-top: 0.4rem; width: 100%; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 0.75rem; }
 
 .day-hero { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
 .day-hero-title { font-family: var(--font-serif); font-size: 28px; color: var(--text); line-height: 1.1; }
@@ -76,38 +93,30 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .tag-lift { background: var(--blue-bg); color: var(--blue); }
 .tag-long { background: var(--purple-bg); color: var(--purple); }
 .tag-rest { background: var(--surface2); color: var(--text3); }
-.tag-race { background: var(--red-bg); color: var(--red); }
-.tag-wildcard { background: var(--orange-bg); color: var(--orange); }
-.tag-skipped { background: var(--red-bg); color: var(--red); }
+.tag-skip { background: var(--orange-bg); color: var(--orange); }
 
 .banner { border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 1rem; display: flex; gap: 10px; }
 .banner-amber { background: var(--amber-bg); border: 1px solid rgba(122,77,10,0.15); }
 .banner-teal { background: var(--teal-bg); border: 1px solid rgba(10,90,68,0.15); }
-.banner-red { background: var(--red-bg); border: 1px solid rgba(140,21,21,0.2); }
-.banner-purple { background: var(--purple-bg); border: 1px solid rgba(74,58,160,0.15); }
 .banner-blue { background: var(--blue-bg); border: 1px solid rgba(14,74,140,0.15); }
+.banner-orange { background: var(--orange-bg); border: 1px solid rgba(140,74,0,0.2); }
 .banner-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
 .banner-amber .banner-title { color: var(--amber); }
 .banner-teal .banner-title { color: var(--teal); }
-.banner-red .banner-title { color: var(--red); }
-.banner-purple .banner-title { color: var(--purple); }
 .banner-blue .banner-title { color: var(--blue); }
+.banner-orange .banner-title { color: var(--orange); }
 .banner-text { font-size: 13px; line-height: 1.5; }
 .banner-amber .banner-text { color: var(--amber); }
 .banner-teal .banner-text { color: var(--teal); }
-.banner-red .banner-text { color: var(--red); }
-.banner-purple .banner-text { color: var(--purple); }
 .banner-blue .banner-text { color: var(--blue); }
+.banner-orange .banner-text { color: var(--orange); }
 
-.skip-wrap { background: var(--surface); border: 1px solid var(--border-mid); border-radius: 10px; padding: 0.7rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.skip-label { font-size: 13px; font-weight: 500; color: var(--text); }
-.skip-sub { font-size: 12px; color: var(--text3); font-weight: 400; }
-.skip-sw { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
-.skip-sw input { opacity: 0; width: 0; height: 0; }
-.skip-slider { position: absolute; cursor: pointer; inset: 0; background: var(--surface2); border: 1px solid var(--border-mid); border-radius: 24px; transition: background 0.2s; }
-.skip-slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
-.skip-sw input:checked + .skip-slider { background: var(--red); border-color: var(--red); }
-.skip-sw input:checked + .skip-slider::before { transform: translateX(20px); }
+/* SKIP WORKOUT BUTTON */
+.skip-btn-wrap { margin-bottom: 1.25rem; }
+.skip-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--orange-bg); border: 1.5px solid rgba(140,74,0,0.25); color: var(--orange); font-family: var(--font-sans); font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 20px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+.skip-btn:hover { background: #ffe4c0; border-color: rgba(140,74,0,0.4); }
+.skip-btn.active { background: var(--orange); color: white; border-color: var(--orange); }
+.skip-icon { font-size: 14px; line-height: 1; }
 
 .meal-section { margin-bottom: 1.1rem; }
 .meal-section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
@@ -141,192 +150,1042 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .chip-pro { background: var(--blue-bg); color: var(--blue); }
 .chip-carb { background: var(--green-bg); color: var(--green); }
 .chip-fat { background: var(--coral-bg); color: var(--coral); }
-.chip-sugar { background: var(--purple-bg); color: var(--purple); }
-.chip-fiber { background: var(--teal-bg); color: var(--teal); }
-.macros-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
 
 .day-sum { background: var(--text); color: white; border-radius: 12px; padding: 1.1rem 1.25rem; margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-@media(max-width:480px){ .day-sum { grid-template-columns: 1fr; } }
+@media(max-width:480px){.day-sum{grid-template-columns:1fr;}}
 .ds-lbl { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 2px; }
 .ds-val { font-size: 13px; color: rgba(255,255,255,0.82); line-height: 1.5; }
 .ds-val strong { color: white; font-weight: 500; }
 .ds-full { grid-column: 1/-1; }
 
-.race-day-hero { background: var(--text); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; color: white; }
-.race-day-hero h2 { font-family: var(--font-serif); font-size: 26px; color: white; margin-bottom: 0.25rem; }
-.race-day-hero p { font-size: 13px; color: rgba(255,255,255,0.65); }
-.race-timeline { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
-.race-tl-item { display: flex; gap: 12px; align-items: flex-start; }
-.race-tl-time { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5); min-width: 70px; padding-top: 2px; }
-.race-tl-content { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; flex: 1; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 12px; }
-.race-tl-content strong { color: white; }
+/* Skip-adjusted content */
+.skip-adjusted { display: none; }
+.skip-mode .skip-adjusted { display: block; }
+.skip-mode .normal-content { display: none; }
 
 @media(max-width:600px){ .content { padding: 1.25rem 1rem 3rem; } }
+
+/* ── OVERVIEW TAB ─────────────────────────────────────────────────────── */
+.ov-grid { display:grid; grid-template-columns:1fr; gap:1.25rem; margin-top:1.25rem; }
+@media(min-width:700px){ .ov-grid { grid-template-columns:1fr 1fr; } }
+.ov-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.ov-card-full { grid-column:1/-1; }
+.ov-card-head { padding:0.75rem 1.1rem 0.6rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.ov-card-icon { font-size:15px; line-height:1; }
+.ov-card-title { font-size:12px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text2); }
+.ov-card-body { padding:0.9rem 1.1rem; }
+
+/* Week strip */
+.week-strip { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.strip-day { border-radius:8px; padding:6px 4px 7px; text-align:center; background:var(--surface2); border:1px solid var(--border); cursor:pointer; transition:transform 0.1s; }
+.strip-day:hover { transform:translateY(-1px); }
+.strip-day-name { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text3); margin-bottom:3px; }
+.strip-day-dot { width:8px; height:8px; border-radius:50%; margin:0 auto 4px; }
+.strip-day.dtype-easy .strip-day-dot { background:var(--green-mid); }
+.strip-day.dtype-hard .strip-day-dot { background:#C0392B; }
+.strip-day.dtype-lift .strip-day-dot { background:var(--blue); }
+.strip-day.dtype-long .strip-day-dot { background:var(--purple); }
+.strip-day.dtype-rest .strip-day-dot { background:var(--text3); }
+.strip-day-label { font-size:10px; color:var(--text2); line-height:1.3; font-weight:500; }
+.strip-day-sub { font-size:9px; color:var(--text3); margin-top:2px; }
+.strip-day.dtype-easy { border-top:2px solid var(--green-mid); }
+.strip-day.dtype-hard { border-top:2px solid #C0392B; }
+.strip-day.dtype-lift { border-top:2px solid var(--blue); }
+.strip-day.dtype-long { border-top:2px solid var(--purple); }
+
+/* Lift cards */
+.lift-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.lift-card { border-radius:10px; border:1px solid var(--border); padding:0.75rem 0.8rem; }
+.lift-card-day { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text3); margin-bottom:4px; }
+.lift-card-split { font-size:15px; font-weight:600; color:var(--text); margin-bottom:2px; }
+.lift-card-muscles { font-size:11px; color:var(--text2); margin-bottom:8px; }
+.lift-card-fitbod { font-size:11px; background:var(--blue-bg); color:var(--blue); padding:3px 8px; border-radius:20px; display:inline-block; font-weight:500; margin-bottom:8px; }
+.tl-row { display:flex; align-items:center; gap:6px; margin-top:6px; }
+.tl-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.tl-green { background:#2D9E3A; }
+.tl-amber { background:#D4900A; }
+.tl-red { background:#C0392B; }
+.tl-inactive { background:var(--border-mid); }
+.tl-label { font-size:11px; color:var(--text2); }
+.tl-label strong { color:var(--text); }
+.lift-note { font-size:11px; color:var(--amber); background:var(--amber-bg); border-radius:6px; padding:4px 8px; margin-top:6px; line-height:1.4; }
+.lift-note-red { color:var(--coral); background:var(--coral-bg); }
+
+/* Nutrition targets */
+.nut-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+@media(max-width:500px){ .nut-row { grid-template-columns:1fr; } }
+.nut-cell { border-radius:8px; padding:0.65rem 0.8rem; }
+.nut-cell-run { background:var(--green-bg); border:1px solid rgba(45,90,27,0.12); }
+.nut-cell-lift { background:var(--blue-bg); border:1px solid rgba(14,74,140,0.12); }
+.nut-cell-rest { background:var(--surface2); border:1px solid var(--border); }
+.nut-cell-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+.nut-cell-run .nut-cell-label { color:var(--green); }
+.nut-cell-lift .nut-cell-label { color:var(--blue); }
+.nut-cell-rest .nut-cell-label { color:var(--text3); }
+.nut-cell-cal { font-size:14px; font-weight:600; color:var(--text); margin-bottom:1px; }
+.nut-cell-pro { font-size:12px; color:var(--text2); }
+
+/* Critical days */
+.crit-list { display:flex; flex-direction:column; gap:6px; }
+.crit-item { display:flex; gap:8px; align-items:flex-start; padding:7px 9px; border-radius:8px; }
+.crit-item-amber { background:var(--amber-bg); border:1px solid rgba(122,77,10,0.12); }
+.crit-item-blue { background:var(--blue-bg); border:1px solid rgba(14,74,140,0.12); }
+.crit-item-green { background:var(--green-bg); border:1px solid rgba(45,90,27,0.12); }
+.crit-item-purple { background:var(--purple-bg); border:1px solid rgba(74,58,160,0.12); }
+.crit-dot { width:6px; height:6px; border-radius:50%; margin-top:5px; flex-shrink:0; }
+.crit-item-amber .crit-dot { background:var(--amber); }
+.crit-item-blue .crit-dot { background:var(--blue); }
+.crit-item-green .crit-dot { background:var(--green-mid); }
+.crit-item-purple .crit-dot { background:var(--purple); }
+.crit-text { font-size:12px; line-height:1.5; }
+.crit-item-amber .crit-text { color:var(--amber); }
+.crit-item-blue .crit-text { color:var(--blue); }
+.crit-item-green .crit-text { color:var(--green); }
+.crit-item-purple .crit-text { color:var(--purple); }
+.crit-day-lbl { font-weight:600; }
+
+/* Snack quick ref */
+.snack-cols { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:480px){ .snack-cols { grid-template-columns:1fr; } }
+.snack-col-head { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em; color:var(--text3); margin-bottom:6px; padding-bottom:5px; border-bottom:1px solid var(--border); }
+.snack-item { display:flex; gap:6px; align-items:flex-start; padding:5px 0; border-bottom:1px solid var(--border); }
+.snack-item:last-child { border-bottom:none; }
+.snack-bullet { width:5px; height:5px; border-radius:50%; background:var(--text3); margin-top:5px; flex-shrink:0; }
+.snack-name { font-size:12px; color:var(--text); font-weight:500; line-height:1.4; }
+.snack-when { font-size:11px; color:var(--text3); }
+
+/* Pre-run reminder */
+.prerun-banner { background:var(--amber-bg); border:1px solid rgba(122,77,10,0.18); border-radius:10px; padding:0.75rem 1rem; display:flex; gap:10px; align-items:flex-start; }
+.prerun-banner-icon { font-size:16px; line-height:1; }
+.prerun-banner-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em; color:var(--amber); margin-bottom:2px; }
+.prerun-banner-text { font-size:13px; color:var(--amber); line-height:1.5; }
+
 </style>
 </head>
 <body>
 
-<header class="site-header"><div class="header-inner">
-<div class="header-eye">Revised Nutrition Guide · Weeks 2–8</div>
-<h1 class="header-title">Hoag OC <em>Half Marathon</em></h1>
-<div class="header-pills">
-<span class="header-pill">6'1" · 175 lbs</span><span class="header-pill">5:30am fasted M–F</span>
-<span class="header-pill v2-pill">v2: tiered shake protocol</span><span class="header-pill v2-pill">v2: Apple Watch calibrated</span><span class="header-pill v2-pill">v2: skip workout toggle</span>
-<span class="header-pill" style="background:rgba(255,165,0,0.2);color:#FFD080">Weeks 4–5: real meals</span><span class="header-pill race-pill">Race: Sun May 3</span>
-</div></div></header>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-eye">Maintenance Nutrition Plan · Jun 8 – Jul 26, 2026</div>
+    <h1 class="header-title">Long Beach <em>Half Marathon</em> · Base Phase</h1>
+    <div class="header-pills">
+      <span class="header-pill">6'1" · 177–178 lbs · ~15% BF</span>
+      <span class="header-pill">Recomp goal: maintain weight, build muscle</span>
+      <span class="header-pill">Target: 165–175g protein/day</span>
+      <span class="header-pill">2,400–2,600 cal · run days · 2,100–2,300 cal · lift/rest days</span>
+      <span class="header-pill">Oikos shake (30g protein) always with breakfast on training days</span>
+      <span class="header-pill">Pre-run: 1 slice whole grain toast + PB for progressive 8mi · 2 slices toast + PB + jam for 10mi+</span>
+      <span class="header-pill race-pill">Race Day: Oct 11, 2026</span>
+    </div>
+  </div>
+</header>
 
 <div class="week-tabs-wrap"><div class="week-tabs" id="weekTabs"></div></div>
 <div class="day-tabs-wrap"><div class="day-tabs" id="dayTabs"></div></div>
 <div class="content" id="mainContent"></div>
 
 <script>
-var M=function(c,p,k){return[{c:"chip-cal",l:c},{c:"chip-pro",l:p},{c:"chip-carb",l:k}]};
-var B={
-prun:[{n:"Shake at door \u2192 2 eggs toast + banana",d:"5mi+ fasted = shake closes the protein gap. Eggs give a complete meal. Best overall recovery breakfast.",t:"Shake warranted at 5+ miles fasted.",m:M("~580 cal","~52g pro","~58g carb"),b:1},{n:"Shake at door \u2192 Raisin Bran + milk + banana",d:"Shake handles protein, cereal handles carbs and convenience. Raisin Bran has the best fiber of your cereals. Quick, satisfying, different from eggs.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Shake at door \u2192 Greek yogurt + granola + banana",d:"Shake first, no-cook follow-up. Yogurt adds casein on top of the whey shake. Good variety day.",m:M("~550 cal","~47g pro","~55g carb")}],
-plit:[{n:"2 eggs on toast + banana + blueberries",d:"~300 cal lift doesn\u2019t need a shake. Eggs within 30\u201345 min gives you 22g protein. Blueberries reduce DOMS.",m:M("~450 cal","~22g pro","~55g carb"),b:1},{n:"Raisin Bran + milk + banana + protein shake",d:"Shake covers protein (so cereal\u2019s low protein doesn\u2019t matter), cereal gives you easy carbs for tomorrow. Good pre-hard-run-day option.",t:"Best on Tue/Fri when tomorrow is a hard run or long run.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Overnight oats + banana + berries + chia",d:"Prep night before. Zero morning effort. Good complex carbs, easy on the stomach. Add a hard-boiled egg on the side if you want protein.",m:M("~420 cal","~14g pro","~72g carb")}],
-psht:[{n:"2 eggs on toast + banana",d:"Short easy run under 5mi. Eggs within 30\u201345 min is plenty. No shake needed for ~300\u2013450 cal burn.",m:M("~420 cal","~22g pro","~48g carb"),b:1},{n:"Raisin Bran + milk + banana",d:"No shake needed for short runs. Cereal is quick, familiar, and gives you good fiber and iron. Fine protein-wise if lunch is protein-strong.",m:M("~400 cal","~10g pro","~75g carb")},{n:"Greek yogurt + granola + banana + berries",d:"No-cook, 18g protein. Different from eggs, different from cereal. Good mid-week variety.",m:M("~400 cal","~18g pro","~55g carb")}],
-phrd:[{n:"Shake at door \u2192 2 eggs toast + banana",d:"Hard intervals = longest fasted gap + highest intensity. Shake the instant you walk in, then eggs.",t:"Hard run days: shake is non-negotiable.",m:M("~600 cal","~52g pro","~58g carb"),b:1},{n:"Shake at door \u2192 Raisin Bran + milk + banana",d:"Shake first, then cereal. Higher carbs than eggs (80g vs 58g) which is good for glycogen after intervals. Easier to eat if stomach is off.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Chocolate milk (12oz) at door \u2192 eggs on toast",d:"Chocolate milk has a near-perfect 4:1 carb:protein. Different from a shake. Make eggs when home.",m:M("~580 cal","~38g pro","~65g carb")}],
-plng:[{n:"Shake from fridge \u2192 eggs toast + banana + blueberries",d:"Pre-make shake before run. Grab immediately. Sit-down breakfast 15\u201320 min later.",t:"Pre-make before your Saturday run.",m:M("~620 cal","~52g pro","~62g carb"),b:1},{n:"Shake from fridge \u2192 Raisin Bran + milk + banana",d:"Shake first, then cereal. More carbs than eggs for glycogen replenishment. Good if you don\u2019t feel like cooking after a long run.",m:M("~530 cal","~35g pro","~80g carb")},{n:"Chocolate milk from fridge \u2192 Greek yogurt + granola + berries",d:"Chocolate milk as recovery drink, then yogurt bowl. No cooking. Gentler if stomach is unsettled.",m:M("~560 cal","~40g pro","~70g carb")}],
-rest:[{n:"2 eggs on toast + banana",d:"22g protein at breakfast keeps you from chasing protein all afternoon. Best rest day option.",m:M("~420 cal","~22g pro","~48g carb"),b:1},{n:"Raisin Bran + milk + banana",d:"Relaxed rest day option. Higher fiber and iron. Lower protein but fine if dinner is protein-strong. Enjoy the slower morning.",m:M("~400 cal","~10g pro","~75g carb")},{n:"Greek yogurt parfait + granola + banana + berries + honey",d:"No-cook, 18g protein. Feels like a treat. Good Sunday option.",m:M("~420 cal","~18g pro","~58g carb")}],
-srun:[{n:"Greek yogurt + honey + almonds",d:"18g protein. Almonds add fats, honey stabilizes blood sugar.",m:M("~220 cal","~18g pro","~15g carb"),b:1},{n:"2 hard-boiled eggs + apple",d:"Complete protein, portable.",m:M("~200 cal","~13g pro","~20g carb")},{n:"Cottage cheese (\u00be cup) + fruit",d:"High casein, slow-digesting.",m:M("~180 cal","~22g pro","~15g carb")}],
-shrd:[{n:"Greek yogurt + mixed berries + honey",d:"Berries reduce post-interval soreness.",t:"Best anti-inflammatory snack.",m:M("~220 cal","~15g pro","~28g carb"),b:1},{n:"RXBAR + piece of fruit",d:"Dates, egg whites, nuts. No prep.",m:M("~280 cal","~14g pro","~35g carb")},{n:"Apple + 2 string cheese sticks",d:"Quick, portable.",m:M("~200 cal","~12g pro","~22g carb")}],
-sprl:[{n:"Banana + 1 tbsp peanut butter",d:"Tops off liver glycogen. PB slows release.",t:"Have this whether hungry or not.",m:M("~180 cal","~4g pro","~28g carb"),b:1},{n:"Greek yogurt + granola + honey",d:"Higher protein. Solid carb hit.",m:M("~300 cal","~18g pro","~42g carb")},{n:"Oatmeal (\u00bd cup) + honey + almond butter",d:"Slow-digesting. Better for 11mi+.",m:M("~300 cal","~9g pro","~42g carb")}],
-spol:[{n:"Cottage cheese (\u00be cup) + fruit + almonds",d:"Appetite surges 3\u20134hr post-long-run.",t:"Main defense against hunger spiral.",m:M("~200 cal","~20g pro","~18g carb"),b:1},{n:"Protein shake (1 scoop + water)",d:"If full from lunch.",m:M("~130 cal","~25g pro","~5g carb")},{n:"Greek yogurt + mixed berries",d:"Light, anti-inflammatory.",m:M("~180 cal","~15g pro","~20g carb")}],
-srst:[{n:"15\u201320 almonds + apple",d:"Healthy fats, fiber.",m:M("~200 cal","~5g pro","~25g carb"),b:1},{n:"Greek yogurt + berries",d:"Higher protein.",m:M("~180 cal","~15g pro","~18g carb")},{n:"Celery + hummus (4 tbsp)",d:"Low calorie, high volume.",m:M("~120 cal","~4g pro","~12g carb")}],
-erun:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Casein digests slowly overnight.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"1 slice toast + peanut butter",d:"Slow-digesting fats.",m:M("~180 cal","~6g pro","~20g carb")},{n:"Mini Wheats (1 cup) + \u00be cup milk",d:"Higher fiber.",m:M("~250 cal","~10g pro","~45g carb")}],
-ehrd:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Casein overnight. Skip if full.",t:"If full after dinner, skip.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"1 slice toast + peanut butter",d:"PB fats slow digestion.",m:M("~180 cal","~6g pro","~20g carb")},{n:"Skip \u2014 herbal tea",d:"If dinner was substantial.",m:[{c:"chip-cal",l:"0 cal"}]}],
-eprl:[{n:"Mini Wheats (1 cup) + \u00be cup 2% milk",d:"Strategic cereal. Caps carb-load.",t:"Don\u2019t skip Friday night.",m:M("~260 cal","~11g pro","~46g carb"),b:1},{n:"Oatmeal + honey + banana",d:"Sustained overnight fuel.",m:M("~280 cal","~7g pro","~52g carb")},{n:"1 slice toast + PB + \u00bd banana",d:"Less optimal but useful.",m:M("~220 cal","~7g pro","~30g carb")}],
-epol:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Don\u2019t skip Sat evening peak weeks.",t:"170 cal worth overnight repair.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"1 slice toast + peanut butter",d:"If genuinely hungry.",m:M("~180 cal","~6g pro","~20g carb")},{n:"Herbal tea + dark chocolate",d:"Magnesium.",m:[{c:"chip-cal",l:"~80 cal"}]}],
-elft:[{n:"Mini Wheats (1 cup) + \u00be cup milk",d:"Pre-hard-run night: cereal earns its place.",t:"Tue+Fri: cereal most useful.",m:M("~250 cal","~10g pro","~45g carb"),b:1},{n:"1 slice toast + PB + \u00bd banana",d:"Go-to with banana.",m:M("~220 cal","~7g pro","~28g carb")},{n:"Oatmeal + almond butter + honey",d:"Slow-digesting, filling.",m:M("~300 cal","~9g pro","~40g carb")}],
-erst:[{n:"Cottage cheese (\u00bd cup) + almonds",d:"Rest days benefit from overnight casein.",t:"Old plan said skip. Too aggressive.",m:M("~170 cal","~16g pro","~8g carb"),b:1},{n:"Dark chocolate + herbal tea",d:"Magnesium. Under 100 cal.",m:[{c:"chip-cal",l:"~80 cal"}]},{n:"Skip \u2014 herbal tea",d:"Only if not hungry.",m:[{c:"chip-cal",l:"0 cal"}]}],
-etpr:[{n:"1 slice toast + PB + \u00bd banana",d:"Light carb top-up.",t:"No new foods.",m:M("~220 cal","~7g pro","~30g carb"),b:1},{n:"Mini Wheats (1 cup) + milk",d:"Tried and tested.",m:M("~250 cal","~10g pro","~45g carb")},{n:"Cottage cheese + fruit",d:"Lower carbs, high protein.",m:M("~150 cal","~16g pro","~12g carb")}]};
-var HT={re:{c:"500\u2013600",p:"28\u201335g",k:"35\u201350g",n:"Lean protein focus."},rh:{c:"550\u2013650",p:"30\u201340g",k:"50\u201365g",n:"Protein for repair, carbs for glycogen."},rl:{c:"600\u2013700",p:"35\u201345g",k:"55\u201370g",n:"Highest carb HC meal of the week."},lf:{c:"500\u2013600",p:"30\u201340g",k:"30\u201345g",n:"Protein priority, moderate carbs."},rs:{c:"450\u2013550",p:"28\u201335g",k:"25\u201340g",n:"Lighter meal, still hit protein."},cl:{c:"600\u2013700",p:"30\u201340g",k:"65\u201380g",n:"Highest carb. Rice/pasta."}};
-var ML={pp:{name:"Spicy Creole Pulled Pork",sub:"Heat & Eat",rank:6,macros:[{c:"chip-cal",l:"~550 cal"},{c:"chip-pro",l:"~35g pro"},{c:"chip-carb",l:"~45g carb"},{c:"chip-fat",l:"~22g fat"}],note:"Protein-dense with B vitamins."},gc:{name:"Garlic Butter Chicken",sub:"broccoli couscous \u00b7 Express",rank:2,macros:[{c:"chip-cal",l:"690 cal"},{c:"chip-pro",l:"44g pro"},{c:"chip-carb",l:"38g carb"},{c:"chip-fat",l:"39g fat"},{c:"chip-sugar",l:"1g sugar"},{c:"chip-fiber",l:"4g fiber"}],note:"44g protein, 1g sugar."},sf:{name:"Sausage Tomato Flatbreads",sub:"",rank:7,macros:[{c:"chip-cal",l:"560 cal"},{c:"chip-pro",l:"40g pro"},{c:"chip-carb",l:"28g carb"},{c:"chip-fat",l:"32g fat"},{c:"chip-sugar",l:"9g sugar"},{c:"chip-fiber",l:"5g fiber"}],note:"40g pro, 9g sugar highest."},cs:{name:"Cajun Shrimp Wraps",sub:"",rank:8,macros:[{c:"chip-cal",l:"570 cal"},{c:"chip-pro",l:"25g pro"},{c:"chip-carb",l:"60g carb"},{c:"chip-fat",l:"24g fat"},{c:"chip-sugar",l:"3g sugar"},{c:"chip-fiber",l:"3g fiber"}],note:"Lowest protein 25g."},hc:{name:"Chicken & Herbed Crema",sub:"French carrot salad",rank:1,macros:[{c:"chip-cal",l:"520 cal"},{c:"chip-pro",l:"44g pro"},{c:"chip-carb",l:"18g carb"},{c:"chip-fat",l:"31g fat"},{c:"chip-sugar",l:"0g sugar"},{c:"chip-fiber",l:"5g fiber"}],note:"Best protein:calorie. 0g sugar."},mc:{name:"Moroccan Chicken & Couscous",sub:"",rank:3,macros:[{c:"chip-cal",l:"680 cal"},{c:"chip-pro",l:"38g pro"},{c:"chip-carb",l:"63g carb"},{c:"chip-fat",l:"28g fat"},{c:"chip-sugar",l:"1g sugar"},{c:"chip-fiber",l:"6g fiber"}],note:"Best fiber + 63g carbs."},st:{name:"Sun-Dried Tomato Chicken",sub:"",rank:4,macros:[{c:"chip-cal",l:"850 cal"},{c:"chip-pro",l:"49g pro"},{c:"chip-carb",l:"87g carb"},{c:"chip-fat",l:"37g fat"},{c:"chip-sugar",l:"0g sugar"},{c:"chip-fiber",l:"8g fiber"}],note:"Highest protein. Best pre-800m."},fp:{name:"Chicken Fajita Platter",sub:"fiesta rice+guac \u00b7 H&E",rank:5,macros:[{c:"chip-cal",l:"450 cal"},{c:"chip-pro",l:"25g pro"},{c:"chip-carb",l:"45g carb"},{c:"chip-fat",l:"20g fat"},{c:"chip-fiber",l:"7g fiber"}],note:"Lowest cal (450)."},sa:{name:"Chili-Glazed Salmon",sub:"umami rice",rank:9,macros:[{c:"chip-cal",l:"890 cal"},{c:"chip-pro",l:"36g pro"},{c:"chip-carb",l:"94g carb"},{c:"chip-fat",l:"42g fat"},{c:"chip-sugar",l:"14g sugar"},{c:"chip-fiber",l:"6g fiber"}],note:"Omega-3s. 94g carbs."},sp:{name:"Giada\u2019s Sausage Pasta",sub:"",rank:10,macros:[{c:"chip-cal",l:"820 cal"},{c:"chip-pro",l:"36g pro"},{c:"chip-carb",l:"59g carb"},{c:"chip-fat",l:"49g fat"},{c:"chip-sugar",l:"2g sugar"},{c:"chip-fiber",l:"2g fiber"}],note:"Sunday treat."}};
-var WT=["Protein every meal \u2014 grilled > fried.","Avoid cream pasta \u2014 900+ cal.","Grilled proteins, rice, salads.","Buffet: protein+veg first.","1\u20132 drinks fine rest days.","Breakfast routine still applies.","Hydrate more \u2014 sodium."];
-var weeks=[
-{id:"w2",label:"Mar 16\u201322",taper:false,days:[
-{id:"mon",label:"Mon 16",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 6mi"},ctx:"5:30am. ~500 cal. 6mi = shake warranted.",bk:"prun",lu:"re|lean protein",di:"cl|higher carb",snk:"srun",eve:"erun",cal:"~2,150\u20132,350",focus:"Run recovery + prep lift.",key:"6mi+ fasted = shake at door."},
-{id:"tue",label:"Tue 17",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. ~300 cal. No shake needed.",bk:"plit",lu:"lf|high protein",di:"cl|carb-rich for Wed",snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + carb-load repeats.",key:"Dinner carbs not optional."},
-{id:"wed",label:"Wed 18",dtype:"hard",tag:{cls:"tag-hard",txt:"1km Repeats \u00b7 6.26mi"},ctx:"5:30am. ~756 cal. Hardest session.",bk:"phrd",lu:"rh|protein-rich",di:"rh|satisfying",snk:"shrd",eve:"ehrd",cal:"~2,200\u20132,450",focus:"Hardest day.",key:"Shake-at-door = most important moment."},
-{id:"thu",label:"Thu 19",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4mi"},ctx:"5:30am. ~400 cal. Short run = no shake.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"erun",cal:"~1,900\u20132,000",focus:"Lightest day.",key:"4mi doesn\u2019t need a shake. Eggs are plenty."},
-{id:"fri",label:"Fri 20",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. ~300 cal. 9.5mi Sat.",bk:"plit",lu:"cl|rice/pasta",di:"cl|highest carb",snk:"sprl",eve:"eprl",cal:"~2,100\u20132,350",focus:"Lift + carb-load 9.5mi.",key:"Don\u2019t go low-carb."},
-{id:"sat",label:"Sat 21",dtype:"long",tag:{cls:"tag-long",txt:"Race Practice \u00b7 9.5mi"},ctx:"~7am. ~900\u20131000 cal.",preRun:"Toast ~60 min. Stroopwaffle ~15 min. Gel mi4. Pre-make shake.",bk:"plng",lu:"rl|biggest meal",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,400\u20132,650",focus:"Longest run. Recovery priority.",key:"Don\u2019t restrict Saturday."},
-{id:"sun",label:"Sun 22",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"No workout.",bk:"rest",lu:"rs|lighter",di:"rs|remaining + treat",snk:"srst",eve:"erst",cal:"~1,850\u20132,050",focus:"Reset.",key:"Eggs breakfast. Cottage cheese eve."}]},
-{id:"w3",label:"Mar 23\u201329",taper:false,days:[
-{id:"mon",label:"Mon 23",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 7mi"},ctx:"5:30am. ~600 cal. 7mi = shake.",bk:"prun",lu:"re|lean",di:"cl|higher carb",snk:"srun",eve:"erun",cal:"~2,200\u20132,350",focus:"Longer easy.",key:"7mi fasted: shake warranted."},
-{id:"tue",label:"Tue 24",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. O&U Wed.",bk:"plit",lu:"lf|high protein",di:"cl|carb-rich",snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + carb-load O&U.",key:"Dinner carbs fuel Wed."},
-{id:"wed",label:"Wed 25",dtype:"hard",tag:{cls:"tag-hard",txt:"O&U \u00b7 5.09mi"},ctx:"5:30am. ~619 cal.",bk:"phrd",lu:"rh|protein-rich",di:"rh|satisfying",snk:"shrd",eve:"ehrd",cal:"~2,150\u20132,350",focus:"Tempo = intervals.",key:"Shake at door."},
-{id:"thu",label:"Thu 26",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 3.25mi"},ctx:"5:30am. ~396 cal. Short.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"erun",cal:"~1,900\u20132,000",focus:"Reset.",key:"3.25mi = no shake needed."},
-{id:"fri",label:"Fri 27",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 11mi Sat.",bk:"plit",lu:"cl|rice/pasta",di:"cl|highest carb",snk:"sprl",eve:"eprl",cal:"~2,150\u20132,350",focus:"11mi \u2014 carb-load.",key:"Pack 2 gels."},
-{id:"sat",label:"Sat 28",dtype:"long",tag:{cls:"tag-long",txt:"Long Run \u00b7 11mi"},ctx:"~7am. ~1050\u20131150 cal.",preRun:"Toast ~60 min. Stroopwaffle ~15 min. 2 gels mi4+7. Shake.",bk:"plng",lu:"rl|biggest meal",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,500\u20132,750",focus:"11mi recovery.",key:"Mid-run fuel not optional."},
-{id:"sun",label:"Sun 29",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"Recovery from 11mi.",bk:"rest",lu:"rs|lightest",di:"rs|treat",snk:"srst",eve:"erst",cal:"~1,850\u20132,050",focus:"Recovery.",key:"Eggs breakfast."}]},
-{id:"w4",label:"Mar 30\u2013Apr 5",taper:false,days:[
-{id:"mon",label:"Mon 30",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4mi"},ctx:"5:30am. ~400 cal. Recovery wk.",bk:"psht",lu:"re|lean",di:"re|moderate",snk:"srun",eve:"erun",cal:"~1,900\u20132,050",focus:"Recovery week.",key:"Match food to training."},
-{id:"tue",label:"Tue 31",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. Progression Wed.",bk:"plit",lu:"!pp",di:"!gc",luR:true,diR:true,snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + carb prep.",key:"GBC (44g pro) fuels Wed."},
-{id:"wed",label:"Wed 1 Apr",dtype:"hard",tag:{cls:"tag-hard",txt:"Progression \u00b7 4.5mi"},ctx:"5:30am. ~500 cal.",bk:"phrd",lu:"!sf",di:"!cs",luR:true,diR:true,snk:"shrd",eve:"ehrd",cal:"~2,050\u20132,250",focus:"Progression.",key:"Cajun Shrimp lowest \u2014 yogurt compensates."},
-{id:"thu",label:"Thu 2",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 3.75mi"},ctx:"5:30am. ~400 cal.",bk:"psht",lu:"!hc",di:"!hc",luR:true,diR:true,snk:"srun",eve:"erun",cal:"~1,850\u20132,000",focus:"Lightest.",key:"Two Herbed Crema = 88g pro."},
-{id:"fri",label:"Fri 3",dtype:"lift",tag:{cls:"tag-wildcard",txt:"Lift + wildcard"},ctx:"Lift 5:30am. Parents.",isWC:true,bk:"plit",snk:"sprl",eve:"eprl",cal:"~2,050\u20132,350",focus:"Lift + carb-load.",key:"6.5mi < 8mi \u2014 fasted Sat."},
-{id:"sat",label:"Sat 4",dtype:"long",tag:{cls:"tag-wildcard",txt:"6.5mi + wildcard"},ctx:"~7am fasted. ~550 cal.",isWC:true,preRun:"6.5mi < 8mi. Run fasted. Shake ready.",bk:"plng",snk:"spol",eve:"epol",cal:"~2,050\u20132,400",focus:"Recovery long.",key:"Don\u2019t over-eat."},
-{id:"sun",label:"Sun 5",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest \u2014 home"},ctx:"Returning. HC dinner.",isWCL:true,bk:"rest",lu:null,di:"!sp",diR:true,snk:"srst",eve:"erst",cal:"~1,850\u20132,150",focus:"Rest.",key:"Giada\u2019s = Sunday treat."}]},
-{id:"w5",label:"Apr 6\u201312",taper:false,days:[
-{id:"mon",label:"Mon 6",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4.5mi"},ctx:"5:30am. ~450 cal.",bk:"psht",lu:"!cs",di:"!mc",luR:true,diR:true,snk:"srun",eve:"erun",cal:"~2,050\u20132,250",focus:"Big week starts.",key:"Moroccan (63g carb) starts loading."},
-{id:"tue",label:"Tue 7",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 800m Wed.",bk:"plit",lu:"!hc",di:"!st",luR:true,diR:true,snk:"srun",eve:"elft",cal:"~2,100\u20132,300",focus:"Lift + load 800m.",key:"Sun-Dried Tomato = best pre-800m."},
-{id:"wed",label:"Wed 8",dtype:"hard",tag:{cls:"tag-hard",txt:"800m Repeats \u00b7 6mi"},ctx:"5:30am. ~756 cal.",bk:"phrd",lu:"!gc",di:"!sf",luR:true,diR:true,snk:"shrd",eve:"ehrd",cal:"~2,250\u20132,500",focus:"Most intense.",key:"GBC (44g pro) right post-800s."},
-{id:"thu",label:"Thu 9",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4.5mi"},ctx:"5:30am. ~450 cal.",bk:"psht",lu:"!fp",di:"!pp",luR:true,diR:true,snk:"srun",eve:"erun",cal:"~1,900\u20132,050",focus:"Recovery.",key:"Fajita (450 cal) lighter."},
-{id:"fri",label:"Fri 10",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 13.1mi Sat.",bk:"plit",lu:"!sa",di:"!mc",luR:true,diR:true,snk:"sprl",eve:"eprl",cal:"~2,350\u20132,600",focus:"Most important day.",key:"Salmon (94g) + Moroccan (63g) = best load."},
-{id:"sat",label:"Sat 11",dtype:"long",tag:{cls:"tag-long",txt:"Half Marathon \u00b7 13.1mi"},ctx:"~7am. ~1300 cal.",preRun:"Toast 60 min. Stroopwaffle 15 min. 2 gels mi4+7. Shake.",bk:"plng",lu:"!hc",di:"!cs",luR:true,diR:true,snk:"spol",eve:"epol",cal:"~2,600\u20132,900",focus:"Race-distance.",key:"Herbed Crema best post-13.1."},
-{id:"sun",label:"Sun 12",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"Full rest.",bk:"rest",lu:"!sf",di:"!gc",luR:true,diR:true,snk:"srst",eve:"erst",cal:"~1,950\u20132,150",focus:"Full recovery.",key:"Post-13.1 hunger normal."}]},
-{id:"w6",label:"Apr 13\u201319",taper:false,days:[
-{id:"mon",label:"Mon 13",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 5mi"},ctx:"5:30am. ~500 cal. 5mi = shake.",bk:"prun",lu:"re|lean",di:"cl|higher carb",snk:"srun",eve:"erun",cal:"~2,200\u20132,400",focus:"Peak \u2014 eat intentionally.",key:"Hardest week."},
-{id:"tue",label:"Tue 14",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. O&U Wed.",bk:"plit",lu:"lf|high protein",di:"cl|carb-rich",snk:"srun",eve:"elft",cal:"~2,050\u20132,250",focus:"Lift + load O&U.",key:"O&U = intervals."},
-{id:"wed",label:"Wed 15",dtype:"hard",tag:{cls:"tag-hard",txt:"O&U \u00b7 5.5mi"},ctx:"5:30am. ~650 cal.",bk:"phrd",lu:"rh|protein-rich",di:"rh|satisfying",snk:"shrd",eve:"ehrd",cal:"~2,250\u20132,450",focus:"Hard mid-peak.",key:"Wed \u2192 Sat."},
-{id:"thu",label:"Thu 16",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4mi"},ctx:"5:30am. ~400 cal.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"erun",cal:"~1,950\u20132,100",focus:"Recovery.",key:"15mi in 2 days."},
-{id:"fri",label:"Fri 17",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 15mi Sat.",bk:"plit",lu:"cl|highest carb",di:"cl|pasta/rice max",snk:"sprl",eve:"eprl",cal:"~2,300\u20132,550",focus:"Biggest carb-load.",key:"Don\u2019t go to bed hungry."},
-{id:"sat",label:"Sat 18",dtype:"long",tag:{cls:"tag-long",txt:"Long Run \u00b7 15mi"},ctx:"~7am. ~1500 cal.",preRun:"Toast 60m. Stroopwaffle 15m. Gels mi4+8+maybe 11. Electrolytes. Shake.",bk:"plng",lu:"rl|max recovery",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,700\u20133,050",focus:"Longest. Highest cal.",key:"Don\u2019t restrict."},
-{id:"sun",label:"Sun 19",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"Rest after peak.",bk:"rest",lu:"rs|lighter",di:"rs|treat",snk:"srst",eve:"erst",cal:"~1,900\u20132,100",focus:"Recovery 15mi.",key:"Prioritize protein."}]},
-{id:"w7",label:"Apr 20\u201326",taper:false,days:[
-{id:"mon",label:"Mon 20",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 5.5mi"},ctx:"5:30am. ~530 cal. Taper. 5mi+ = shake.",bk:"prun",lu:"re|lean",di:"re|moderate",snk:"srun",eve:"etpr",cal:"~2,100\u20132,250",focus:"Taper \u2014 lower cal.",key:"Mileage drops, appetite stays."},
-{id:"tue",label:"Tue 21",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. Tempo Wed.",bk:"plit",lu:"lf|protein",di:"cl|moderate-carb",snk:"srun",eve:"elft",cal:"~2,000\u20132,150",focus:"Lift + Tempo.",key:"Pre-tempo dinner."},
-{id:"wed",label:"Wed 22",dtype:"hard",tag:{cls:"tag-hard",txt:"Tempo 2-1 \u00b7 4.5mi"},ctx:"5:30am. ~550 cal.",bk:"phrd",lu:"rh|protein-rich",di:"re|moderate",snk:"shrd",eve:"ehrd",cal:"~2,100\u20132,300",focus:"Tempo taper.",key:"Simulates pace."},
-{id:"thu",label:"Thu 23",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 3.25mi"},ctx:"5:30am. ~396 cal.",bk:"psht",lu:"re|lean",di:"lf|protein-forward",snk:"srun",eve:"etpr",cal:"~1,900\u20132,000",focus:"Taper light.",key:"Storing energy."},
-{id:"fri",label:"Fri 24",dtype:"lift",tag:{cls:"tag-lift",txt:"Lift \u00b7 5:30am"},ctx:"5:30am lift. 8.5mi Sat.",bk:"plit",lu:"lf|protein",di:"cl|moderate load",snk:"sprl",eve:"eprl",cal:"~2,050\u20132,250",focus:"Lift + load 8.5mi.",key:"Include stroopwaffle."},
-{id:"sat",label:"Sat 25",dtype:"long",tag:{cls:"tag-long",txt:"Race Practice \u00b7 8.5mi"},ctx:"~7am. ~800 cal.",preRun:"Toast 60m. Stroopwaffle 15m. Gel mi4. Shake.",bk:"plng",lu:"re|moderate",di:"re|lighter",snk:"spol",eve:"epol",cal:"~2,200\u20132,450",focus:"Taper long.",key:"Can feel easy or heavy."},
-{id:"sun",label:"Sun 26",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest day"},ctx:"One week to race.",bk:"rest",lu:"rs|lighter",di:"rs|treat",snk:"srst",eve:"erst",cal:"~1,850\u20132,050",focus:"Hay in barn.",key:"Sleep, hydration."}]},
-{id:"w8",label:"Apr 27\u2013May 3",taper:true,days:[
-{id:"mon",label:"Mon 27",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest"},ctx:"Race week.",bk:"rest",lu:"rs|lean familiar",di:"rs|moderate",snk:"srst",eve:"etpr",cal:"~1,900\u20132,050",focus:"Consistency.",key:"No new foods."},
-{id:"tue",label:"Tue 28",dtype:"rest",tag:{cls:"tag-rest",txt:"Rest / Light"},ctx:"Second rest.",bk:"rest",lu:"rs|familiar",di:"cl|begin carb-load",snk:"srst",eve:"etpr",cal:"~1,950\u20132,150",focus:"Carb-load begins.",key:"Tue dinner starts load."},
-{id:"wed",label:"Wed 29",dtype:"hard",tag:{cls:"tag-hard",txt:"Race Pace \u00b7 5mi"},ctx:"5:30am. ~500 cal.",bk:"phrd",lu:"rh|protein moderate",di:"cl|carb-rich",snk:"srun",eve:"etpr",cal:"~2,100\u20132,300",focus:"Pace + loading.",key:"Tune-up."},
-{id:"thu",label:"Thu 30",dtype:"easy",tag:{cls:"tag-easy",txt:"Easy \u00b7 4.5mi"},ctx:"5:30am. ~450 cal. Last run.",bk:"psht",lu:"re|familiar lean",di:"cl|carb-rich",snk:"srun",eve:"etpr",cal:"~2,000\u20132,200",focus:"Last run.",key:"Thu = big carb-load."},
-{id:"fri",label:"Fri 1 May",dtype:"rest",tag:{cls:"tag-rest",txt:"Full Rest"},ctx:"Two days to race.",bk:"rest",lu:"cl|high carb",di:"cl|pasta/rice max",snk:"srst",eve:"eprl",cal:"~2,250\u20132,500",focus:"Peak loading.",key:"Max carbs, 8+ hrs sleep."},
-{id:"sat",label:"Sat 2",dtype:"rest",tag:{cls:"tag-rest",txt:"Race Eve"},ctx:"Race tomorrow.",bk:"rest",lu:"cl|familiar moderate",di:"cl|pasta/rice by 6:30pm",snk:"srst",eve:"etpr",cal:"~2,050\u20132,350",focus:"Race eve.",key:"Dinner 6:30. Bed 9:30."},
-{id:"sun",label:"Sun May 3",dtype:"race",tag:{cls:"tag-race",txt:"RACE DAY"},ctx:"13.1 miles.",isRaceDay:true,cal:"~2,800\u20133,200",focus:"Execute.",key:"Nutrition in glycogen."}]}
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const HC_TARGETS = {
+  run_easy:  { cal:"550–650 cal", pro:"30–40g protein", carb:"40–55g carbs", note:"Easy run day — lean protein focus with moderate carbs. Choose a protein-forward Home Chef option." },
+  run_hard:  { cal:"600–700 cal", pro:"35–45g protein", carb:"55–70g carbs", note:"Post-hard-workout — protein for repair, extra carbs to replenish glycogen from intervals or tempo." },
+  run_long:  { cal:"650–750 cal", pro:"35–45g protein", carb:"60–75g carbs", note:"Long run recovery — highest carb and calorie Home Chef meal of the week. Don't restrict this meal." },
+  lift:      { cal:"550–650 cal", pro:"35–45g protein", carb:"35–50g carbs", note:"Lift day — protein is the priority. Choose the highest-protein Home Chef option available." },
+  rest:      { cal:"500–600 cal", pro:"30–38g protein", carb:"30–45g carbs", note:"Rest day — lighter meal, still hit protein target. Slightly reduced carbs is appropriate." },
+  carb_load: { cal:"650–750 cal", pro:"30–40g protein", carb:"70–85g carbs", note:"Pre-long-run dinner: highest carb meal of the week. Choose a rice, pasta, or noodle-based option." },
+  skip_rest: { cal:"450–550 cal", pro:"28–35g protein", carb:"25–38g carbs", note:"Workout skipped — treat this like a rest day. Lean meal, hit protein target, reduce carbs." },
+};
+
+// ─── BREAKFAST BANK ────────────────────────────────────────────────────────
+
+const BK = {
+
+  // RUN DAYS — always include Oikos shake
+  bk_post_run: [
+    { name:"Oikos shake (30g protein) + Raisin Bran or Kashi Go (1 cup) + banana", detail:"Best combo on easy run days. Shake handles your protein window; Kashi Go adds 13g protein making this the highest-protein cereal breakfast. Raisin Bran adds fiber and iron that running depletes. Banana replaces potassium.", note:"Oikos shake is non-negotiable on run mornings — always have it alongside cereal.", macros:[{c:"chip-cal",l:"~580 cal"},{c:"chip-pro",l:"~43g protein"},{c:"chip-carb",l:"~80g carbs"}], best:true },
+    { name:"Oikos shake (30g protein) + 2 eggs on toast + banana", detail:"Higher satiety option — eggs provide complete protein alongside the shake for a powerful 52g protein breakfast. Toast carbs replenish glycogen. Banana covers potassium. Best on longer easy run days (7.5mi+).", macros:[{c:"chip-cal",l:"~620 cal"},{c:"chip-pro",l:"~52g protein"},{c:"chip-carb",l:"~60g carbs"}] },
+    { name:"Oikos shake (30g protein) + Frosted Mini Wheats (1 cup) + banana", detail:"Quick and reliable. Mini Wheats has solid fiber which slows the carb release from the shake. Banana adds potassium. Familiar and low-effort if time is short post-run.", macros:[{c:"chip-cal",l:"~540 cal"},{c:"chip-pro",l:"~38g protein"},{c:"chip-carb",l:"~78g carbs"}] }
+  ],
+
+  bk_post_hard: [
+    { name:"Oikos shake immediately + 2 eggs on toast + banana", detail:"Two-phase approach: shake the moment you finish the workout, then full breakfast when you get home. Intervals and tempo runs are glycolytically demanding — the 30-min window matters most on these days. 52g protein at breakfast.", note:"Drink the shake before your shower. Don't wait until breakfast is ready.", macros:[{c:"chip-cal",l:"~620 cal"},{c:"chip-pro",l:"~52g protein"},{c:"chip-carb",l:"~60g carbs"}], best:true },
+    { name:"Oikos shake + Kashi Go (1 cup) + banana", detail:"Fastest option if you need to get to work quickly after a hard session. Kashi Go's 13g protein adds to the shake for a 43g protein hit. Still hits the recovery window.", macros:[{c:"chip-cal",l:"~580 cal"},{c:"chip-pro",l:"~43g protein"},{c:"chip-carb",l:"~78g carbs"}] },
+    { name:"Oikos shake + Raisin Bran (1 cup) + banana", detail:"Good iron replenishment after a hard interval or tempo effort — hard running depletes iron and Raisin Bran has strong iron content. Reliable cereal option for hard days.", macros:[{c:"chip-cal",l:"~560 cal"},{c:"chip-pro",l:"~38g protein"},{c:"chip-carb",l:"~82g carbs"}] }
+  ],
+
+  bk_post_long: [
+    { name:"Oikos shake immediately + 2 eggs on toast + banana", detail:"Shake the moment you finish — before you even get inside. Then eggs when your stomach settles (15–20 min). Banana replaces potassium lost over 8mi. Highest protein breakfast of the week at 52g.", note:"Don't skip the shake in favour of going straight to eggs. Post-long-run recovery window is critical.", macros:[{c:"chip-cal",l:"~620 cal"},{c:"chip-pro",l:"~52g protein"},{c:"chip-carb",l:"~62g carbs"}], best:true },
+    { name:"Oikos shake + Kashi Go (1 cup) + full banana", detail:"If stomach is unsettled after a long effort, this is gentler than eggs. Still gives strong protein (43g) and solid carbs. Use on particularly hot Saturday mornings.", macros:[{c:"chip-cal",l:"~580 cal"},{c:"chip-pro",l:"~43g protein"},{c:"chip-carb",l:"~82g carbs"}] },
+    { name:"Oikos shake + Raisin Bran (1 cup) + banana", detail:"Reliable long-run recovery option. Raisin Bran fiber slows carb absorption which is good when glycogen is depleted. The iron content also helps replenish after distance efforts.", macros:[{c:"chip-cal",l:"~560 cal"},{c:"chip-pro",l:"~38g protein"},{c:"chip-carb",l:"~82g carbs"}] }
+  ],
+
+  // LIFT DAYS — shake recommended, eggs are strong choice
+  bk_post_lift: [
+    { name:"2 eggs on toast + banana (+ Oikos shake)", detail:"Best post-lift breakfast. Eggs give complete protein for muscle repair, toast replenishes glycogen, banana covers potassium. Include the Oikos shake alongside to hit 52g protein — critical on lift days for muscle building.", note:"Include the Oikos shake on lift days. Recomp goal requires high protein even when eggs are on the menu.", macros:[{c:"chip-cal",l:"~620 cal"},{c:"chip-pro",l:"~52g protein"},{c:"chip-carb",l:"~60g carbs"}], best:true },
+    { name:"Oikos shake + Kashi Go (1 cup) + banana", detail:"If you prefer an easy no-cook option post-lift. Kashi Go's 13g protein makes this a strong shake companion at 43g total protein. Fast and reliable.", macros:[{c:"chip-cal",l:"~580 cal"},{c:"chip-pro",l:"~43g protein"},{c:"chip-carb",l:"~78g carbs"}] },
+    { name:"Oikos shake + 2 eggs on whole wheat toast + half banana", detail:"Lower-carb lift day option — half banana reduces carb load if you're trying to keep calories tighter on lift days. Still gets you to 52g protein.", macros:[{c:"chip-cal",l:"~560 cal"},{c:"chip-pro",l:"~52g protein"},{c:"chip-carb",l:"~45g carbs"}] }
+  ],
+
+  // REST DAYS — shake optional but still recommended
+  bk_rest: [
+    { name:"Oikos shake + Raisin Bran (1 cup) + banana", detail:"Best rest-day breakfast. Raisin Bran has the highest fiber of your cereals which keeps you full through to lunch on a day where you won't be burning as many calories. Shake adds 30g protein — still important for muscle synthesis on rest days.", note:"Rest days still require protein for muscle repair and recomp. The shake earns its place every day.", macros:[{c:"chip-cal",l:"~560 cal"},{c:"chip-pro",l:"~38g protein"},{c:"chip-carb",l:"~82g carbs"}], best:true },
+    { name:"2 eggs on toast + banana (no shake)", detail:"If you want a lower-calorie rest day breakfast and plan for a protein-dense lunch and dinner. Only skip the shake if both lunch and dinner are 40g+ protein meals.", note:"Only go without the shake on rest days if your Home Chef meals are both protein-heavy that day.", macros:[{c:"chip-cal",l:"~400 cal"},{c:"chip-pro",l:"~22g protein"},{c:"chip-carb",l:"~48g carbs"}] },
+    { name:"Oikos shake + Cheerios (1.5 cups) + banana", detail:"Lower sugar than Frosted Mini Wheats, good for rest days when you don't need a big carb load. Cheerios is heart-healthy and light. Shake keeps protein strong at 38g.", macros:[{c:"chip-cal",l:"~520 cal"},{c:"chip-pro",l:"~38g protein"},{c:"chip-carb",l:"~72g carbs"}] }
+  ],
+
+  // SKIP DAY — same as rest day
+  bk_skip: [
+    { name:"Oikos shake + Raisin Bran (1 cup) + banana", detail:"Treat a skipped workout like a rest day for breakfast. Raisin Bran's fiber keeps you full through the morning. Shake still needed to protect daily protein target.", note:"Even when skipping the workout, the protein shake at breakfast keeps your daily protein target on track.", macros:[{c:"chip-cal",l:"~560 cal"},{c:"chip-pro",l:"~38g protein"},{c:"chip-carb",l:"~82g carbs"}], best:true },
+    { name:"2 eggs on toast + banana (+ optional shake)", detail:"Solid skip-day breakfast. Add the shake if you feel your other meals will be lower in protein — always better to include it than skip it.", macros:[{c:"chip-cal",l:"~400–620 cal"},{c:"chip-pro",l:"~22–52g protein"},{c:"chip-carb",l:"~48–60g carbs"}] }
+  ],
+
+  // ─── AFTERNOON SNACKS ────────────────────────────────────────────────────
+
+  snk_run: [
+    { name:"Greek yogurt (plain/vanilla, 2/3 cup) + mixed berries + drizzle of honey", detail:"Best afternoon snack on run days. Berries are high in anthocyanins that reduce muscle soreness from running. Yogurt's whey protein continues recovery. Honey gives a small natural glucose hit to carry you through to dinner. ~200 cal, 15–17g protein.", note:"Berry + yogurt is your go-to run day afternoon snack. Anti-inflammatory and protein-forward.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~17g protein"},{c:"chip-carb",l:"~25g carbs"}], best:true },
+    { name:"2 hard-boiled eggs + apple", detail:"Complete protein with all essential amino acids. Portable, zero prep if you batch cook. Apple adds fiber and a satisfying carb hit. Clean and efficient — good variety from the yogurt option.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~13g protein"},{c:"chip-carb",l:"~22g carbs"}] },
+    { name:"3–4 slices deli turkey + 1 slice cheddar cheese", detail:"Zero prep, strong protein hit. Turkey is one of the leanest protein sources available. Cheese adds fat and protein to round it out. Roll-up style, no prep needed.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~20g protein"},{c:"chip-carb",l:"~2g carbs"}] },
+    { name:"RXBAR or Barebells protein bar", detail:"Convenience option for busy afternoons. RXBAR uses dates, egg whites, and nuts only — clean label. Barebells has 20g protein. Keep one in your desk drawer for days you can't prep anything.", macros:[{c:"chip-cal",l:"~200–210 cal"},{c:"chip-pro",l:"~20g protein"},{c:"chip-carb",l:"~20–25g carbs"}] }
+  ],
+
+  snk_hard: [
+    { name:"Greek yogurt (plain, 2/3 cup) + mixed berries + honey", detail:"Priority snack after hard sessions (intervals, tempo, 5km time trial). Berries specifically reduce post-interval muscle soreness via anthocyanins. Yogurt protein extends the recovery window into the afternoon.", note:"Non-negotiable after 1km repeats, tempo runs, or the 5km time trial. Best recovery snack in the bank.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~17g protein"},{c:"chip-carb",l:"~25g carbs"}], best:true },
+    { name:"Cottage cheese (3/4 cup) + sliced pineapple", detail:"Pineapple contains bromelain, a natural anti-inflammatory enzyme — particularly good after hard interval sessions. Cottage cheese casein keeps protein delivery sustained through afternoon.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~22g protein"},{c:"chip-carb",l:"~20g carbs"}] },
+    { name:"2 string cheese sticks + apple + 5–6 almonds", detail:"Zero prep option. Cheese provides protein and fat, apple gives fiber and carbs, almonds add healthy fats and crunch. Good grab-and-go for busy hard workout days.", macros:[{c:"chip-cal",l:"~220 cal"},{c:"chip-pro",l:"~14g protein"},{c:"chip-carb",l:"~22g carbs"}] }
+  ],
+
+  snk_lift: [
+    { name:"Cottage cheese (3/4 cup) + sliced apple or pineapple", detail:"Best lift day afternoon snack. Cottage cheese casein protein is slow-releasing — ideal for sustained muscle protein synthesis throughout the afternoon after a lift. 20g protein from a light 180 cal snack.", note:"Cottage cheese is your muscle-building secret weapon on lift days. Casein digests slowly and feeds muscles for hours.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~20g protein"},{c:"chip-carb",l:"~18g carbs"}], best:true },
+    { name:"3–4 slices deli turkey + 1 slice cheddar + a few whole grain crackers", detail:"Zero prep, high protein hit. Turkey and cheese roll-ups with crackers — satisfying, no cooking required. Strong protein for lift recovery.", macros:[{c:"chip-cal",l:"~220 cal"},{c:"chip-pro",l:"~22g protein"},{c:"chip-carb",l:"~14g carbs"}] },
+    { name:"Greek yogurt (plain, 2/3 cup) + granola (1/4 cup) + honey", detail:"Higher carb option on lift days when you have a hard run the next morning. Granola adds more carbs than berries to help top up glycogen for Tuesday or Thursday runs.", macros:[{c:"chip-cal",l:"~280 cal"},{c:"chip-pro",l:"~17g protein"},{c:"chip-carb",l:"~38g carbs"}] }
+  ],
+
+  snk_pre_long: [
+    { name:"Greek yogurt (plain, 2/3 cup) + granola (1/4 cup) + honey + banana", detail:"Best Friday afternoon snack — carb-loading starts here. Granola + banana gives a solid carb boost, yogurt maintains protein. This is the start of your 8mi Saturday long run prep.", note:"Friday afternoon is when carb-loading begins. Have this even if not very hungry.", macros:[{c:"chip-cal",l:"~320 cal"},{c:"chip-pro",l:"~17g protein"},{c:"chip-carb",l:"~48g carbs"}], best:true },
+    { name:"2 rice cakes + 2 tbsp almond butter + sliced banana", detail:"Light, digestible carb snack. Rice cakes give fast carbs, almond butter slows absorption slightly. Banana adds natural sugars and potassium for Saturday's effort.", macros:[{c:"chip-cal",l:"~280 cal"},{c:"chip-pro",l:"~7g protein"},{c:"chip-carb",l:"~38g carbs"}] },
+    { name:"Cottage cheese (3/4 cup) + fruit + 1 tbsp honey", detail:"If you're hungrier than usual on a pre-long-run Friday. The protein keeps you satisfied while honey and fruit add the carb loading element.", macros:[{c:"chip-cal",l:"~220 cal"},{c:"chip-pro",l:"~20g protein"},{c:"chip-carb",l:"~28g carbs"}] }
+  ],
+
+  snk_post_long: [
+    { name:"Cottage cheese (3/4 cup) + sliced fruit + handful of almonds", detail:"Most strategic Saturday snack. Post-long-run appetite surges 3–4 hours after finishing — cottage cheese protein here prevents the unstructured hunger spiral. Casein is especially good for long run recovery.", note:"This snack is your defense against the post-long-run hunger spiral. Don't skip it.", macros:[{c:"chip-cal",l:"~220 cal"},{c:"chip-pro",l:"~20g protein"},{c:"chip-carb",l:"~20g carbs"}], best:true },
+    { name:"Greek yogurt + mixed berries + handful of almonds", detail:"Anti-inflammatory Saturday snack. Berries manage the post-long-run inflammation from 8mi, almonds add healthy fats and satisfying crunch. Lighter than cottage cheese if lunch was already large.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~17g protein"},{c:"chip-carb",l:"~22g carbs"}] },
+    { name:"2 hard-boiled eggs + a few whole grain crackers + hummus", detail:"If you want something more savory after a long run. Good protein, fiber from crackers, hummus adds healthy fats. Great variety option.", macros:[{c:"chip-cal",l:"~260 cal"},{c:"chip-pro",l:"~14g protein"},{c:"chip-carb",l:"~20g carbs"}] }
+  ],
+
+  snk_rest: [
+    { name:"15–20 almonds + apple", detail:"Classic rest-day snack. Healthy fats, fiber, and a small carb hit. Keeps you from grazing all afternoon without meaningfully hitting your calorie total. No prep needed.", note:"Rest days call for lower-calorie snacking. Almonds + apple hits the spot without overcorrecting.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~5g protein"},{c:"chip-carb",l:"~25g carbs"}], best:true },
+    { name:"Rice cakes (2) + 2 tbsp almond butter", detail:"Satisfying fats and carbs. Almond butter provides good monounsaturated fats, rice cakes keep it light. Good for afternoons when you want something with texture.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~6g protein"},{c:"chip-carb",l:"~20g carbs"}] },
+    { name:"Hummus (4 tbsp) + veggie sticks + 5 whole grain crackers", detail:"High volume, lower calorie. Hummus provides small protein and healthy fat. Good if you're craving something savory and satisfying without loading up on calories.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~6g protein"},{c:"chip-carb",l:"~20g carbs"}] }
+  ],
+
+  snk_skip: [
+    { name:"15–20 almonds + apple", detail:"Treat a skipped workout like a rest day for your afternoon snack. Light, satisfying, and appropriate for a lower-calorie adjusted day.", note:"Skipped workout = rest day nutrition. Lighter snack keeps the day in appropriate calorie range.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~5g protein"},{c:"chip-carb",l:"~25g carbs"}], best:true },
+    { name:"Rice cakes (2) + 2 tbsp almond butter", detail:"Light and satisfying on a skipped workout day. Good fats, moderate carbs, low calorie.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~6g protein"},{c:"chip-carb",l:"~20g carbs"}] }
+  ],
+
+  // ─── EVENING SNACKS ─────────────────────────────────────────────────────
+
+  eve_run: [
+    { name:"1 slice whole grain toast + peanut butter", detail:"Your most reliable go-to. Slow-digesting fats keep you satiated overnight. Whole grain adds fiber. PB + toast satisfies the sweet/comfort craving without loading sugar before bed. Keep it to one slice.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~6g protein"},{c:"chip-carb",l:"~20g carbs"}], best:true },
+    { name:"Small bowl Cheerios or Kashi Go (3/4 cup) + low-fat milk", detail:"Satisfies the cereal evening craving in the healthiest way. Cheerios is low-sugar and heart-healthy. Kashi Go adds protein from the milk. Keep portion small — this is a wind-down snack, not a meal.", note:"If having cereal in the evening, Cheerios or Kashi Go are your best choices — low sugar, good with milk.", macros:[{c:"chip-cal",l:"~180–200 cal"},{c:"chip-pro",l:"~10–13g protein"},{c:"chip-carb",l:"~30–35g carbs"}] },
+    { name:"Greek yogurt (plain, 1/2 cup) + 1 tsp honey", detail:"Slow-releasing protein before bed — yogurt's casein supports overnight muscle repair. Honey satisfies the sweet craving with minimal sugar. Better protein return than toast if you're close to your daily target.", macros:[{c:"chip-cal",l:"~130 cal"},{c:"chip-pro",l:"~12g protein"},{c:"chip-carb",l:"~14g carbs"}] }
+  ],
+
+  eve_hard: [
+    { name:"1 slice whole grain toast + peanut butter", detail:"After a hard run day and a full dinner, keep the evening snack simple. PB fats slow overnight digestion for satiety. One slice only — hard day appetite can spike but dinner covers it.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~6g protein"},{c:"chip-carb",l:"~20g carbs"}], best:true },
+    { name:"Small bowl Cheerios or Raisin Bran (3/4 cup) + low-fat milk", detail:"If cereal is the craving. Raisin Bran's iron content is useful after a hard interval effort. Cheerios is lighter. Either is fine in a small portion. Good wind-down ritual.", note:"If it's a hard workout day, Raisin Bran over Frosted Mini Wheats — the iron and fiber matter more after intervals.", macros:[{c:"chip-cal",l:"~200–220 cal"},{c:"chip-pro",l:"~9–10g protein"},{c:"chip-carb",l:"~38–45g carbs"}] },
+    { name:"Skip it — only if genuinely full", detail:"After a hard session and a proper dinner, it's legitimate to skip the evening snack entirely. Listen to your body — don't eat out of habit if you're comfortably full.", macros:[{c:"chip-cal",l:"0 cal"}] }
+  ],
+
+  eve_lift: [
+    { name:"Small bowl Frosted Mini Wheats (1 cup) + low-fat milk", detail:"Lift nights are one of two nights where cereal strategically earns its place. Mini Wheats has better fiber than Cheerios, milk adds casein for overnight lift recovery. Tops off glycogen for the next morning's run.", note:"Monday, Wednesday, Friday lift nights — cereal with milk is actually the right move here. Carbs matter before a run day.", macros:[{c:"chip-cal",l:"~250 cal"},{c:"chip-pro",l:"~10g protein"},{c:"chip-carb",l:"~45g carbs"}], best:true },
+    { name:"1 slice whole grain toast + peanut butter + 1/2 banana", detail:"Your go-to with banana added for extra carbs. Good pre-run-day evening snack after a lift. Banana adds potassium and natural carbs for next morning.", macros:[{c:"chip-cal",l:"~220 cal"},{c:"chip-pro",l:"~7g protein"},{c:"chip-carb",l:"~30g carbs"}] },
+    { name:"Greek yogurt (1/2 cup) + granola (2 tbsp) + honey", detail:"Higher protein evening option on lift nights when the next day is a hard run. Yogurt casein works overnight while granola tops off carbs.", macros:[{c:"chip-cal",l:"~200 cal"},{c:"chip-pro",l:"~12g protein"},{c:"chip-carb",l:"~25g carbs"}] }
+  ],
+
+  eve_pre_long: [
+    { name:"Small bowl Frosted Mini Wheats (1 cup) + 3/4 cup 2% milk", detail:"Friday night — the second night where cereal is genuinely strategic. Mini Wheats fiber slows carb release overnight, topping off liver glycogen while you sleep. Milk adds casein protein. Use 2% for extra satiety.", note:"Don't skip this Friday night snack. It's part of the carb-loading window for Saturday's long run.", macros:[{c:"chip-cal",l:"~260 cal"},{c:"chip-pro",l:"~11g protein"},{c:"chip-carb",l:"~46g carbs"}], best:true },
+    { name:"1 slice toast + peanut butter + 1/2 banana", detail:"If you prefer something lighter. Banana carbs replenish liver glycogen overnight. PB adds fat for overnight satiety. Still effective as a pre-long-run cap.", macros:[{c:"chip-cal",l:"~220 cal"},{c:"chip-pro",l:"~7g protein"},{c:"chip-carb",l:"~30g carbs"}] },
+    { name:"Small bowl oatmeal (1/2 cup dry) + honey + almond butter", detail:"For the weeks where Saturday is a full 8mi progressive run with higher intensity. Slow-digesting oats stay in your glycogen stores longer. Good option on the harder Saturday run weeks.", macros:[{c:"chip-cal",l:"~290 cal"},{c:"chip-pro",l:"~9g protein"},{c:"chip-carb",l:"~42g carbs"}] }
+  ],
+
+  eve_post_long: [
+    { name:"1 slice whole grain toast + peanut butter", detail:"After a full long run day and a proper dinner, keep the evening snack light. PB fats satisfy the craving without unnecessary calories before bed. One slice.", note:"Saturday evening snack is the most optional of the week. Only have it if genuinely hungry.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~6g protein"},{c:"chip-carb",l:"~20g carbs"}], best:true },
+    { name:"Small bowl Cheerios (3/4 cup) + low-fat milk", detail:"Light cereal option if the sweet craving hits Saturday evening. Cheerios is your lowest-sugar choice. Small portion — you've eaten well all day.", macros:[{c:"chip-cal",l:"~180 cal"},{c:"chip-pro",l:"~9g protein"},{c:"chip-carb",l:"~30g carbs"}] },
+    { name:"Skip it — herbal tea instead", detail:"After long run day + full dinner, skipping is a completely legitimate choice. Chamomile or peppermint tea satisfies the routine without added calories.", macros:[{c:"chip-cal",l:"0 cal"}] }
+  ],
+
+  eve_rest: [
+    { name:"Skip — herbal tea instead", detail:"After a rest day, the evening snack is the easiest calorie reduction of the week with zero performance impact. Chamomile or peppermint tea as a ritual. Don't eat out of habit.", note:"Skipping Sunday evening snack + recovery week snacks creates the weekly deficit for recomp without touching training fuel.", macros:[{c:"chip-cal",l:"0 cal"}], best:true },
+    { name:"2 squares dark chocolate (70%+) + herbal tea", detail:"If you want something. Dark chocolate provides magnesium for sleep and recovery, satisfies sweet cravings, and lands under 80 calories. A genuinely satisfying ritual.", macros:[{c:"chip-cal",l:"~80 cal"}] },
+    { name:"Small bowl Cheerios (2/3 cup) + low-fat milk", detail:"If cereal is the craving on a rest day. Cheerios is your lowest-sugar option — fine in a small portion. Don't use Frosted Mini Wheats on rest days before bed — sugar spike isn't needed.", note:"Cheerios is the rest day cereal choice. Save Frosted Mini Wheats for pre-run/lift nights where the carbs have a job.", macros:[{c:"chip-cal",l:"~160 cal"},{c:"chip-pro",l:"~8g protein"},{c:"chip-carb",l:"~28g carbs"}] }
+  ],
+
+  eve_skip: [
+    { name:"Skip — herbal tea instead", detail:"On a day where you've skipped a workout, the evening snack is easiest to skip as well. Brings the day's calorie total in line with a proper rest day. Herbal tea as a ritual.", note:"Skipped workout days are the best days to also skip or minimize the evening snack.", macros:[{c:"chip-cal",l:"0 cal"}], best:true },
+    { name:"2 squares dark chocolate (70%+)", detail:"If you want something. Dark chocolate satisfies a sweet craving under 80 calories with zero guilt. Magnesium supports sleep and muscle recovery.", macros:[{c:"chip-cal",l:"~80 cal"}] }
+  ],
+};
+
+// ─── WEEK DATA ────────────────────────────────────────────────────────────
+
+// ─── OVERVIEW DATA PER WEEK ──────────────────────────────────────────────────
+
+const WEEK_OVERVIEW = {
+  w1: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort — furthest from any hard run", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run tomorrow, upper body only", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"amber", tlLabel:"Moderate — 70–75%, stop 2–3 reps short of failure",
+        note:"8mi Long Run tomorrow. Avoid heavy RDLs and slow eccentric work. Compound movements at controlled weight." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-amber", day:"MON dinner", text:"Carb-load tonight. Tuesday is 1km Repeats — the hardest session of the week. Highest carb Home Chef meal of the week." },
+      { cls:"crit-item-blue", day:"TUE breakfast", text:"Shake immediately post-run before the shower. Most critical recovery window of the week." },
+      { cls:"crit-item-purple", day:"FRI lunch + dinner", text:"Carb-loading for Saturday 8mi Long Run starts at lunch. Don't go low-carb at any meal today." }
+    ],
+    preRun: null,
+    snackRef: {
+      afternoon: ["Greek yogurt + berries + honey (run days)", "Cottage cheese + apple (lift days)", "Turkey roll-ups + cheese (any day)", "Hard-boiled eggs + crackers (variety)"],
+      evening: ["PB toast — Mon/Wed/Fri lift nights", "Frosted Mini Wheats + milk — pre-long-run Friday", "Cheerios + milk — easy run evenings", "Skip or herbal tea — Sunday rest"]
+    }
+  },
+  w2: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run tomorrow", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"red", tlLabel:"Light — 60%, activation only",
+        note:"8mi Progressive Repeat tomorrow. Paced segments demand fresh legs. Squats and hip thrusts at light weight — no failure, no heavy RDLs." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-purple", day:"FRI lunch + dinner", text:"Full carb-load for Saturday's Progressive Repeat. Higher carb demand than a standard long run — don't cut corners tonight." },
+      { cls:"crit-item-amber", day:"SAT pre-run", text:"1 slice whole grain toast + peanut butter ~45–60 min before. Progressive pacing depletes glycogen faster than a steady run." },
+      { cls:"crit-item-blue", day:"SAT breakfast", text:"Shake immediately post-run. Progressive run = hard session nutrition all day." }
+    ],
+    preRun: "1 slice whole grain toast + peanut butter ~45–60 min before Sat 8mi Progressive Repeat.",
+    snackRef: {
+      afternoon: ["Greek yogurt + berries + honey (run days)", "Cottage cheese + apple (lift + recovery days)", "Turkey roll-ups (zero prep any day)", "RXBAR or Barebells (busy day backup)"],
+      evening: ["PB toast — Mon/Wed lift nights", "Frosted Mini Wheats + milk — Friday pre-long-run", "Cheerios + milk — easy run evenings", "Skip — Sunday rest"]
+    }
+  },
+  w3: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort — recovery week, lift is fine", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run tomorrow", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"amber", tlLabel:"Moderate — 70–75%, controlled weight",
+        note:"5mi Long Run tomorrow — recovery week. Shorter run means less concern, but keep legs feeling good. No need to grind." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-green", day:"All week", text:"Recovery week — intentionally lower carbs than building weeks. Protein stays at 165–175g daily. Let the body adapt." },
+      { cls:"crit-item-amber", day:"TUE — 5km Time Trial", text:"Race-pace intensity even though it's short. Shake immediately post-run. Hard day nutrition applies." },
+      { cls:"crit-item-blue", day:"WED + THU", text:"Two recovery days in a row — keep meals protein-forward but don't force extra carbs. Body doesn't need them this week." }
+    ],
+    preRun: null,
+    snackRef: {
+      afternoon: ["Almonds + apple (rest day standard)", "Greek yogurt + berries (post time trial)", "Rice cakes + almond butter (lighter days)", "Hummus + veggie sticks + crackers (savory)"],
+      evening: ["Cheerios + milk — light option any evening", "PB toast — lift nights", "Dark chocolate + herbal tea — rest nights", "Skip — Sunday recovery week"]
+    }
+  },
+  w4: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort — Broken Miles tomorrow, upper body only", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run Thursday", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"red", tlLabel:"Light — 60%, activation only",
+        note:"8mi Progressive Long Run tomorrow (Jul 4th). 7:15/mi sections are near tempo effort. Light legs today — squats and hip thrusts only, no failure." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-amber", day:"MON dinner", text:"Carb-load for Tuesday Broken Miles — alternating pace intervals burn glycogen aggressively. High carb Home Chef tonight." },
+      { cls:"crit-item-purple", day:"FRI — July 4th", text:"Holiday doesn't pause carb-loading. Choose rice, pasta, or grain-based options at any holiday meals today." },
+      { cls:"crit-item-amber", day:"SAT pre-run", text:"1 slice whole grain toast + peanut butter ~45–60 min before. The 7:15/mi sections are where fasting shows up as flat legs." }
+    ],
+    preRun: "1 slice whole grain toast + peanut butter ~45–60 min before Sat 8mi Progressive Long Run (Jul 4th).",
+    snackRef: {
+      afternoon: ["Cottage cheese + pineapple (Tue post-intervals — bromelain reduces inflammation)", "Greek yogurt + berries + honey (run days)", "Turkey roll-ups + cheese (lift days)", "Almonds + apple (rest day)"],
+      evening: ["PB toast — Mon/Wed lift nights", "Frosted Mini Wheats + milk — Friday pre-long-run", "PB toast + half banana — carb-load cap Friday", "Skip — Sunday rest"]
+    }
+  },
+  w5: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort — Tempo 4 Miles tomorrow, upper body irrelevant", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run Thursday", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"amber", tlLabel:"Moderate — 70–75%, stop short of failure",
+        note:"8mi Long Run Saturday (steady pace). Standard long run Friday — moderate legs OK. Avoid failure sets, keep RDLs light." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-amber", day:"MON dinner", text:"Maximum carb-load tonight. Tempo 4 Miles is the hardest sustained effort of the entire 7-week block — 4 miles at 6:55–7:25/mi." },
+      { cls:"crit-item-blue", day:"TUE breakfast", text:"Shake immediately post-tempo. Sustained tempo effort depletes glycogen differently than intervals — treat like a hard race-pace session." },
+      { cls:"crit-item-purple", day:"FRI lunch + dinner", text:"Carb-load for Saturday Long Run. Big week with Tempo Tuesday — recovery + fuel loading are both happening today." }
+    ],
+    preRun: null,
+    snackRef: {
+      afternoon: ["Greek yogurt + berries (post-tempo Tue — anti-inflammatory priority)", "Cottage cheese + apple (lift days)", "Turkey roll-ups (zero prep)", "Hard-boiled eggs + crackers (variety)"],
+      evening: ["PB toast — Mon/Wed lift nights", "Frosted Mini Wheats + milk — Friday", "Cheerios + milk — easy run and long run evenings", "Skip or herbal tea — Sunday"]
+    }
+  },
+  w6: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run Thursday", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"red", tlLabel:"Light — 60%, activation only",
+        note:"8mi Progressive Repeat tomorrow. Same rule as Week 2 — light legs today. Squats and hip thrusts only at controlled weight, zero failure." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-purple", day:"FRI lunch + dinner", text:"Full carb-load for Saturday's Progressive Repeat. Third progressive run of the block — same protocol as Weeks 2 and 4." },
+      { cls:"crit-item-amber", day:"SAT pre-run", text:"1 slice whole grain toast + peanut butter ~45–60 min before. Progressive pacing burns glycogen at a higher rate." },
+      { cls:"crit-item-green", day:"Week 6 overall", text:"Two more easy run Tuesdays this week. Consistent execution is the job. Protein target 165–175g every day without exception." }
+    ],
+    preRun: "1 slice whole grain toast + peanut butter ~45–60 min before Sat 8mi Progressive Repeat.",
+    snackRef: {
+      afternoon: ["Greek yogurt + berries (run days)", "Cottage cheese + fruit (lift days)", "Turkey roll-ups (zero prep)", "String cheese + apple (easy option)"],
+      evening: ["PB toast — Mon/Wed lift nights", "Frosted Mini Wheats + milk — Friday", "Cheerios + milk — easy evenings", "Skip — Sunday"]
+    }
+  },
+  w7: {
+    liftPlan: [
+      { day:"MON", split:"Push", muscles:"Chest · Shoulders · Triceps", fitbod:"Tell FitBod: Push",
+        tl:"green", tlLabel:"Full effort — Fast 8-4-2s tomorrow, legs not involved", note:null },
+      { day:"WED", split:"Pull", muscles:"Back · Biceps · Rear Delts", fitbod:"Tell FitBod: Pull",
+        tl:"green", tlLabel:"Full effort — easy run Thursday", note:null },
+      { day:"FRI", split:"Legs", muscles:"Quads · Hamstrings · Glutes", fitbod:"Tell FitBod: Legs",
+        tl:"amber", tlLabel:"Moderate — 70–75%, controlled weight",
+        note:"Final long run Saturday (steady 8mi). Standard moderate legs. End the block strong in the gym but don't compromise the closing run." }
+    ],
+    criticalDays: [
+      { cls:"crit-item-amber", day:"MON dinner", text:"Most important dinner of the entire 7-week block. Fast 8-4-2s Tuesday hits 5:55/mi rep pace — maximum carb-load tonight." },
+      { cls:"crit-item-blue", day:"TUE breakfast", text:"Shake before the shower — no exceptions. Three rep formats with short rests = peak glycogen burn of the whole plan." },
+      { cls:"crit-item-green", day:"SAT + SUN", text:"Final long run then block complete. Eat well Saturday, rest Sunday. Long Beach half marathon training starts after this." }
+    ],
+    preRun: null,
+    snackRef: {
+      afternoon: ["Greek yogurt + berries (run days — final week, keep it dialled)", "Cottage cheese + fruit (lift days)", "Turkey roll-ups (zero prep)", "Protein bar — backup for busy final week"],
+      evening: ["PB toast — Mon/Wed lift nights", "Frosted Mini Wheats + milk — Friday", "Cheerios + milk — easy run evenings", "Skip or herbal tea — Sunday, block complete"]
+    }
+  }
+};
+
+const weeks = [
+  {
+    id:"w1", label:"Jun 8–14", name:"Week 1", totalMi:"23 mi", liftDays:"Mon · Wed · Fri",
+    focus:"First week of the maintenance block. Three high-quality running sessions including 1km Repeats on Tuesday — your hardest session of the week. Saturday is an 8mi Long Run. Lift days Mon/Wed/Fri support the recomp goal.",
+    days:[
+      { id:"mon", label:"Mon 8", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. 1km Repeats tomorrow — carb-load at dinner tonight.",
+        postNote:"Eat breakfast within 30 min of getting home. Oikos shake + eggs or cereal. Tonight's dinner carbs directly fuel tomorrow's intervals.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — highest protein option"}, hc_dinner:{type:"carb_load",name:"Home Chef — carb-rich option (rice/pasta/noodles) for Tuesday 1km Repeats"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,200–2,400 cal", focus:"Lift + carb-load for 1km Repeats tomorrow.", key:"Tonight's dinner carbs are not optional. 1km Repeats are your most glycolytically demanding session."} },
+      { id:"tue", label:"Tue 9", dtype:"hard", tag:{cls:"tag-hard",txt:"1km Repeats · 7.5mi"},
+        ctx:"5:30am fasted. Hardest session of the week — 6×1km at 6:25–6:55/mi.",
+        postNote:"Shake immediately post-run — before the shower. This is your most critical recovery window of the week. Don't delay it.",
+        bk:"bk_post_hard", hc_lunch:{type:"run_hard",name:"Home Chef — protein-rich option, moderate-high carbs"}, hc_dinner:{type:"run_hard",name:"Home Chef — satisfying option, moderate carbs"}, snk:"snk_hard", eve:"eve_hard",
+        sum:{cal:"~2,400–2,600 cal", focus:"Hardest day of week — recovery nutrition is non-negotiable.", key:"Post-interval breakfast window matters most today. 30 min max between finishing and protein intake."} },
+      { id:"wed", label:"Wed 10", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Thursday easy run tomorrow — stay on carbs.",
+        postNote:"Breakfast within 30 min of finishing. Shake + eggs or cereal. Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — balanced option, moderate carbs for Thursday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery + fuel for Thursday easy run.", key:"Keep protein high today — back-to-back training days need consistent protein delivery."} },
+      { id:"thu", label:"Thu 11", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy conversational pace. Friday lift tomorrow.",
+        postNote:"Eat breakfast within 30–45 min of finishing. Shake + cereal or eggs. Normal easy run protocol.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward option for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run recovery + setup for Friday lift.", key:"Thursday is a maintenance day. Keep nutrition consistent — don't let a 'just an easy run' attitude drop protein intake."} },
+      { id:"fri", label:"Fri 12", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. 8mi Long Run Saturday — carb-loading starts today.",
+        postNote:"Eat breakfast when you get home. Carb-loading for Saturday begins at lunch. Don't skip the Friday evening snack.",
+        bk:"bk_post_lift", hc_lunch:{type:"carb_load",name:"Home Chef — higher carb option, rice or pasta preferred"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option of the week"}, snk:"snk_pre_long", eve:"eve_pre_long",
+        sum:{cal:"~2,300–2,500 cal", focus:"Lift day + carb-load for 8mi Saturday Long Run.", key:"Carb-loading starts at lunch today. Don't go low-carb at any meal. Hydrate more than usual."} },
+      { id:"sat", label:"Sat 13", dtype:"long", tag:{cls:"tag-long",txt:"8mi Long Run"},
+        ctx:"Run before 8am. 8mi steady easy pace — fasted is fine. Just water. Shake immediately post-run.",
+        postNote:"Shake immediately when you finish. Breakfast 15–20 min later once your stomach settles. Biggest meal of the day is lunch.",
+        bk:"bk_post_long", hc_lunch:{type:"run_long",name:"Home Chef — biggest calorie meal of the week"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter option, big lunch already covers it"}, snk:"snk_post_long", eve:"eve_post_long",
+        sum:{cal:"~2,400–2,600 cal", focus:"8mi recovery is the day's main job. Eat well at lunch.", key:"Don't restrict Saturday lunch. Under-eating post-long-run causes the hunger spiral and makes Sunday harder."} },
+      { id:"sun", label:"Sun 14", dtype:"rest", tag:{cls:"tag-rest",txt:"Rest Day"},
+        ctx:"Full rest. Lowest calorie day of the week.",
+        postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lighter option"}, hc_dinner:{type:"rest",name:"Home Chef — any remaining meal"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,900–2,100 cal", focus:"Intentional reset. Lowest calories of the week.", key:"Sunday low-calorie day supports the weekly recomp deficit. Skip the evening snack if not genuinely hungry."} },
+    ]
+  },
+  {
+    id:"w2", label:"Jun 15–21", name:"Week 2", totalMi:"23 mi", liftDays:"Mon · Wed · Fri",
+    focus:"Consistent 23mi week with two Easy Runs Tuesday and Thursday, and an 8mi Progressive Repeat Long Run Saturday. The progressive long run has varied pacing segments — treat it nutritionally the same as an 8mi long run.",
+    days:[
+      { id:"mon", label:"Mon 15", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Tuesday easy run tomorrow.",
+        postNote:"Breakfast within 30 min. Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Tuesday easy run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery + fuel for Tuesday easy run.", key:"Consistent protein every day is what drives recomp. Don't let rest days or lift days slack on protein."} },
+      { id:"tue", label:"Tue 16", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy pace — comfortable and conversational.",
+        postNote:"Shake + breakfast within 45 min of finishing. Keep it relaxed.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Wednesday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run day — maintain protein, moderate carbs.", key:"Easy run doesn't mean easy on protein. 165–175g daily target holds every day."} },
+      { id:"wed", label:"Wed 17", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Thursday easy run tomorrow.",
+        postNote:"Breakfast within 30 min. Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Thursday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery + setup for Thursday run.", key:"Midweek lift — keep protein high, carbs moderate. Weekend long run prep begins Friday."} },
+      { id:"thu", label:"Thu 18", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy pace. Friday lift tomorrow.",
+        postNote:"Shake + breakfast within 45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run + setup for Friday lift.", key:"Thursday into Friday is a lift + long run back-to-back prep cycle. Don't under-eat today."} },
+      { id:"fri", label:"Fri 19", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. 8mi Progressive Repeat Long Run Saturday — carb-load today.",
+        postNote:"Carb-loading for Saturday begins at lunch. Evening snack is strategic tonight.",
+        bk:"bk_post_lift", hc_lunch:{type:"carb_load",name:"Home Chef — higher carb option for Saturday long run"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option available"}, snk:"snk_pre_long", eve:"eve_pre_long",
+        sum:{cal:"~2,300–2,500 cal", focus:"Lift + carb-load for Progressive Repeat Long Run.", key:"Progressive runs are more demanding than steady long runs — carb-load fully today."} },
+      { id:"sat", label:"Sat 20", dtype:"long", tag:{cls:"tag-long",txt:"8mi Progressive Repeat"},
+        ctx:"Run before 8am. Progressive pacing with repeat segments.",
+        preRun:{text:"1 slice whole grain toast + peanut butter ~45–60 min before. Progressive pacing depletes glycogen faster than a steady run — the toast gives you sustained fuel for the paced segments. Nothing heavier than this."},
+        postNote:"Shake immediately post-run. Breakfast 15–20 min later. Progressive runs deplete glycogen more than steady efforts — eat well today.",
+        bk:"bk_post_long", hc_lunch:{type:"run_long",name:"Home Chef — biggest calorie meal of the week"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter dinner"}, snk:"snk_post_long", eve:"eve_post_long",
+        sum:{cal:"~2,400–2,600 cal", focus:"Progressive repeat run recovery. Eat well at lunch.", key:"Progressive pacing means more glycogen depletion than a steady 8mi — give the body what it needs today."} },
+      { id:"sun", label:"Sun 21", dtype:"rest", tag:{cls:"tag-rest",txt:"Rest Day"},
+        ctx:"Full rest.",
+        postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lighter option"}, hc_dinner:{type:"rest",name:"Home Chef — remaining meal"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,900–2,100 cal", focus:"Rest and recovery from progressive run.", key:"Protein still matters on rest days — muscle synthesis doesn't take a day off."} },
+    ]
+  },
+  {
+    id:"w3", label:"Jun 22–28", name:"Week 3 — Recovery", totalMi:"14.1 mi", liftDays:"Mon · Wed · Fri",
+    focus:"⬇️ Recovery week — mileage drops to 14.1mi. Deliberate reduction by Runna to let the body adapt. Tuesday is a 5km Time Trial (4.6mi) and Saturday is only 5mi. Reduce carbs slightly this week but keep protein high.",
+    days:[
+      { id:"mon", label:"Mon 22", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Recovery week — lighter running load. 5km Time Trial tomorrow.",
+        postNote:"Normal lift breakfast. No need to carb-load aggressively for the 5km Time Trial — it's a short hard effort.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option, recovery week"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,000–2,200 cal", focus:"Recovery week — slightly reduced carbs, protein stays high.", key:"Recovery week means intentionally less. Don't match heavier training week calories — let the body adapt."} },
+      { id:"tue", label:"Tue 23", dtype:"hard", tag:{cls:"tag-hard",txt:"5km Time Trial · 4.6mi"},
+        ctx:"5:30am fasted. 3.11mi time trial at 6:35/mi effort — race-pace intensity.",
+        postNote:"Shake immediately post-time trial. Recovery nutrition still applies on race-pace efforts.",
+        bk:"bk_post_hard", hc_lunch:{type:"run_hard",name:"Home Chef — protein-rich option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option, recovery week"}, snk:"snk_hard", eve:"eve_hard",
+        sum:{cal:"~2,100–2,300 cal", focus:"5km TT recovery. Lower volume but high intensity.", key:"Race-pace effort = hard day nutrition. Short doesn't mean easy — the intensity demands the same recovery protocol."} },
+      { id:"wed", label:"Wed 24", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Recovery week.",
+        postNote:"Normal lift breakfast.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter option, recovery week"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,000–2,200 cal", focus:"Lift recovery, recovery week moderate day.", key:"Recovery week lift day — protein priority, reduce carbs slightly compared to building weeks."} },
+      { id:"thu", label:"Thu 25", dtype:"easy", tag:{cls:"tag-easy",txt:"4.5mi Easy Run"},
+        ctx:"5:30am fasted. Shorter easy run — recovery week.",
+        postNote:"Quick breakfast within 30–45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,000–2,200 cal", focus:"Recovery week easy run. Keep protein high.", key:"Shorter run = slightly fewer carbs needed, but protein target stays at 165–175g every day without exception."} },
+      { id:"fri", label:"Fri 26", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. 5mi Long Run Saturday — short enough that no aggressive carb-load is needed.",
+        postNote:"Moderate carb intake at dinner tonight — 5mi doesn't require the same carb-loading as 8mi.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — protein-forward option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option, 5mi Saturday"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,000–2,200 cal", focus:"Lift + light prep for 5mi. Recovery week continues.", key:"5mi Saturday doesn't need a full carb-load. Normal Friday is fine — no need to force extra carbs."} },
+      { id:"sat", label:"Sat 27", dtype:"long", tag:{cls:"tag-long",txt:"5mi Long Run"},
+        ctx:"Run before 8am. 5mi — shorter recovery week long run. Shake post-run.",
+        postNote:"Shake post-run. Normal breakfast. Saturday lunch can be lighter this week — 5mi is the shortest long run of the block.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — moderate option, lighter than normal long run weeks"}, hc_dinner:{type:"rest",name:"Home Chef — lighter dinner, recovery week"}, snk:"snk_run", eve:"eve_post_long",
+        sum:{cal:"~2,100–2,300 cal", focus:"Recovery week long run — intentionally less.", key:"5mi is the recovery week signal to let the body adapt. Eat well but don't over-fuel relative to the effort."} },
+      { id:"sun", label:"Sun 28", dtype:"rest", tag:{cls:"tag-rest",txt:"Rest Day"},
+        ctx:"Full rest. Recovery week Sunday.",
+        postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lightest option"}, hc_dinner:{type:"rest",name:"Home Chef — remaining meal"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,800–2,000 cal", focus:"Recovery week rest day — lowest calories of block.", key:"Two low-calorie days this weekend (Sat/Sun) help recomp without touching training fuel."} },
+    ]
+  },
+  {
+    id:"w4", label:"Jun 29–Jul 5", name:"Week 4", totalMi:"22 mi", liftDays:"Mon · Wed · Fri",
+    focus:"Back to full load after recovery week. Tuesday is Broken Miles (6.5mi) — a tempo-style interval workout. Saturday is an 8mi Progressive Long Run. July 4th falls on Friday — adjust if your schedule shifts.",
+    days:[
+      { id:"mon", label:"Mon 29", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Broken Miles tomorrow — carb-load at dinner.",
+        postNote:"Breakfast within 30 min. Carb-load dinner tonight for Tuesday's Broken Miles.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"carb_load",name:"Home Chef — carb-rich option for Tuesday Broken Miles"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,200–2,400 cal", focus:"Lift + carb-load for Broken Miles tomorrow.", key:"Broken Miles is a hard interval session — tonight's dinner carbs fuel the effort directly."} },
+      { id:"tue", label:"Tue 30", dtype:"hard", tag:{cls:"tag-hard",txt:"Broken Miles · 6.5mi"},
+        ctx:"5:30am fasted. 3×(0.75mi at 6:35 + 0.25mi at 6:10) — alternating hard efforts.",
+        postNote:"Shake immediately post-run. Broken Miles is a hard interval format — recovery window applies fully.",
+        bk:"bk_post_hard", hc_lunch:{type:"run_hard",name:"Home Chef — protein-rich option"}, hc_dinner:{type:"run_hard",name:"Home Chef — satisfying, moderate carbs"}, snk:"snk_hard", eve:"eve_hard",
+        sum:{cal:"~2,400–2,600 cal", focus:"Hard interval recovery. High protein + carbs.", key:"Broken Miles alternates pace zones — your body uses more glycogen than a steady run. Fuel the recovery."} },
+      { id:"wed", label:"Wed 1", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. July 1st. Thursday easy run tomorrow.",
+        postNote:"Normal lift breakfast and protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Thursday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery + fuel for Thursday run.", key:"Midweek — consistent nutrition is the job. No deviations from protein target."} },
+      { id:"thu", label:"Thu 2", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy conversational pace. July 4th Friday — adjust as needed.",
+        postNote:"Shake + breakfast within 45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run + setup for July 4th lift day.", key:"If July 4th changes your Friday schedule, treat the nutrition the same — lift day protocol regardless of holiday."} },
+      { id:"fri", label:"Fri 3", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am · July 4th"},
+        ctx:"5:30am lift. July 4th — 8mi Progressive Long Run Saturday. Carb-load today.",
+        postNote:"Carb-loading starts at lunch. Be mindful if holiday meals affect your usual dinner carb sources.",
+        bk:"bk_post_lift", hc_lunch:{type:"carb_load",name:"Home Chef — carb-heavy option for Saturday long run"}, hc_dinner:{type:"carb_load",name:"Home Chef or holiday option — aim for rice/pasta/grain dish"}, snk:"snk_pre_long", eve:"eve_pre_long",
+        sum:{cal:"~2,300–2,500 cal", focus:"Lift + carb-load for 8mi Progressive Long Run.", key:"July 4th holiday doesn't pause carb-loading. Aim for carb-rich choices at dinner regardless of the setting."} },
+      { id:"sat", label:"Sat 4", dtype:"long", tag:{cls:"tag-long",txt:"8mi Progressive Long Run"},
+        ctx:"Run before 8am. July 4th weekend. Progressive pacing — 2mi easy, 2.5mi at 7:45, 2.5mi at 7:15, 1mi easy.",
+        preRun:{text:"1 slice whole grain toast + peanut butter ~45–60 min before. The 7:15/mi sections push toward tempo effort — this is the run where fasting shows up as flat legs around mile 5. One slice is all you need."},
+        postNote:"Shake immediately post-run. This is a demanding progressive effort — eat a substantial lunch.",
+        bk:"bk_post_long", hc_lunch:{type:"run_long",name:"Home Chef — biggest meal of the week"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter option, big lunch already done"}, snk:"snk_post_long", eve:"eve_post_long",
+        sum:{cal:"~2,400–2,600 cal", focus:"Progressive Long Run recovery. Fuel the whole day.", key:"The 7:15/mi sections of this run are close to tempo effort — recovery nutrition matters more than a steady long run."} },
+      { id:"sun", label:"Sun 5", dtype:"rest", tag:{cls:"tag-rest",txt:"Rest Day"},
+        ctx:"Full rest. July 5th.",
+        postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lighter option"}, hc_dinner:{type:"rest",name:"Home Chef — remaining meal"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,900–2,100 cal", focus:"Rest and recovery. Recomp deficit day.", key:"Consistent Sunday rest day keeps the weekly calorie pattern working for recomp."} },
+    ]
+  },
+  {
+    id:"w5", label:"Jul 6–12", name:"Week 5", totalMi:"23 mi", liftDays:"Mon · Wed · Fri",
+    focus:"Strong 23mi week. Tuesday is Tempo 4 Miles (7.5mi) — a sustained 4mi tempo section at 7:10/mi. This is one of the hardest runs of the block. Saturday is an 8mi Long Run.",
+    days:[
+      { id:"mon", label:"Mon 6", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Tempo 4 Miles tomorrow — full carb-load tonight.",
+        postNote:"Breakfast within 30 min. Dinner tonight is critical — Tempo 4 Miles is a sustained hard effort.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option for Tempo 4 Miles Tuesday"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,300–2,500 cal", focus:"Lift + carb-load for Tempo 4 Miles.", key:"Tempo 4 Miles is your hardest sustained effort in the block. Carb-load tonight as aggressively as you would for a long run."} },
+      { id:"tue", label:"Tue 7", dtype:"hard", tag:{cls:"tag-hard",txt:"Tempo 4 Miles · 7.5mi"},
+        ctx:"5:30am fasted. 2mi warm-up, 4mi tempo at 6:55–7:25/mi, 1.5mi cool-down.",
+        postNote:"Shake immediately post-run. Sustained tempo effort — treats this nutritionally like interval day. Full recovery protocol.",
+        bk:"bk_post_hard", hc_lunch:{type:"run_hard",name:"Home Chef — protein-rich option"}, hc_dinner:{type:"run_hard",name:"Home Chef — satisfying option, moderate carbs"}, snk:"snk_hard", eve:"eve_hard",
+        sum:{cal:"~2,500–2,700 cal", focus:"Tempo day — hardest sustained effort of the week.", key:"4 miles of tempo running is more glycolytic than intervals. Protein + carbs at every meal today."} },
+      { id:"wed", label:"Wed 8", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Thursday easy run tomorrow.",
+        postNote:"Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Thursday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery. Wednesday recovery from Tuesday tempo.", key:"Wednesday is a key recovery day after Tuesday tempo. Keep protein high to support adaptation."} },
+      { id:"thu", label:"Thu 9", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy conversational pace.",
+        postNote:"Shake + breakfast within 45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run + lift prep. Keep protein at target.", key:"Consistent easy day nutrition. No surprises — same protocol as every easy run day."} },
+      { id:"fri", label:"Fri 10", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. 8mi Long Run Saturday — full carb-load today.",
+        postNote:"Carb-loading starts at lunch. Evening snack is strategic tonight.",
+        bk:"bk_post_lift", hc_lunch:{type:"carb_load",name:"Home Chef — higher carb option"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option available"}, snk:"snk_pre_long", eve:"eve_pre_long",
+        sum:{cal:"~2,300–2,500 cal", focus:"Lift + full carb-load for Saturday Long Run.", key:"After Tuesday's tempo, Saturday's long run builds on the same fitness. Carb-load properly."} },
+      { id:"sat", label:"Sat 11", dtype:"long", tag:{cls:"tag-long",txt:"8mi Long Run"},
+        ctx:"Run before 8am. 8mi steady long run. Shake immediately post-run.",
+        postNote:"Shake immediately post-run. Biggest lunch of the week. You've had a hard Tuesday this week — recovery nutrition matters more than lighter weeks.",
+        bk:"bk_post_long", hc_lunch:{type:"run_long",name:"Home Chef — biggest meal of the week"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter dinner"}, snk:"snk_post_long", eve:"eve_post_long",
+        sum:{cal:"~2,400–2,600 cal", focus:"Long run recovery day. Eat well all day.", key:"After a big week with Tempo 4 Miles Tuesday, Saturday recovery nutrition is especially important."} },
+      { id:"sun", label:"Sun 12", dtype:"rest", tag:{cls:"tag-rest",txt:"Rest Day"},
+        ctx:"Full rest.",
+        postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lighter option"}, hc_dinner:{type:"rest",name:"Home Chef — remaining meal"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,900–2,100 cal", focus:"Rest and recovery after strong training week.", key:"Big week deserves a proper Sunday reset. Protein stays high, carbs come down."} },
+    ]
+  },
+  {
+    id:"w6", label:"Jul 13–19", name:"Week 6", totalMi:"23 mi", liftDays:"Mon · Wed · Fri",
+    focus:"Two Easy Runs Tuesday and Thursday, with an 8mi Progressive Repeat Long Run Saturday. More accessible running week — all sessions are conversational pace except Saturday's progressive elements.",
+    days:[
+      { id:"mon", label:"Mon 13", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Tuesday easy run tomorrow.",
+        postNote:"Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Tuesday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift + easy run day setup.", key:"Moderate nutrition week matches the moderate running. Keep lifting protein high."} },
+      { id:"tue", label:"Tue 14", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy conversational pace.",
+        postNote:"Shake + breakfast within 45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Wednesday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run. Protein target maintained.", key:"This is week 6 — training adaptation is happening. Don't let nutrition slip in the later weeks."} },
+      { id:"wed", label:"Wed 15", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Thursday easy run tomorrow.",
+        postNote:"Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Thursday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery + Thursday run setup.", key:"Consistency is the goal in week 6. Same protocols, same quality."} },
+      { id:"thu", label:"Thu 16", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy pace. Friday lift tomorrow.", postNote:"Shake + breakfast within 45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run + Friday lift setup.", key:"Thursday into Friday lift into Saturday Progressive Repeat — stay on protein and carbs."} },
+      { id:"fri", label:"Fri 17", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. 8mi Progressive Repeat Long Run Saturday — carb-load today.", postNote:"Carb-loading for Saturday begins at lunch.",
+        bk:"bk_post_lift", hc_lunch:{type:"carb_load",name:"Home Chef — higher carb option"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option"}, snk:"snk_pre_long", eve:"eve_pre_long",
+        sum:{cal:"~2,300–2,500 cal", focus:"Lift + full carb-load for Progressive Repeat.", key:"Progressive Repeat demands proper carb-loading. Same protocol as any long run Friday."} },
+      { id:"sat", label:"Sat 18", dtype:"long", tag:{cls:"tag-long",txt:"8mi Progressive Repeat"},
+        ctx:"Run before 8am. Progressive repeat format with pace segments up to 7:25/mi.",
+        preRun:{text:"1 slice whole grain toast + peanut butter ~45–60 min before. Same rule as the other progressive runs — the varied pacing burns glycogen at a higher rate. Keep it to one slice and light PB. No jam needed at 8mi."},
+        postNote:"Shake immediately post-run. Biggest Saturday lunch. Progressive repeat is demanding.",
+        bk:"bk_post_long", hc_lunch:{type:"run_long",name:"Home Chef — biggest meal of the week"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter dinner"}, snk:"snk_post_long", eve:"eve_post_long",
+        sum:{cal:"~2,400–2,600 cal", focus:"Progressive Repeat recovery. Treat like a hard long run.", key:"Multiple paced segments deplete glycogen more than a steady 8mi. Don't under-eat Saturday."} },
+      { id:"sun", label:"Sun 19", dtype:"rest", tag:{cls:"tag-rest",txt:"Rest Day"},
+        ctx:"Full rest.", postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lighter option"}, hc_dinner:{type:"rest",name:"Home Chef — remaining meal"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,900–2,100 cal", focus:"Rest and recovery.", key:"Two weeks left in the maintenance block. Keep Sunday as the intentional low-calorie reset."} },
+    ]
+  },
+  {
+    id:"w7", label:"Jul 20–26", name:"Week 7 — Final Week", totalMi:"23 mi", liftDays:"Mon · Wed · Fri",
+    focus:"Final week of maintenance block. Tuesday is Fast 8-4-2s (7.5mi) — three interval formats at speeds up to 5:55/mi. Hardest single session of the entire 7 weeks. Finish strong.",
+    days:[
+      { id:"mon", label:"Mon 20", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Fast 8-4-2s tomorrow — hardest session of entire block. Full carb-load tonight.",
+        postNote:"Breakfast within 30 min. Tonight's dinner is the most important pre-workout meal of the full 7 weeks.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option in the plan. Non-negotiable tonight."}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,400–2,600 cal", focus:"Lift + maximum carb-load for Fast 8-4-2s.", key:"Fast 8-4-2s at 5:55/mi rep pace is the peak intensity of the entire block. Eat the most tonight."} },
+      { id:"tue", label:"Tue 21", dtype:"hard", tag:{cls:"tag-hard",txt:"Fast 8-4-2s · 7.5mi"},
+        ctx:"5:30am fasted. 4×0.5mi at 6:20, 8×0.25mi at 6:10, 4×0.12mi at 5:55. Three rep formats.",
+        postNote:"Shake immediately post-run before the shower. Peak intensity session of the 7-week block — no exceptions on the recovery window.",
+        bk:"bk_post_hard", hc_lunch:{type:"run_hard",name:"Home Chef — highest protein option available"}, hc_dinner:{type:"run_hard",name:"Home Chef — protein-rich, satisfying option"}, snk:"snk_hard", eve:"eve_hard",
+        sum:{cal:"~2,500–2,700 cal", focus:"Hardest session of the entire block. Maximum recovery nutrition.", key:"Three rep types — this burns more glycogen than anything else in the plan. Full recovery all day."} },
+      { id:"wed", label:"Wed 22", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Thursday easy run. Final midweek lift of the block.", postNote:"Normal lift day protocol.",
+        bk:"bk_post_lift", hc_lunch:{type:"lift",name:"Home Chef — high protein option"}, hc_dinner:{type:"run_easy",name:"Home Chef — moderate option for Thursday run"}, snk:"snk_lift", eve:"eve_lift",
+        sum:{cal:"~2,100–2,300 cal", focus:"Lift recovery. Two days after peak intensity session.", key:"Wednesday is critical recovery after Fast 8-4-2s. Keep protein high to lock in the adaptation."} },
+      { id:"thu", label:"Thu 23", dtype:"easy", tag:{cls:"tag-easy",txt:"7.5mi Easy Run"},
+        ctx:"5:30am fasted. Easy conversational pace. Final Thursday run of the block.", postNote:"Shake + breakfast within 45 min.",
+        bk:"bk_post_run", hc_lunch:{type:"run_easy",name:"Home Chef — lean protein option"}, hc_dinner:{type:"lift",name:"Home Chef — protein-forward for Friday lift"}, snk:"snk_run", eve:"eve_run",
+        sum:{cal:"~2,200–2,400 cal", focus:"Easy run. Near end of block — stay consistent.", key:"Final easy Thursday of the maintenance plan. Same protocol — no coasting on nutrition."} },
+      { id:"fri", label:"Fri 24", dtype:"lift", tag:{cls:"tag-lift",txt:"Lift · 5:30am"},
+        ctx:"5:30am lift. Final lift of the maintenance block. 8mi Long Run Saturday — carb-load today.",
+        postNote:"Final carb-load Friday of the block. Finish strong.",
+        bk:"bk_post_lift", hc_lunch:{type:"carb_load",name:"Home Chef — higher carb option for final long run"}, hc_dinner:{type:"carb_load",name:"Home Chef — highest carb option to end the block right"}, snk:"snk_pre_long", eve:"eve_pre_long",
+        sum:{cal:"~2,300–2,500 cal", focus:"Final lift + carb-load for closing Long Run.", key:"Last Friday carb-load of the maintenance plan. End the block with the same discipline you started with."} },
+      { id:"sat", label:"Sat 25", dtype:"long", tag:{cls:"tag-long",txt:"8mi Long Run — Final"},
+        ctx:"Run before 8am. Final long run of the maintenance block. Shake immediately post-run.",
+        postNote:"Shake immediately post-run. Eat a strong lunch. 7 weeks of maintenance complete. Long Beach half marathon training begins soon.",
+        bk:"bk_post_long", hc_lunch:{type:"run_long",name:"Home Chef — biggest meal of the week"}, hc_dinner:{type:"run_easy",name:"Home Chef — lighter dinner"}, snk:"snk_post_long", eve:"eve_post_long",
+        sum:{cal:"~2,400–2,600 cal", focus:"Final long run. Close the maintenance block strong.", key:"7 weeks of consistent work done. Long Beach half marathon training starts after this. The base is built."} },
+      { id:"sun", label:"Sun 26", dtype:"rest", tag:{cls:"tag-rest",txt:"Block Complete"},
+        ctx:"Full rest. Maintenance block complete. Long Beach half marathon training begins next week.", postNote:null,
+        bk:"bk_rest", hc_lunch:{type:"rest",name:"Home Chef — lighter option"}, hc_dinner:{type:"rest",name:"Home Chef — remaining meal + whatever you want, you earned it"}, snk:"snk_rest", eve:"eve_rest",
+        sum:{cal:"~1,900–2,100 cal", focus:"Final rest day. 7-week maintenance block complete.", key:"Maintenance block done. Held protein targets, supported lifting, fueled every long run. Long Beach training starts fresh."} },
+    ]
+  },
 ];
 
-var weekTabsEl=document.getElementById("weekTabs");var dayTabsEl=document.getElementById("dayTabs");var mainEl=document.getElementById("mainContent");
-var currentWeek=weeks[0].id;var currentDays={};var skipStates={};
-weeks.forEach(function(w){currentDays[w.id]=w.days[0].id;});
-function isSkipped(wid,did){return !!skipStates[wid+"-"+did];}
+const SKIP_OVERRIDES = {
+  lift: {
+    bk: "bk_skip",
+    snk: "snk_skip",
+    eve: "eve_skip",
+    hc_lunch: { type:"skip_rest", name:"Home Chef — lighter protein option (skipped workout)" },
+    hc_dinner: { type:"skip_rest", name:"Home Chef — lean option (rest day equivalent)" },
+    sum: { cal:"~1,950–2,150 cal", focus:"Workout skipped — rest day nutrition applies.", key:"Skipped lift = rest day calories. Slightly less carbs, protein stays high." }
+  },
+};
 
-function renderOptions(key){var opts=B[key];if(!opts)return"";return opts.map(function(o,i){var mc=o.m?'<div class="macros">'+o.m.map(function(m){return'<span class="chip '+m.c+'">'+m.l+"</span>";}).join("")+"</div>":"";var nt=o.t?'<div class="opt-note">'+o.t+"</div>":"";var bb=o.b?'<span class="best-badge">Best pick</span>':"";return'<div class="meal-option'+(o.b?" best":"")+'">'+bb+'<div class="opt-header"><span class="opt-num">'+(i+1)+'</span><span class="opt-name">'+o.n+"</span></div>"+'<p class="opt-detail">'+o.d+"</p>"+nt+mc+"</div>";}).join("");}
+let currentWeek = null;
+let currentDays = {};
+let skipState = {};
 
-function renderMeal(label,sub,key){return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div>'+(sub?'<p class="meal-subhead">'+sub+"</p>":"")+'<div class="meal-card">'+renderOptions(key)+"</div></div>";}
+const weekTabsEl = document.getElementById("weekTabs");
+const dayTabsEl = document.getElementById("dayTabs");
+const mainEl = document.getElementById("mainContent");
 
-function renderRealMeal(key){var m=ML[key];if(!m)return"";var rc={1:"background:var(--green-bg);color:var(--green)",2:"background:var(--blue-bg);color:var(--blue)",3:"background:var(--teal-bg);color:var(--teal)",4:"background:var(--amber-bg);color:var(--amber)"};var rs=rc[m.rank]||"background:var(--surface2);color:var(--text2)";return'<div class="hc-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap"><div><div class="hc-label">Home Chef \u00b7 This week</div><div style="font-size:15px;font-weight:500;color:var(--text);line-height:1.3">'+m.name+"</div>"+(m.sub?'<div style="font-size:12px;color:var(--text3);margin-top:1px">'+m.sub+"</div>":"")+'</div><span style="font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap;'+rs+'">Rank #'+m.rank+'</span></div><div class="macros-row">'+m.macros.map(function(x){return'<span class="chip '+x.c+'">'+x.l+"</span>";}).join("")+'</div><p class="hc-note" style="margin-top:6px">'+m.note+"</p></div>";}
+function renderOptions(opts) {
+  if (!Array.isArray(opts)) opts = BK[opts] || [];
+  return opts.map((o, i) => {
+    const macroHTML = o.macros ? `<div class="macros">${o.macros.map(m=>`<span class="chip ${m.c}">${m.l}</span>`).join("")}</div>` : "";
+    const noteHTML = o.note ? `<div class="opt-note">${o.note}</div>` : "";
+    const best = o.best ? `<span class="best-badge">Best pick</span>` : "";
+    return `<div class="meal-option${o.best?" best":""}">
+      ${best}
+      <div class="opt-header"><span class="opt-num">${i+1}</span><span class="opt-name">${o.name}</span></div>
+      <p class="opt-detail">${o.detail}</p>
+      ${noteHTML}${macroHTML}
+    </div>`;
+  }).join("");
+}
 
-function renderWC(label){var tips=WT.map(function(t){return'<div style="display:flex;gap:8px;font-size:13px;color:var(--text2);padding:5px 0;border-bottom:0.5px solid var(--border)"><span style="color:var(--text3);">\u2014</span><span>'+t+"</span></div>";}).join("");return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div><div class="hc-card" style="border-color:rgba(140,74,0,0.2)"><div class="hc-label" style="color:var(--amber)">Wildcard \u2014 with parents</div><div style="margin-top:6px">'+tips+"</div></div></div>";}
+function renderMeal(timeLabel, subhead, optKey) {
+  return `<div class="meal-section">
+    <div class="meal-section-head"><span class="meal-time-lbl">${timeLabel}</span><div class="meal-divider"></div></div>
+    ${subhead ? `<p class="meal-subhead">${subhead}</p>` : ""}
+    <div class="meal-card"><div>${renderOptions(optKey)}</div></div>
+  </div>`;
+}
 
-function renderHC(label,val,isReal){if(!val)return"";if(val==="W")return"";if(isReal&&typeof val==="string"&&val.charAt(0)==="!"){return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div>'+renderRealMeal(val.slice(1))+"</div>";}if(typeof val==="string"&&val.indexOf("|")>-1){var p=val.split("|"),t=HT[p[0]];if(!t)return"";return'<div class="meal-section"><div class="meal-section-head"><span class="meal-time-lbl">'+label+'</span><div class="meal-divider"></div></div><div class="hc-card"><div class="hc-label">Home Chef</div><div class="hc-name">Home Chef \u2014 '+p[1]+'</div><div class="hc-targets"><span class="hc-target hc-target-cal">Aim: '+t.c+' cal</span><span class="hc-target hc-target-pro">'+t.p+' pro</span><span class="hc-target hc-target-carb">'+t.k+' carb</span></div><p class="hc-note">'+t.n+"</p></div></div>";}return"";}
+function renderHC(timeLabel, hcData) {
+  if (!hcData) return "";
+  const t = HC_TARGETS[hcData.type];
+  if (!t) return "";
+  return `<div class="meal-section">
+    <div class="meal-section-head"><span class="meal-time-lbl">${timeLabel}</span><div class="meal-divider"></div></div>
+    <div class="hc-card">
+      <div class="hc-label">Home Chef</div>
+      <div class="hc-name">${hcData.name}</div>
+      <div class="hc-targets">
+        <span class="hc-target hc-target-cal">Target: ${t.cal}</span>
+        <span class="hc-target hc-target-pro">${t.pro}</span>
+        <span class="hc-target hc-target-carb">${t.carb}</span>
+      </div>
+      <p class="hc-note">${t.note}</p>
+    </div>
+  </div>`;
+}
 
-function getNextDay(week,dayIdx){if(dayIdx<week.days.length-1)return week.days[dayIdx+1];var wi=weeks.indexOf(week);if(wi<weeks.length-1)return weeks[wi+1].days[0];return null;}
+function buildWeekSummary(week) {
+  return `<div class="week-summary-bar">
+    <div>
+      <div class="week-sum-title">${week.name}</div>
+      <div class="week-focus">${week.focus}</div>
+    </div>
+    <div class="week-sum-stats">
+      <div class="week-stat"><span class="week-stat-val">${week.totalMi}</span><span class="week-stat-lbl">Running</span></div>
+      <div class="week-stat"><span class="week-stat-val">${week.liftDays}</span><span class="week-stat-lbl">Lift Days</span></div>
+    </div>
+  </div>`;
+}
 
-function snkLabel(day,nd){var s=day.snk;if(day.dtype==="rest")return"~2\u20133pm \u00b7 Light \u2014 rest day";if(s==="sprl")return"~2\u20133pm \u00b7 Carb-loading for tomorrow\u2019s long run";if(s==="spol")return"~1\u20132pm \u00b7 Catch post-long-run hunger surge";if(s==="shrd")return"~2\u20133pm \u00b7 Continue recovery \u2014 anti-inflammatory";if(day.dtype==="easy")return"~2\u20133pm \u00b7 Bridge to dinner \u2014 protein after morning run";if(day.dtype==="lift"){if(nd&&nd.dtype==="hard")return"~2\u20133pm \u00b7 Bridge to dinner \u2014 carbs help tomorrow\u2019s intervals";return"~2\u20133pm \u00b7 Bridge to dinner \u2014 keep protein steady";}return"~2\u20133pm";}
+function tlDots(level) {
+  const levels = { green: [1,0,0], amber: [1,1,0], red: [1,1,1] };
+  const active = levels[level] || [0,0,0];
+  const colors = ['tl-green','tl-amber','tl-red'];
+  return colors.map((c,i) => `<span class="tl-dot ${active[i] ? c : 'tl-inactive'}"></span>`).join('');
+}
 
-function eveLabel(day,nd){var e=day.eve;if(e==="eprl")return"Strategic carb cap for tomorrow";if(e==="epol")return"Protein overnight \u2014 don\u2019t skip peak weeks";if(e==="elft")return nd&&nd.dtype==="hard"?"Carbs tonight fuel tomorrow\u2019s hard session":"Carbs for tomorrow";if(e==="ehrd")return"Protein if hungry \u2014 skip only if full";if(e==="erun")return"Overnight casein for repair";if(e==="erst")return"Light protein \u2014 cottage cheese over skip";if(e==="etpr")return"Familiar foods only";return"";}
+function buildOverview(week) {
+  const ov = WEEK_OVERVIEW[week.id];
+  if (!ov) return buildWeekSummary(week);
 
-function adjCal(s,r){var m2=s.match(/([\d,]+)[\u2013-]([\d,]+)/);if(!m2)return s;var lo=parseInt(m2[1].replace(/,/g,""))-r;var hi=parseInt(m2[2].replace(/,/g,""))-r;return"~"+lo.toLocaleString()+"\u2013"+hi.toLocaleString()+" cal";}
+  // 1. Week strip
+  const dayNames = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+  const stripHTML = week.days.map((d,i) => {
+    const sub = d.dtype === 'lift' ? (ov.liftPlan.find(l=>l.day===dayNames[i]) || {split:''}).split
+               : d.dtype === 'easy' ? d.tag.txt.replace(' Easy Run','').replace('mi','mi')
+               : d.dtype === 'hard' ? d.tag.txt
+               : d.dtype === 'long' ? d.tag.txt
+               : 'Rest';
+    return `<div class="strip-day dtype-${d.dtype}" onclick="setDay('${week.id}','${d.id}')">
+      <div class="strip-day-name">${dayNames[i]}</div>
+      <div class="strip-day-dot"></div>
+      <div class="strip-day-label">${sub}</div>
+    </div>`;
+  }).join('');
 
-function skipSnk(day,nd){if(nd&&nd.dtype==="long")return"sprl";if(nd&&nd.dtype==="hard")return"shrd";if(day.dtype==="hard"||day.dtype==="lift")return"srun";return"srst";}
-function skipSnkLabel(day,nd){if(nd&&nd.dtype==="long")return"~2\u20133pm \u00b7 Skipped workout, but carb-load \u2014 long run tomorrow";if(nd&&nd.dtype==="hard")return"~2\u20133pm \u00b7 Skipped workout, but anti-inflammatory snack \u2014 hard session tomorrow";if(day.dtype==="hard")return"~2\u20133pm \u00b7 No workout today \u2014 protein to support recovery anyway";if(day.dtype==="lift")return"~2\u20133pm \u00b7 No workout today \u2014 keep protein steady";if(day.dtype==="easy")return"~2\u20133pm \u00b7 Light \u2014 skipped run, lower fuel needs";return"~2\u20133pm \u00b7 Light";}
-function skipEve(day,nd){if(nd&&nd.dtype==="hard")return"elft";if(nd&&nd.dtype==="long")return"eprl";if(day.dtype==="hard")return"erun";return"erst";}
-function skipEveLabel(day,nd){if(nd&&nd.dtype==="hard")return"Carbs still matter \u2014 hard session tomorrow";if(nd&&nd.dtype==="long")return"Carb-load tonight \u2014 long run tomorrow";if(day.dtype==="hard")return"Protein overnight \u2014 continue recovery";return"Light protein \u2014 no workout today";}
+  // 2. Lift cards
+  const liftHTML = ov.liftPlan.map(l => `
+    <div class="lift-card">
+      <div class="lift-card-day">${l.day}</div>
+      <div class="lift-card-split">${l.split}</div>
+      <div class="lift-card-muscles">${l.muscles}</div>
+      <div class="lift-card-fitbod">${l.fitbod}</div>
+      <div class="tl-row">${tlDots(l.tl)}<span class="tl-label"><strong>${l.tl.charAt(0).toUpperCase()+l.tl.slice(1)}</strong> &mdash; ${l.tlLabel}</span></div>
+      ${l.note ? `<div class="lift-note${l.tl==='red'?' lift-note-red':''}">${l.note}</div>` : ''}
+    </div>`).join('');
 
-function buildDayContent(day,week,dayIdx,skipped){
-if(day.isRaceDay)return buildRaceDay();
-var nd=getNextDay(week,dayIdx);var html="";
-var tagCls=skipped?"tag-skipped":day.tag.cls;var tagTxt=skipped?"Skipped \u2014 "+day.tag.txt:day.tag.txt;
-html+='<div class="day-hero"><div><div class="day-hero-title">'+day.label+'</div><div class="day-hero-sub">'+(skipped?"Workout skipped. Meals adjusted.":day.ctx)+'</div></div><span class="workout-tag '+tagCls+'"><span class="tag-dot"></span>'+tagTxt+"</span></div>";
-if(day.dtype!=="rest"&&!day.isRaceDay){var ck=skipped?" checked":"";var wn=day.dtype==="lift"?"lift":day.dtype==="long"?"long run":"run";html+='<div class="skip-wrap"><div><div class="skip-label">Skip Workout</div><div class="skip-sub">Toggle if not doing today\u2019s '+wn+'</div></div><label class="skip-sw"><input type="checkbox"'+ck+' onchange="toggleSkip(\''+week.id+"','"+day.id+'\')"><span class="skip-slider"></span></label></div>';}
-if(skipped){var red={easy:400,hard:650,lift:300,long:1000};var cr=red[day.dtype]||300;
-html+='<div class="banner banner-red"><div><div class="banner-title">Workout skipped \u2014 adjusted</div><div class="banner-text">No shake needed. Rest-day breakfast. Calories drop ~'+cr+"."+(nd?" Evening snack still preps for tomorrow\u2019s "+nd.tag.txt.split("\u00b7")[0].trim()+".":"")+"</div></div></div>";
-html+=renderMeal("Breakfast","No workout \u2014 eggs, no shake needed","rest");
-if(day.isWC||day.isWCL)html+=renderWC("Lunch");else if(day.luR)html+=renderHC("Lunch",day.lu,true);else html+=renderHC("Lunch",day.lu,false);
-html+=renderMeal("Afternoon Snack",skipSnkLabel(day,nd),skipSnk(day,nd));
-if(day.isWC)html+=renderWC("Dinner");else if(day.diR)html+=renderHC("Dinner",day.di,true);else html+=renderHC("Dinner",day.di,false);
-html+=renderMeal("Evening Snack",skipEveLabel(day,nd),skipEve(day,nd));
-html+='<div class="day-sum"><div class="ds-item"><div class="ds-lbl">Est. cal (adjusted)</div><div class="ds-val"><strong>'+adjCal(day.cal,cr)+'</strong></div></div><div class="ds-item"><div class="ds-lbl">Focus</div><div class="ds-val">Skipped. Eat lighter but don\u2019t skip meals.'+(nd?" Prep for tomorrow.":"")+'</div></div><div class="ds-item ds-full"><div class="ds-lbl">Key</div><div class="ds-val">Lower calories, keep protein high, stay consistent.</div></div></div>';
-return html;}
-if(day.dtype!=="rest")html+='<div class="banner banner-blue"><div><div class="banner-title">Daily: Electrolytes</div><div class="banner-text">Tab in first water \u2014 before workout. Reduces bloating, replaces sodium.</div></div></div>';
-if(day.preRun)html+='<div class="banner banner-amber"><div><div class="banner-title">Pre-run protocol</div><div class="banner-text">'+day.preRun+"</div></div></div>";
-var pw={prun:"Shake at door \u2192 breakfast within 30 min (5mi+ warrants a shake)",plit:"Eggs within 30\u201345 min. No shake needed for a ~300 cal lift.",psht:"Eggs within 30\u201345 min. No shake needed for short runs under 5mi.",phrd:"Shake at door \u2192 carb+protein breakfast. Critical window after hard sessions.",plng:"Shake from fridge (pre-made) \u2192 breakfast 15\u201320 min later."};
-if(day.dtype!=="rest"&&day.bk&&pw[day.bk])html+='<div class="banner banner-teal"><div><div class="banner-title">Post-workout window</div><div class="banner-text">'+pw[day.bk]+"</div></div></div>";
-if(day.isWC||day.isWCL)html+='<div class="banner banner-amber"><div><div class="banner-title">Wildcard weekend</div><div class="banner-text">With parents \u2014 use guidance below.</div></div></div>';
-var bs={prun:"Shake at door \u2192 sit-down breakfast (5mi+ run)",plit:"Eggs when home \u2014 no shake needed for lifts",psht:"Eggs when home \u2014 no shake needed for short runs",phrd:"Shake at door \u2192 carb+protein, critical window",plng:"Shake from fridge \u2192 breakfast 15\u201320 min later",rest:"Rest \u2014 eggs, no shake"};
-html+=renderMeal("Breakfast",bs[day.bk]||"",day.bk);
-if(day.isWC||day.isWCL)html+=renderWC("Lunch");else if(day.luR)html+=renderHC("Lunch",day.lu,true);else html+=renderHC("Lunch",day.lu,false);
-html+=renderMeal("Afternoon Snack",snkLabel(day,nd),day.snk);
-if(day.isWC)html+=renderWC("Dinner");else if(day.diR)html+=renderHC("Dinner",day.di,true);else html+=renderHC("Dinner",day.di,false);
-html+=renderMeal("Evening Snack",eveLabel(day,nd),day.eve);
-html+='<div class="day-sum"><div class="ds-item"><div class="ds-lbl">Estimated calories</div><div class="ds-val"><strong>'+day.cal+'</strong></div></div><div class="ds-item"><div class="ds-lbl">Day focus</div><div class="ds-val">'+day.focus+'</div></div><div class="ds-item ds-full"><div class="ds-lbl">Key reminder</div><div class="ds-val">'+day.key+"</div></div></div>";
-return html;}
+  // 3. Nutrition targets
+  const nutHTML = `
+    <div class="nut-cell nut-cell-run">
+      <div class="nut-cell-label">Run Days</div>
+      <div class="nut-cell-cal">2,200–2,600 cal</div>
+      <div class="nut-cell-pro">165–175g protein &middot; Higher carbs</div>
+    </div>
+    <div class="nut-cell nut-cell-lift">
+      <div class="nut-cell-label">Lift Days</div>
+      <div class="nut-cell-cal">2,100–2,400 cal</div>
+      <div class="nut-cell-pro">165–175g protein &middot; Moderate carbs</div>
+    </div>
+    <div class="nut-cell nut-cell-rest">
+      <div class="nut-cell-label">Rest Days</div>
+      <div class="nut-cell-cal">1,900–2,100 cal</div>
+      <div class="nut-cell-pro">165–175g protein &middot; Lower carbs</div>
+    </div>`;
 
-function buildRaceDay(){return'<div class="race-day-hero"><h2>Race Day \u2014 Hoag OC Half Marathon</h2><p>Sunday May 3 \u00b7 13.1 miles</p><div class="race-timeline"><div class="race-tl-item"><div class="race-tl-time">~4:30\u20135am</div><div class="race-tl-content"><strong>Wake.</strong> 12\u201316oz water + electrolyte tab.</div></div><div class="race-tl-item"><div class="race-tl-time">~4:45am</div><div class="race-tl-content"><strong>Breakfast:</strong> 1\u20132 toast + light PB + banana. Coffee if normal.</div></div><div class="race-tl-item"><div class="race-tl-time">~5:45am</div><div class="race-tl-content"><strong>Stroopwaffle</strong> 15 min before corral.</div></div><div class="race-tl-item"><div class="race-tl-time">Mile 4\u20135</div><div class="race-tl-content"><strong>Gel #1.</strong> Early side.</div></div><div class="race-tl-item"><div class="race-tl-time">Mile 8\u20139</div><div class="race-tl-content"><strong>Gel #2.</strong> Don\u2019t skip.</div></div><div class="race-tl-item"><div class="race-tl-time">Throughout</div><div class="race-tl-content"><strong>Hydration:</strong> every aid station. Sip.</div></div><div class="race-tl-item"><div class="race-tl-time">Finish</div><div class="race-tl-content"><strong>Recovery:</strong> banana/choc milk. Shake within 30 min.</div></div><div class="race-tl-item"><div class="race-tl-time">Post</div><div class="race-tl-content"><strong>Real meal within 90 min.</strong> Don\u2019t restrict.</div></div></div></div><div class="banner banner-purple"><div><div class="banner-title">Race strategy</div><div class="banner-text">Start conservatively \u2014 mi 1\u20134 feel too easy. Race starts mi 10. Trust nutrition.</div></div></div><div class="day-sum"><div class="ds-item"><div class="ds-lbl">Cal burned</div><div class="ds-val"><strong>~1,300\u20131,500</strong></div></div><div class="ds-item"><div class="ds-lbl">Focus</div><div class="ds-val">Execute. No improvisation.</div></div><div class="ds-item ds-full"><div class="ds-lbl">Most important</div><div class="ds-val">You\u2019ve done the training. Run your race.</div></div></div>';}
+  // 4. Critical days
+  const critHTML = ov.criticalDays.map(c => `
+    <div class="crit-item ${c.cls}">
+      <span class="crit-dot"></span>
+      <span class="crit-text"><span class="crit-day-lbl">${c.day}:</span> ${c.text}</span>
+    </div>`).join('');
 
-function toggleSkip(wid,did){skipStates[wid+"-"+did]=!skipStates[wid+"-"+did];setDay(currentWeek,did);}
-function setWeek(weekId){currentWeek=weekId;document.querySelectorAll(".week-tab").forEach(function(t){t.classList.toggle("active",t.dataset.wid===weekId);});buildDayTabs(weekId);setDay(weekId,currentDays[weekId]);}
-function buildDayTabs(weekId){var week=weeks.find(function(w){return w.id===weekId;});dayTabsEl.innerHTML="";week.days.forEach(function(day){var btn=document.createElement("button");btn.className="day-tab";btn.dataset.dtype=day.dtype;btn.dataset.did=day.id;btn.dataset.wid=weekId;btn.innerHTML='<span>'+day.label+'</span><span class="day-tab-dot"></span>';btn.onclick=function(){setDay(weekId,day.id);};dayTabsEl.appendChild(btn);});}
-function setDay(weekId,dayId){currentDays[weekId]=dayId;var week=weeks.find(function(w){return w.id===weekId;});var dayIdx=week.days.findIndex(function(d){return d.id===dayId;});var day=week.days[dayIdx];var skipped=isSkipped(weekId,dayId);document.querySelectorAll(".day-tab").forEach(function(t){t.classList.toggle("active",t.dataset.did===dayId);});mainEl.innerHTML=buildDayContent(day,week,dayIdx,skipped);}
-function init(){weeks.forEach(function(w){var btn=document.createElement("button");btn.className="week-tab"+(w.taper?" race-week":"");btn.dataset.wid=w.id;btn.textContent=w.label;btn.onclick=function(){setWeek(w.id);};weekTabsEl.appendChild(btn);});setWeek(weeks[0].id);}
-if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init);}else{init();}
+  // 5. Pre-run banner
+  const preRunHTML = ov.preRun ? `
+    <div class="prerun-banner">
+      <span class="prerun-banner-icon">🍞</span>
+      <div>
+        <div class="prerun-banner-title">Pre-run protocol this week</div>
+        <div class="prerun-banner-text">${ov.preRun}</div>
+      </div>
+    </div>` : '';
+
+  // 6. Snack quick-ref
+  const snackHTML = `
+    <div class="snack-cols">
+      <div>
+        <div class="snack-col-head">Afternoon Snack · 3–4pm</div>
+        ${ov.snackRef.afternoon.map(s => `<div class="snack-item"><span class="snack-bullet"></span><span class="snack-name">${s}</span></div>`).join('')}
+      </div>
+      <div>
+        <div class="snack-col-head">Evening Snack · 7–8pm</div>
+        ${ov.snackRef.evening.map(s => `<div class="snack-item"><span class="snack-bullet"></span><span class="snack-name">${s}</span></div>`).join('')}
+      </div>
+    </div>`;
+
+  return buildWeekSummary(week) + `
+  ${preRunHTML ? `<div style="margin-bottom:1.25rem">${preRunHTML}</div>` : ''}
+  <div class="ov-grid">
+
+    <div class="ov-card ov-card-full">
+      <div class="ov-card-head"><span class="ov-card-icon">📅</span><span class="ov-card-title">Week at a Glance</span></div>
+      <div class="ov-card-body"><div class="week-strip">${stripHTML}</div>
+      <p style="font-size:11px;color:var(--text3);margin-top:8px;">Tap any day to jump to its nutrition plan.</p></div>
+    </div>
+
+    <div class="ov-card ov-card-full">
+      <div class="ov-card-head"><span class="ov-card-icon">🏋️</span><span class="ov-card-title">Lift Plan — What to Tell FitBod</span></div>
+      <div class="ov-card-body"><div class="lift-grid">${liftHTML}</div></div>
+    </div>
+
+    <div class="ov-card ov-card-full">
+      <div class="ov-card-head"><span class="ov-card-icon">🎯</span><span class="ov-card-title">Critical Days This Week</span></div>
+      <div class="ov-card-body"><div class="crit-list">${critHTML}</div></div>
+    </div>
+
+    <div class="ov-card">
+      <div class="ov-card-head"><span class="ov-card-icon">⚡</span><span class="ov-card-title">Nutrition Targets</span></div>
+      <div class="ov-card-body"><div class="nut-row">${nutHTML}</div>
+      <p style="font-size:11px;color:var(--text3);margin-top:8px;">Protein target: <strong>165–175g every day</strong> regardless of training type. Shake with breakfast on all training days.</p></div>
+    </div>
+
+    <div class="ov-card">
+      <div class="ov-card-head"><span class="ov-card-icon">🥗</span><span class="ov-card-title">Snack Quick-Reference</span></div>
+      <div class="ov-card-body">${snackHTML}</div>
+    </div>
+
+  </div>`;
+}
+
+function buildDayContent(weekId, day) {
+  const skipKey = weekId + "_" + day.id;
+  const isSkipped = skipState[skipKey] && day.dtype === "lift";
+  const d = isSkipped ? applySkip(day) : day;
+  let html = "";
+  const tagCls = isSkipped ? "tag-skip" : day.tag.cls;
+  const tagTxt = isSkipped ? "Lift Skipped — Rest Day Protocol" : day.tag.txt;
+  html += `<div class="day-hero">
+    <div><div class="day-hero-title">${day.label}</div><div class="day-hero-sub">${day.ctx}</div></div>
+    <span class="workout-tag ${tagCls}"><span class="tag-dot"></span>${tagTxt}</span>
+  </div>`;
+  if (day.dtype === "lift") {
+    const btnActive = isSkipped ? " active" : "";
+    const btnTxt = isSkipped ? "&#8617; Restore Lift Day" : "&#8856; Skip This Workout";
+    html += `<div class="skip-btn-wrap">
+      <button class="skip-btn${btnActive}" onclick="toggleSkip('${weekId}','${day.id}')">${btnTxt}</button>
+      ${isSkipped ? '<span style="font-size:12px;color:var(--orange);margin-left:10px;">Plan adjusted to rest day nutrition</span>' : '<span style="font-size:12px;color:var(--text3);margin-left:10px;">Tap if skipping today\'s lift — nutrition adjusts automatically</span>'}
+    </div>`;
+  }
+  if (!isSkipped && d.preRun) {
+    html += `<div class="banner banner-amber"><div><div class="banner-title">Pre-run fuel</div><div class="banner-text">${d.preRun.text}</div></div></div>`;
+  }
+  if (!isSkipped && d.postNote) {
+    html += `<div class="banner banner-teal"><div><div class="banner-title">Post-workout window</div><div class="banner-text">${d.postNote}</div></div></div>`;
+  }
+  if (isSkipped) {
+    html += `<div class="banner banner-orange"><div><div class="banner-title">Workout skipped — nutrition adjusted</div><div class="banner-text">Calories and carbs reduced to rest day levels. Protein target stays at 165-175g. If you did any light activity, bump the afternoon snack up in protein.</div></div></div>`;
+  }
+  let bkSub = day.dtype === "long" ? "Post-long-run — shake first, then sit-down breakfast 15-20 min later"
+    : day.dtype === "hard" ? "Post-hard workout — shake first, eat within 30 min"
+    : day.dtype === "lift" ? (isSkipped ? "Skipped day — rest day breakfast" : "Post-lift — eat within 30 min of getting home")
+    : day.dtype === "easy" ? "Post-run — eat within 30-45 min of finishing"
+    : "Rest day — relaxed, no rush";
+  html += renderMeal("Breakfast · ~7am", bkSub, d.bk);
+  html += renderHC("Lunch · ~12pm", d.hc_lunch);
+  let snkSub = day.dtype === "hard" ? "3-4pm — continue recovery, anti-inflammatory"
+    : day.dtype === "long" ? "3-4pm — prevent the post-long-run hunger spiral"
+    : (day.dtype === "lift" && !isSkipped && day.id === "fri") ? "3-4pm — begin carb-loading for Saturday long run"
+    : (day.dtype === "lift" && !isSkipped) ? "3-4pm — slow-release protein for lift recovery"
+    : isSkipped ? "3-4pm — rest day level snack"
+    : "3-4pm — protein-forward";
+  html += renderMeal("Afternoon Snack · 3–4pm", snkSub, d.snk);
+  html += renderHC("Dinner · 5–6pm", d.hc_dinner);
+  let eveSub = (day.dtype === "lift" && !isSkipped && day.id === "fri") ? "7-8pm — strategic carb cap for tomorrow's long run"
+    : (day.dtype === "lift" && !isSkipped) ? "7-8pm — carbs matter before a run day"
+    : day.dtype === "long" ? "7-8pm — optional, only if genuinely hungry"
+    : (day.dtype === "rest" || isSkipped) ? "7-8pm — skip if possible, lowest need of the day"
+    : "7-8pm — wind-down, satisfy the craving wisely";
+  html += renderMeal("Evening Snack · 7–8pm", eveSub, d.eve);
+  const s = d.sum || {};
+  html += `<div class="day-sum">
+    <div class="ds-item"><div class="ds-lbl">Estimated calories</div><div class="ds-val"><strong>${s.cal || ""}</strong></div></div>
+    <div class="ds-item"><div class="ds-lbl">Day focus</div><div class="ds-val">${s.focus || ""}</div></div>
+    <div class="ds-item ds-full"><div class="ds-lbl">Key reminder</div><div class="ds-val">${s.key || ""}</div></div>
+  </div>`;
+  return html;
+}
+
+function applySkip(day) {
+  const o = SKIP_OVERRIDES.lift;
+  return Object.assign({}, day, { bk:o.bk, snk:o.snk, eve:o.eve, hc_lunch:o.hc_lunch, hc_dinner:o.hc_dinner, sum:o.sum, postNote:null });
+}
+
+function toggleSkip(weekId, dayId) {
+  const key = weekId + "_" + dayId;
+  skipState[key] = !skipState[key];
+  setDay(weekId, dayId);
+}
+
+function setWeek(weekId) {
+  currentWeek = weekId;
+  document.querySelectorAll(".week-tab").forEach(t => t.classList.toggle("active", t.dataset.wid === weekId));
+  buildDayTabs(weekId);
+  setDay(weekId, currentDays[weekId]);
+}
+
+function buildDayTabs(weekId) {
+  const week = weeks.find(w => w.id === weekId);
+  dayTabsEl.innerHTML = "";
+  const sumBtn = document.createElement("button");
+  sumBtn.className = "day-tab";
+  sumBtn.dataset.dtype = "rest";
+  sumBtn.dataset.did = "__summary";
+  sumBtn.dataset.wid = weekId;
+  sumBtn.innerHTML = "<span>Overview</span><span class=\"day-tab-dot\"></span>";
+  sumBtn.onclick = () => setDay(weekId, "__summary");
+  dayTabsEl.appendChild(sumBtn);
+  week.days.forEach(day => {
+    const btn = document.createElement("button");
+    btn.className = "day-tab";
+    btn.dataset.dtype = day.dtype;
+    btn.dataset.did = day.id;
+    btn.dataset.wid = weekId;
+    btn.innerHTML = `<span>${day.label}</span><span class="day-tab-dot"></span>`;
+    btn.onclick = () => setDay(weekId, day.id);
+    dayTabsEl.appendChild(btn);
+  });
+}
+
+function setDay(weekId, dayId) {
+  currentDays[weekId] = dayId;
+  const week = weeks.find(w => w.id === weekId);
+  document.querySelectorAll(".day-tab").forEach(t => t.classList.toggle("active", t.dataset.did === dayId && t.dataset.wid === weekId));
+  if (dayId === "__summary") { mainEl.innerHTML = buildOverview(week); return; }
+  const day = week.days.find(d => d.id === dayId);
+  mainEl.innerHTML = buildWeekSummary(week) + buildDayContent(weekId, day);
+}
+
+function init() {
+  weeks.forEach(w => {
+    currentDays[w.id] = "__summary";
+    const btn = document.createElement("button");
+    btn.className = "week-tab";
+    btn.dataset.wid = w.id;
+    btn.textContent = w.label;
+    btn.onclick = function() { setWeek(w.id); };
+    weekTabsEl.appendChild(btn);
+  });
+  setWeek(weeks[0].id);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else { init(); }
 </script>
 </body>
 </html>
